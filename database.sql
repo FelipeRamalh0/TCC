@@ -1,5 +1,14 @@
 CREATE DATABASE FirstStepDev;
 
+#####TABELA USUARIOS#####
+
+CREATE TABLE Usuarios(
+id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(30),
+senha_hash VARCHAR(30),
+tipo_usuario enum('Iniciante','Intermediário', 'Profissional')
+);
+
 #####TABELA INICIANTES#####
 
 CREATE TABLE Iniciantes (
@@ -8,4 +17,13 @@ nivel_experiencia varchar(2),
 pontuacao int,
 bio text
 
+);
+
+#####TABELA PROFISSIONAIS#####
+
+CREATE TABLE Profissionais(
+id_profissional INT AUTO_INCREMENT PRIMARY KEY,
+empresa VARCHAR(30),
+cargo VARCHAR(45),
+bio TEXT
 );
