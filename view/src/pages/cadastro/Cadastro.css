@@ -1,0 +1,101 @@
+/* Aplica configurações padrão para todos os elementos */
+* {
+  box-sizing: border-box; /* Melhor controle de tamanho */
+  font-family: Arial, sans-serif; /* Fonte padrão */
+}
+
+/* Remove margens padrão do navegador */
+body {
+  margin: 0;
+}
+
+/* Container principal (fundo da tela) */
+.container {
+  height: 100vh; /* Ocupa 100% da altura da tela */
+
+  display: flex; /* Ativa flexbox */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+
+  /* Fundo com degradê roxo */
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+/* Card central (caixa branca) */
+.card {
+  background: white; /* Cor de fundo */
+  padding: 40px; /* Espaçamento interno */
+  border-radius: 16px; /* Bordas arredondadas */
+  width: 350px; /* Largura fixa */
+  text-align: center; /* Centraliza texto */
+
+  /* Sombra para efeito moderno */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Estilo do título */
+h1 {
+  margin-bottom: 10px; /* Espaço abaixo */
+}
+
+/* Estilo do texto descritivo */
+p {
+  color: #666; /* Cor mais suave */
+  font-size: 14px; /* Tamanho menor */
+  margin-bottom: 20px;
+}
+
+/* Estilo dos campos (input e select) */
+input,
+select {
+  width: 100%; /* Ocupa toda largura */
+  padding: 12px; /* Espaço interno */
+  margin-bottom: 15px; /* Espaço entre campos */
+
+  border: 1px solid #ddd; /* Borda leve */
+  border-radius: 8px; /* Cantos arredondados */
+
+  outline: none; /* Remove borda padrão ao clicar */
+  transition: 0.2s; /* Animação suave */
+}
+
+/* Quando o usuário clica no campo */
+input:focus,
+select:focus {
+  border-color: #6a11cb; /* Muda cor da borda */
+}
+
+/* Estilo do botão */
+button {
+  width: 100%; /* Ocupa toda largura */
+  padding: 12px;
+
+  border: none; /* Remove borda padrão */
+  border-radius: 8px;
+
+  background: #6a11cb; /* Cor roxa */
+  color: white; /* Texto branco */
+  font-size: 16px;
+
+  cursor: pointer; /* Mostra que é clicável */
+  transition: 0.3s; /* Animação */
+}
+
+/* Quando passa o mouse no botão */
+button:hover {
+  background: #4e0fa3; /* Cor mais escura */
+}
+
+/* Texto final abaixo do botão */
+span {
+  display: block;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* Link de login */
+span a {
+  color: #6a11cb; /* Cor roxa */
+  text-decoration: none; /* Remove sublinhado */
+  font-weight: bold;
+}
