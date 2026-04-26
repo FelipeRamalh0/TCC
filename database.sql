@@ -7,13 +7,13 @@ CREATE TABLE Usuarios(
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(30) NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
-    tipo_usuario ENUM('Iniciante','Intermediario','Profissional') NOT NULL
+    tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL
 );
 
-#####   TABELA INICIANTES   #####
+#####   TABELA Aprendizes   #####
 
-CREATE TABLE Iniciantes (
-    id_iniciantes INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Aprendizes (
+    id_aprendizes INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT UNIQUE NOT NULL,
     nivel_experiencia VARCHAR(2) NOT NULL,
     pontuacao INT NOT NULL DEFAULT 0,
@@ -62,7 +62,7 @@ CREATE TABLE Entregas (
     status_entrega ENUM('Enviado', 'Em avaliacao', 'Aprovado', 'Rejeitado') NOT NULL DEFAULT 'Enviado',
 
     FOREIGN KEY (id_tarefa) REFERENCES Tarefas(id_tarefa) ON DELETE CASCADE,
-    FOREIGN KEY (id_iniciante) REFERENCES Iniciantes(id_iniciantes) ON DELETE CASCADE
+    FOREIGN KEY (id_iniciante) REFERENCES aprendizes(id_aprendizes) ON DELETE CASCADE
 );
 
 ##### HISTÓRICO INICIANTE #####
@@ -76,5 +76,5 @@ CREATE TABLE Historico_Iniciante(
     data_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (id_tarefa) REFERENCES Tarefas(id_tarefa) ON DELETE CASCADE,
-    FOREIGN KEY (id_iniciante) REFERENCES Iniciantes(id_iniciantes) ON DELETE CASCADE
+    FOREIGN KEY (id_iniciante) REFERENCES aprendizes(id_aprendizes) ON DELETE CASCADE
 );
