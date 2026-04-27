@@ -42,7 +42,7 @@ CREATE TABLE Tarefas(
     id_profissional INT NOT NULL,
     titulo VARCHAR(30) NOT NULL,
     descricao VARCHAR(255),
-    categoria VARCHAR(50),
+    categoria ENUM('Frontent','Backend', 'Full Stack'),
     data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_limite DATETIME,
     nivel_dificuldade ENUM('facil', 'medio', 'dificil') NOT NULL,
