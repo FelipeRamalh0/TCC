@@ -47,7 +47,9 @@ CREATE TABLE Tarefas(
     nivel_dificuldade ENUM('facil', 'medio', 'dificil') NOT NULL,
     status ENUM('pendente', 'em_andamento', 'concluido') NOT NULL DEFAULT 'pendente',
 
-    FOREIGN KEY (id_profissional) REFERENCES Profissionais(id_profissional)
+    id_aprendiz_responsavel INT NULL,
+FOREIGN KEY (id_aprendiz_responsavel)
+REFERENCES Aprendizes(id_aprendizes)
 );
 
 ##### ENTREGAS ######
