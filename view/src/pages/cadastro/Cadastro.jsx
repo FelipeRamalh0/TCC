@@ -55,8 +55,7 @@ function Cadastro() {
                         <option>Selecione o seu nível</option>
 
                         {/* Opções disponíveis */}
-                        <option>Iniciante</option>
-                        <option>Intermediário</option>
+                        <option>Aprendiz</option>
                         <option>Profissional</option>
 
                     </select>
