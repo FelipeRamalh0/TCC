@@ -6,16 +6,17 @@ USE FirstStepDev;
 CREATE TABLE Usuarios(
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(30) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
-    tipo_usuario ENUM('Iniciante','Intermediario','Profissional') NOT NULL
+    tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL
 );
 
-#####   TABELA INICIANTES   #####
+#####   TABELA Aprendizes   #####
 
-CREATE TABLE Iniciantes (
-    id_iniciantes INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Aprendizes (
+    id_aprendizes INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT UNIQUE NOT NULL,
-    nivel_experiencia VARCHAR(2) NOT NULL,
+    nivel_experiencia ENUM('Iniciante','Basico','Intermediario'),
     pontuacao INT NOT NULL DEFAULT 0,
     bio TEXT,
 
@@ -44,9 +45,11 @@ CREATE TABLE Tarefas(
     data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_limite DATETIME,
     nivel_dificuldade ENUM('facil', 'medio', 'dificil') NOT NULL,
-    status ENUM('pendente', 'em_andamento', 'concluido') NOT NULL DEFAULT 'pendente',
+    status ENUM('aberta', 'em_andamento', 'em_revisao', 'concluida', 'cancelada') NOT NULL DEFAULT 'aberta',
 
-    FOREIGN KEY (id_profissional) REFERENCES Profissionais(id_profissional)
+    id_aprendiz_responsavel INT NULL,
+FOREIGN KEY (id_aprendiz_responsavel)
+REFERENCES Aprendizes(id_aprendizes)
 );
 
 ##### ENTREGAS ######
@@ -62,19 +65,19 @@ CREATE TABLE Entregas (
     status_entrega ENUM('Enviado', 'Em avaliacao', 'Aprovado', 'Rejeitado') NOT NULL DEFAULT 'Enviado',
 
     FOREIGN KEY (id_tarefa) REFERENCES Tarefas(id_tarefa) ON DELETE CASCADE,
-    FOREIGN KEY (id_iniciante) REFERENCES Iniciantes(id_iniciantes) ON DELETE CASCADE
+    FOREIGN KEY (id_aprendiz) REFERENCES aprendizes(id_aprendizes) ON DELETE CASCADE
 );
 
 ##### HISTÓRICO INICIANTE #####
 
-CREATE TABLE Historico_Iniciante(
+CREATE TABLE Historico_Aprendizes(
     id_historico INT AUTO_INCREMENT PRIMARY KEY,
-    id_iniciante INT NOT NULL,
+    id_aprendiz INT NOT NULL,
     id_tarefa INT NOT NULL,
     pontuacao_ganha INT NOT NULL,
     status_final_tarefa ENUM('D', 'C', 'B', 'A') NOT NULL,
     data_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (id_tarefa) REFERENCES Tarefas(id_tarefa) ON DELETE CASCADE,
-    FOREIGN KEY (id_iniciante) REFERENCES Iniciantes(id_iniciantes) ON DELETE CASCADE
+    FOREIGN KEY (id_aprendiz) REFERENCES aprendizes(id_aprendizes) ON DELETE CASCADE
 );
