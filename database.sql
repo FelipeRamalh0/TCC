@@ -45,7 +45,7 @@ CREATE TABLE Tarefas(
     data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_limite DATETIME,
     nivel_dificuldade ENUM('facil', 'medio', 'dificil') NOT NULL,
-    status ENUM('pendente', 'em_andamento', 'concluido') NOT NULL DEFAULT 'pendente',
+    status ENUM('aberta', 'em_andamento', 'em_revisao', 'concluida', 'cancelada') NOT NULL DEFAULT 'aberta',
 
     id_aprendiz_responsavel INT NULL,
 FOREIGN KEY (id_aprendiz_responsavel)
@@ -65,19 +65,19 @@ CREATE TABLE Entregas (
     status_entrega ENUM('Enviado', 'Em avaliacao', 'Aprovado', 'Rejeitado') NOT NULL DEFAULT 'Enviado',
 
     FOREIGN KEY (id_tarefa) REFERENCES Tarefas(id_tarefa) ON DELETE CASCADE,
-    FOREIGN KEY (id_iniciante) REFERENCES aprendizes(id_aprendizes) ON DELETE CASCADE
+    FOREIGN KEY (id_aprendiz) REFERENCES aprendizes(id_aprendizes) ON DELETE CASCADE
 );
 
 ##### HISTÓRICO INICIANTE #####
 
-CREATE TABLE Historico_Iniciante(
+CREATE TABLE Historico_Aprendizes(
     id_historico INT AUTO_INCREMENT PRIMARY KEY,
-    id_iniciante INT NOT NULL,
+    id_aprendiz INT NOT NULL,
     id_tarefa INT NOT NULL,
     pontuacao_ganha INT NOT NULL,
     status_final_tarefa ENUM('D', 'C', 'B', 'A') NOT NULL,
     data_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (id_tarefa) REFERENCES Tarefas(id_tarefa) ON DELETE CASCADE,
-    FOREIGN KEY (id_iniciante) REFERENCES aprendizes(id_aprendizes) ON DELETE CASCADE
+    FOREIGN KEY (id_aprendiz) REFERENCES aprendizes(id_aprendizes) ON DELETE CASCADE
 );
