@@ -6,6 +6,7 @@ USE FirstStepDev;
 CREATE TABLE Usuarios(
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(30) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
     tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL
 );
@@ -15,7 +16,7 @@ CREATE TABLE Usuarios(
 CREATE TABLE Aprendizes (
     id_aprendizes INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT UNIQUE NOT NULL,
-    nivel_experiencia VARCHAR(2) NOT NULL,
+    nivel_experiencia ENUM('Iniciante','Basico','Intermediario'),
     pontuacao INT NOT NULL DEFAULT 0,
     bio TEXT,
 
