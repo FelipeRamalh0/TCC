@@ -42,6 +42,7 @@ CREATE TABLE Tarefas(
     id_profissional INT NOT NULL,
     titulo VARCHAR(30) NOT NULL,
     descricao VARCHAR(255),
+    categoria VARCHAR(50),
     data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_limite DATETIME,
     nivel_dificuldade ENUM('facil', 'medio', 'dificil') NOT NULL,
@@ -57,7 +58,7 @@ REFERENCES Aprendizes(id_aprendizes)
 CREATE TABLE Entregas (
     id_entrega INT AUTO_INCREMENT PRIMARY KEY,
     id_tarefa INT NOT NULL,
-    id_iniciante INT NOT NULL,
+    id_aprendiz INT NOT NULL,
     data_envio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     arquivo_url VARCHAR(255),
     link_repositorio VARCHAR(255),
