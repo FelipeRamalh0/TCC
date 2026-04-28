@@ -1,6 +1,6 @@
 import './Login.css'
 
-function Login(){
+function Login({irParaCadastro}) {
     return(
         <div className='container2'>
 
@@ -14,8 +14,16 @@ function Login(){
                <input type="password" placeholder="Digite sua senha"/>
             <p><a href="#">Esqueceu sua senha?</a></p>
             </form>
+
+            <span
+                onClick={irParaCadastro}
+                style={{ color: "blue", cursor: "pointer", textDecoration: "underline" }}
+                >
+                    Não tem conta? Cadastre-se
+            </span>
             
-               
-        </div>
+     </div>
     )
 }
+
+export default Login

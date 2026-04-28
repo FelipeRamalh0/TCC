@@ -1,8 +1,19 @@
+import { useState } from "react";
 import Cadastro from "./pages/cadastro/Cadastro.jsx";
+import Login from "./pages/login/Login.jsx";
+
 function App() {
+  const [tela, setTela] = useState("cadastro");
+
   return (
     <div>
-      <h2><Cadastro/></h2>
+      {tela === "cadastro" && (
+        <Cadastro irParaLogin={() => setTela("login")} />
+      )}
+
+      {tela === "login" && (
+        <Login irParaCadastro={() => setTela("cadastro")} />
+      )}
     </div>
   );
 }

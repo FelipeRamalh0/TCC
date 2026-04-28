@@ -99,3 +99,13 @@ span a {
   text-decoration: none; /* Remove sublinhado */
   font-weight: bold;
 }
+
+.login-link {
+  color: #6a0dad;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  color: #4a0a8a;
+}
