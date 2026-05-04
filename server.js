@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { dbConfig } from "./dbConfig/dbConfig.js";
+import { db } from "./dbConfig/dbConfig.js";
 import { usuariosRoutes } from "./routes/usuarioRoute.js";
 
 const PORT= 3000
