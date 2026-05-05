@@ -10,7 +10,7 @@ export async function criarUsuario(dados) {
     return result.insertId;
 }
 
-export async function listarUsuários(){
+export async function listarUsuarios(){
     const [rows]= await db.query(
         `SELECT nome, email, tipo_usuario FROM Usuarios`
     );
@@ -36,15 +36,17 @@ export async function atualizarUsuario(id, dados){
     const {nome, email}= dados;
 
     const [result]= await db.query(
-        `UPDATE Usuarios set nome = ?, email = ?, WHERE = id_usuario= ? `,
-        [nome], [email], [id]
+        `UPDATE Usuarios set nome = ?, email = ? WHERE id_usuario= ? `,
+        [nome, email, id]
     )
     return result.affectedRows
 }
 
 export async function deletarUsuario(id){
     const [result]= await db.query(
-        `DELETE FROM Usuarios WHERE id_usuario = ?`
+        `DELETE FROM Usuarios WHERE id_usuario = ?`,
+        [id]
+
     )
     return result.affectedRows;
 }
