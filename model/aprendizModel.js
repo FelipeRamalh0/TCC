@@ -26,11 +26,23 @@ export async function buscarAprendizIdUsuario(id_usuario) {
     return rows[0]
 };
 
-export async function atualizarAprenduiz(dados) {
+export async function atualizarAprenduiz(dados, id) {
     const { nivel_experiencia, bio}= dados;
 
     const [result]= await db.query(
         `UPDATE Aprendizes set nivel_experiencia = ?, bio = ? WHERE id_apendizes = ?`,
-        [nivel_experiencia, bio, id_aprendizes]
+        [nivel_experiencia, bio, id]
     )
+    return result.affectedRows;
+}
+
+export async function atualizarPontuacao(id, pontos){
+  const [result] = await dbConfig.query(
+    `UPDATE Aprendizes
+     SET pontuacao = pontuacao + ?
+     WHERE id_aprendizes = ?`,
+    [pontos, id]
+  );
+
+  return result.affectedRows;
 }
