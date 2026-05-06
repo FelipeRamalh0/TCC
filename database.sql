@@ -8,8 +8,8 @@ CREATE TABLE Usuarios(
     nome VARCHAR(30) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
-    tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL,
-    idade INT NOT NULL
+    tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL
+    
 );
 
 #####   TABELA Aprendizes   #####
@@ -47,7 +47,7 @@ CREATE TABLE Tarefas(
     data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_limite DATETIME,
     nivel_dificuldade ENUM('facil', 'medio', 'dificil') NOT NULL,
-    status ENUM('aberta', 'em_andamento', 'em_revisao', 'concluida', 'cancelada') NOT NULL DEFAULT 'aberta',
+    status_tarefa ENUM('aberta', 'em_andamento', 'em_revisao', 'concluida', 'cancelada') NOT NULL DEFAULT 'aberta',
 
     id_aprendiz_responsavel INT NULL,
 
@@ -87,12 +87,12 @@ CREATE TABLE Historico_Aprendizes(
 
 ##### INSERT USUARIOS #####
 
-INSERT INTO Usuarios (nome, email, senha_hash, tipo_usuario, idade) VALUES
-('Felipe', 'felipao@email.com', 'hash1', 'Aprendiz', 20),
-('Bispo', 'bispox@email.com', 'hash2', 'Aprendiz', 25),
-('Carlos', 'carlos@email.com', 'hash3', 'Aprendiz', 22),
-('Henrique', 'henrique@email.com', 'hash4', 'Profissional', 30),
-('Ramalho', 'ramalho@email.com', 'hash5', 'Profissional', 28);
+INSERT INTO Usuarios (nome, email, senha_hash, tipo_usuario ) VALUES
+('Felipe', 'felipao@email.com', 'hash1', 'Aprendiz' ),
+('Bispo', 'bispox@email.com', 'hash2', 'Aprendiz' ),
+('Carlos', 'carlos@email.com', 'hash3', 'Aprendiz' ),
+('Henrique', 'henrique@email.com', 'hash4', 'Profissional'),
+('Ramalho', 'ramalho@email.com', 'hash5', 'Profissional' );
 
 ##### INSERT APRENDIZES #####
 
@@ -100,6 +100,10 @@ INSERT INTO Aprendizes (id_usuario, nivel_experiencia, pontuacao, bio) VALUES
 (1, 'Iniciante', 15, 'Programador backend, que busca mais experiências de mercado.'),
 (2, 'Basico', 50, 'Ceo de empresa de tecnologia, que busca contatos profissionais.'),
 (3, 'Intermediario', 30, 'Freelancer, que busca novas práticas profissionais.');
+
+UPDATE Aprendizes
+SET pontuacao = pontuacao + 5
+WHERE id_aprendizes = 1;
 
 ##### INSERT PROFISSIONAIS #####
 
@@ -113,8 +117,16 @@ INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, data_limite,
 (1, 'Criar tela de login', 'Desenvolver uma tela inicial', 'Full Stack', '2026-12-01 23:59:59', 'medio'),
 (2, 'Analise de dados', 'Analisar erros no sistema', 'Backend', '2026-05-02 23:59:59', 'dificil');
 
-INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, nivel_dificuldade, id_aprendiz_responsavel, status) VALUES
+INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, nivel_dificuldade, id_aprendiz_responsavel, status_tarefa) VALUES
 (2, 'Refatorar Classe Login', 'Melhorar a legibilidade do código.', 'Backend', 'medio', 1, 'em_andamento');
+
+UPDATE Tarefas
+SET status_tarefa = "em_andamento"
+WHERE id_tarefa = 1;
+
+UPDATE Tarefas 
+SET status_tarefa = "em_revisao"
+WHERE id_tarefa = 1;
 
 ##### INSERT ENTREGAS #####
 
@@ -136,13 +148,48 @@ INSERT INTO Historico_Aprendizes (id_aprendiz, id_tarefa, pontuacao_ganha, statu
 (2, 1, 2, 'A'),
 (3, 1, 1, 'C');
 
+##### SELECTS #####
+
+
 SELECT id_tarefa, data_criacao
 FROM Tarefas
-ORDER BY data_criacao DESC; 
-
-##### CONSULTA COM INNER JOIN #####
+ORDER BY data_criacao DESC;
 
 SELECT T.titulo, U.nome
 FROM Tarefas T
 INNER JOIN Profissionais P ON T.id_profissional = P.id_profissional
 INNER JOIN Usuarios U ON P.id_usuario = U.id_usuario;
+
+SELECT *
+FROM Entregas
+WHERE status_entrega = 'Aprovado';
+
+SELECT titulo, data_limite
+FROM Tarefas
+WHERE data_limite < NOW()
+AND status_tarefa != 'concluida';
+
+SELECT T.titulo, U.nome
+FROM Tarefas T
+INNER JOIN Aprendizes A ON T.id_aprendiz_responsavel = A.id_aprendizes
+INNER JOIN Usuarios U ON A.id_usuario = U.id_usuario;
+
+SELECT U.nome, A.pontuacao
+FROM Aprendizes A
+INNER JOIN Usuarios U ON A.id_usuario = U.id_usuario
+ORDER BY A.pontuacao DESC;
+
+SELECT U.nome, H.pontuacao_ganha, H.status_final_tarefa
+FROM Historico_Aprendizes H
+INNER JOIN Aprendizes A ON H.id_aprendiz = A.id_aprendizes
+INNER JOIN Usuarios U ON A.id_usuario = U.id_usuario;
+
+SELECT 
+T.titulo,
+U.nome,
+E.status_entrega,
+E.data_envio
+FROM Entregas E
+INNER JOIN Tarefas T ON E.id_tarefa = T.id_tarefa
+INNER JOIN Aprendizes A ON E.id_aprendiz = A.id_aprendizes
+INNER JOIN Usuarios U ON A.id_usuario = U.id_usuario;
