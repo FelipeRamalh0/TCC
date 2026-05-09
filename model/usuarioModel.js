@@ -16,7 +16,7 @@ export async function listarUsuarios(){
     );
     return rows;
 }
-
+//Buscar por Id Usuario
 export async function buscarId(id){
     const [rows]= await db.query(
         `SELECT id_usuario, nome, email, tipo_usuario FROM Usuarios
