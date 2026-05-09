@@ -9,7 +9,7 @@ export async function criarAprendiz(dados) {
     return result.insertId;
     
 }
-
+//Buscar por id aprendiz
 export async function buscarAprendizId(id) {
     
     const [rows]= await db.query(
@@ -19,6 +19,7 @@ export async function buscarAprendizId(id) {
     return rows[0]
 
 }
+//Buscar por aprendiz por id usuario
 export async function buscarAprendizIdUsuario(id_usuario) {
     const [rows]= await db.query(
         `SELECT * FROM Aprendizes WHERE id_usuario = ?`, [id_usuario]
