@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import { db } from "./dbConfig/dbConfig.js";
 import { usuariosRoutes } from "./routes/usuarioRoute.js";
 
-const PORT= 3000
+const PORT= process.env.PORT || 3000;
+
 const app= express();
 app.use(express.json());;
 app.use(cors());

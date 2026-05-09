@@ -1,4 +1,4 @@
-import { db } from "../dbConfig/dbConfig";
+import { db } from "../dbConfig/dbConfig.js";
 
 export async function criarUsuario(dados) {
     const {nome, email, senha_hash, tipo_usuario} = dados;

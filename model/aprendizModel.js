@@ -1,4 +1,4 @@
-import { db } from "../dbConfig/dbConfig";
+import { db } from "../dbConfig/dbConfig.js";
 
 export async function criarAprendiz(dados) {
     const { id_usuario, nivel_experiencia, bio }= dados;

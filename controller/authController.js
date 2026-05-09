@@ -8,34 +8,38 @@ import { criarProfissional } from "../model/profissionalModel.js";
 const SECRET = "segredo_super_secreto";
 
 export async function cadastrar(req, res) {
+    console.log("1")
     try {
+        console.log("2")
         const { nome, email, senha, tipo_usuario, nivel_experiencia, empresa, cargo, bio } = req.body;
+        console.log("3")
         //Verificar se o usuario com este email ja existe
         const usuarioExistente= await buscarEmail(email);
+        console.log("4")
         if(usuarioExistente){
             return res.status(400).json({erro: "Email já cadastrado"})
         }
 
-        const criptografarSenha= await bcrypt.hash(senha, 10);
+        const senha_hash= await bcrypt.hash(senha, 10);
 
         //Criar usuario
-        const id_usuario= criarUsuario({nome, email, senha, tipo_usuario});
+        const id_usuario= await criarUsuario({nome, email, senha_hash, tipo_usuario});
 
         //Criar usuario específico
         if(tipo_usuario==="Aprendiz"){await criarAprendiz({id_usuario, nivel_experiencia, bio})}
         else{await criarProfissional({id_usuario, empresa, cargo, bio})};
          return res.status(201).json({mensagem: "Usuário criado com sucesso", id_usuario})
 
-    } catch (error) {
-        console.error(erro);
-        return res.status(500).json({erro: "Erro no servidor"});
+    } catch (erro) {
+       console.error(erro);
+        res.status(500).json({erro: "Erro no servidor"})
     }
 }
 
 export async function login(req, res) {
     try{
     const {email, senha}= req.body;
-    const usuario= buscarEmail(email);
+    const usuario= await buscarEmail(email);
     if(!usuario){
         return res.status(404).json({erro: "Usuário não encontrado"});
     } 
@@ -52,7 +56,7 @@ export async function login(req, res) {
             tipo: usuario.tipo_usuario
         },
         SECRET,
-        {expiresIn: "Id"}
+        {expiresIn: "1d"}
     );
 
     return res.json({
@@ -65,8 +69,12 @@ export async function login(req, res) {
         }
     })
     }catch(erro){
-        console.error(erro);
-        res.status(500).json({erro: "Erro no servidor"})
+        
+          console.log(erro);
+
+    return res.status(500).json({
+        erro: "Erro no servidor"
+    })
     }
 }
 
