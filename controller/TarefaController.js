@@ -1,5 +1,5 @@
 import {
-    criarTarefa,
+    criarTarefas,
     listarTarefas,
     buscarTarefaId,
     assumirTarefa,
@@ -7,23 +7,211 @@ import {
     deletarTarefa
 } from "../model/tarefaModel.js";
 
+
+
+// 🔹 Criar tarefa
 export async function criar(req, res) {
-    
+
     try {
-        const { id_profissional,
+
+        const {
             titulo,
             descricao,
             categoria,
-            data_criacao,
             data_limite,
-            nivel_dificuldade,
-            status_tarefa }= req.body;
+            nivel_dificuldade
+        } = req.body;
 
-            //Ddos vindo do token
-            const usuario= req.usuario;
+        //  Dados vindos do token
+        const usuario = req.usuario;
 
-            
-    } catch (error) {
-        
+        if (usuario.tipo !== "Profissional") {
+            return res.status(403).json({
+                erro: "Apenas profissionais podem criar tarefas"
+            });
+        }
+
+        const id_tarefa = await criarTarefa({
+            id_profissional: usuario.id,
+            titulo,
+            descricao,
+            categoria,
+            data_limite,
+            nivel_dificuldade
+        });
+
+        return res.status(201).json({
+            mensagem: "Tarefa criada com sucesso",
+            id_tarefa
+        });
+
+    } catch (erro) {
+
+        console.log(erro);
+
+        return res.status(500).json({
+            erro: erro.message
+        });
+    }
+}
+
+
+
+
+export async function listar(req, res) {
+
+    try {
+
+        const tarefas = await listarTarefas();
+
+        return res.json(tarefas);
+
+    } catch (erro) {
+
+        console.log(erro);
+
+        return res.status(500).json({
+            erro: erro.message
+        });
+    }
+}
+
+
+
+
+export async function buscarPorId(req, res) {
+
+    try {
+
+        const { id } = req.params;
+
+        const tarefa = await buscarTarefaPorId(id);
+
+        if (!tarefa) {
+            return res.status(404).json({
+                erro: "Tarefa não encontrada"
+            });
+        }
+
+        return res.json(tarefa);
+
+    } catch (erro) {
+
+        console.log(erro);
+
+        return res.status(500).json({
+            erro: erro.message
+        });
+    }
+}
+
+
+
+
+export async function assumir(req, res) {
+
+    try {
+
+        const { id } = req.params;
+
+        const usuario = req.usuario;
+
+        // 🔥 Apenas aprendiz pode assumir
+        if (usuario.tipo !== "Aprendiz") {
+            return res.status(403).json({
+                erro: "Apenas aprendizes podem assumir tarefas"
+            });
+        }
+
+        const atualizado = await assumirTarefa(
+            id,
+            usuario.id
+        );
+
+        if (atualizado === 0) {
+            return res.status(404).json({
+                erro: "Tarefa não encontrada"
+            });
+        }
+
+        return res.json({
+            mensagem: "Tarefa assumida com sucesso"
+        });
+
+    } catch (erro) {
+
+        console.log(erro);
+
+        return res.status(500).json({
+            erro: erro.message
+        });
+    }
+}
+
+
+
+
+//  Atualizar status
+export async function atualizar(req, res) {
+
+    try {
+
+        const { id } = req.params;
+
+        const { status } = req.body;
+
+        const atualizado = await atualizarTarefa(
+            id,
+            status
+        );
+
+        if (atualizado === 0) {
+            return res.status(404).json({
+                erro: "Tarefa não encontrada"
+            });
+        }
+
+        return res.json({
+            mensagem: "Status atualizado com sucesso"
+        });
+
+    } catch (erro) {
+
+        console.log(erro);
+
+        return res.status(500).json({
+            erro: erro.message
+        });
+    }
+}
+
+
+
+
+export async function deletar(req, res) {
+
+    try {
+
+        const { id } = req.params;
+
+        const deletado = await deletarTarefa(id);
+
+        if (deletado === 0) {
+            return res.status(404).json({
+                erro: "Tarefa não encontrada"
+            });
+        }
+
+        return res.json({
+            mensagem: "Tarefa deletada com sucesso"
+        });
+
+    } catch (erro) {
+
+        console.log(erro);
+
+        return res.status(500).json({
+            erro: erro.message
+        });
     }
 }

@@ -7,8 +7,16 @@ export const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+    database: process.env.DB_DATABASE,
+    port: 3302
 });
 
-console.log("Banco conectado");
+db.getConnection()
+    .then(() => {
+        console.log("BANCO CONECTADO");
+    })
+    .catch((erro) => {
+        console.log("ERRO AO CONECTAR NO BANCO:");
+        console.log(erro);
+    });
 

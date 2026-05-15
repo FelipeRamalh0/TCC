@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { usuariosRoutes } from "./routes/usuarioRoute.js";
-
+import { tarefaRoutes } from "./routes/tarefaRoute.js";
 const PORT= process.env.PORT || 3000;
 
 const app= express();
@@ -10,7 +10,7 @@ app.use(cors());
 
 
 app.use(usuariosRoutes);
-
+app.use(tarefaRoutes);
 
 
 

@@ -8,7 +8,7 @@ export async function criarTarefas(dados) {
             data_criacao,
             data_limite,
             nivel_dificuldade,
-            status_tarefa };
+            status_tarefa }= dados;
         const [result]= await db.query(
             `INSERT id_profissional,
             titulo,
