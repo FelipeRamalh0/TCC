@@ -1,13 +1,12 @@
 import {
-    criarTarefas,
+    criarTarefa,
     listarTarefas,
     buscarTarefaId,
     assumirTarefa,
     atualizarTarefa,
     deletarTarefa
 } from "../model/tarefaModel.js";
-
-
+import {buscarProfissionalPorUsuario} from "../model/profissionalModel.js"
 
 // 🔹 Criar tarefa
 export async function criar(req, res) {
@@ -25,14 +24,18 @@ export async function criar(req, res) {
         //  Dados vindos do token
         const usuario = req.usuario;
 
-        if (usuario.tipo !== "Profissional") {
+        if (usuario.tipo_usuario !== "Profissional") {
             return res.status(403).json({
                 erro: "Apenas profissionais podem criar tarefas"
             });
         }
+        const profissional = await buscarProfissionalPorUsuario(
+            usuario.id_usuario
+        );
 
         const id_tarefa = await criarTarefa({
-            id_profissional: usuario.id,
+
+            id_profissional: profissional.id_profissional,
             titulo,
             descricao,
             categoria,
@@ -85,7 +88,7 @@ export async function buscarPorId(req, res) {
 
         const { id } = req.params;
 
-        const tarefa = await buscarTarefaPorId(id);
+        const tarefa = await buscarTarefaId(id);
 
         if (!tarefa) {
             return res.status(404).json({

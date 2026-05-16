@@ -1,25 +1,24 @@
 import { db } from "../dbConfig/dbConfig.js";
 
-export async function criarTarefas(dados) {
+export async function criarTarefa(dados) {
     const { id_profissional,
             titulo,
             descricao,
             categoria,
-            data_criacao,
             data_limite,
             nivel_dificuldade,
-            status_tarefa }= dados;
+             }= dados;
         const [result]= await db.query(
-            `INSERT id_profissional,
+            `INSERT INTO Tarefas (
+            id_profissional,
             titulo,
             descricao,
             categoria,
-            data_criacao,
             data_limite,
-            nivel_dificuldade,
-            status_tarefa 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [id_profissional, titulo, descricao, categoria, data_criacao, data_limite, nivel_dificuldade, status_tarefa]
+            nivel_dificuldade
+            )
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            [id_profissional, titulo, descricao, categoria, data_limite, nivel_dificuldade]
         );
         return result.insertId
 }
