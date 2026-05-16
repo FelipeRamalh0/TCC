@@ -10,8 +10,6 @@ body{
     color: white;
 }
 
-/* HEADER */
-
 .header{
     width: 100%;
     padding: 25px 10%;
@@ -31,18 +29,6 @@ body{
     font-weight: bold;
 }
 
-nav{
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-nav a{
-    text-decoration: none;
-    color: white;
-    transition: 0.3s;
-}
-
 nav a:hover{
     color: #8b5cf6;
 }
@@ -57,41 +43,9 @@ nav a:hover{
     transition: 0.3s;
 }
 
-.login-btn:hover{
-    transform: scale(1.05);
-}
-
-/* HERO */
-
-.hero{
-    width: 100%;
-    min-height: 100vh;
-    padding: 140px 10%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 60px;
-}
-
-.hero-text{
-    max-width: 600px;
-}
-
-.hero-text h1{
-    font-size: 60px;
-    margin-bottom: 25px;
-    line-height: 1.2;
-}
-
-.hero-text p{
-    font-size: 20px;
-    color: #cbd5e1;
-    line-height: 1.8;
-}
-
-.buttons{
+.cta-buttons{
     margin-top: 40px;
-    display: flex;
+    text-align: center;
     gap: 20px;
 }
 
@@ -107,32 +61,42 @@ nav a:hover{
     transition: 0.3s;
 }
 
-.primary-btn:hover{
-    transform: scale(1.05);
+.benefits{
+    padding: 120px 10%;
+    text-align: center;
 }
 
-.secondary-btn{
-    background: transparent;
-    border: 2px solid #8b5cf6;
-    color: white;
-    padding: 15px 28px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 17px;
+.cards{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card{
+    background: #1e293b;
+    padding: 35px;
+    width: 320px;
+    border-radius: 20px;
     transition: 0.3s;
+    
 }
 
-.secondary-btn:hover{
-    background: #8b5cf6;
+.benefits h2{
+    font-size: 42px;
+    margin-bottom: 60px;
 }
 
-.hero-image img{
-    width: 500px;
-    animation: float 3s ease-in-out infinite;
+.card:hover{
+    transform: translateY(-10px);
 }
 
+.card h3{
+    margin-bottom: 20px;
+    color: #8b5cf6;
+}
 
-/* PASSOS */
+---
 
 .steps-section{
     padding: 120px 10%;
@@ -173,7 +137,6 @@ nav a:hover{
 }
 
 /* CTA */
-
 .cta{
     padding: 120px 10%;
     text-align: center;
@@ -200,49 +163,40 @@ nav a:hover{
     transform: scale(1.05);
 }
 
-/* ANIMAÇÃO */
 
-@keyframes float{
-    0%{
-        transform: translateY(0px);
-    }
 
-    50%{
-        transform: translateY(-20px);
-    }
 
-    100%{
-        transform: translateY(0px);
-    }
+
+h2 {
+ text-align: center;
 }
 
-.rodape-principal {
-    background-color: blueviolet;
-    color: white;
-    padding: 15px;
-    text-align: center;
+#step1, #step2, #step3 {
+ text-align: center;
 }
 
-.footer-link {
-    color: white;
+nav{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+nav a{
     text-decoration: none;
-    font-weight: bold;
-}
-
-.whatsapp-float {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
-    right: 20px;
-    background-color: #7B2CBF;
     color: white;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 28px;
-    line-height: 60px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
     transition: 0.3s;
-    text-decoration: none;
+}
+
+nav a:hover{
+    color: #8b5cf6;
+}
+
+.login-btn{
+    background: #8b5cf6;
+    border: none;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
 }

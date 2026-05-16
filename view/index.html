@@ -1,28 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First-Step-Dev</title>
+
     <link rel="stylesheet" href="./css/index.css">
+    <script src="./scripts/index.js"></script>
+
+    <title>First Step Dev</title>
 </head>
+
 <body>
-    <header>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <a href="Menu.html" class="logo">
+            First Step Dev
+        </a>
+
+
         <nav>
-             <div class="logo">
-      First Step Dev
-    </div>
 
-    <div class="menu">
-      <a href="login.html" class="login">Login</a>
-      <a href="cadastrar.html" class="register">Cadastrar</a>
-    </div>
+            <a href="Menu.html">Início</a>
+            <a href="TelaSobre/Sobre.html">
+                Sobre
+            </a>
+
+            <button class="login-btn" onclick="irParaLogin()">
+                Login
+            </button>
+
         </nav>
-        </header>
+
+    </header>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                Transforme aprendizado em experiência real
+            </h1>
+
+            <p>
+                O First Step Dev conecta programadores iniciantes
+                a desafios reais do mercado de tecnologia,
+                proporcionando experiência prática, feedback profissional
+                e desenvolvimento de portfólio.
+            </p>
+
+            <div class="buttons">
+
+                <button class="primary-btn" onclick="irParaLogin()">
+                    Começar Agora
+                </button>
 
 
-    <footer>
+                <button class="secondary-btn" onclick="window.location.href='./pages/sobre.html'">
+                    Saiba Mais
+                </button>
 
-        </footer>
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+
+            <img src="./media/logo.png" alt="Imagem de Programação">
+
+        </div>
+
+    </section>
+
+
+    <footer class="rodape-principal">
+        <a class="footer-link" href="mailto:contato@firststepdev.com">Duvidas? entre em contato conosco:
+            contato@firststepdev.com </a>
+        <br>
+    
+        <br>
+        <p> 2026 First Step Dev. Todos os direitos reservados.</p>
+    </footer>
+
+    <a href="https://wa.me/5511956304792" class="whatsapp-float" target="_blank">
+       💬
+    </a>
 </body>
+
 </html>

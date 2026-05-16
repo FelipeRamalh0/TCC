@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="../css/cadastrar.css" />
+    
+
+    <title>First Step Dev</title>
+  </head>
+
+  <body>
+    <div class="container" id="container">
+      <!-- Cadastro -->
+      <div class="form-container sign-up">
+        <form>
+          <h1>Criar Conta</h1>
+
+          <span>Use seu email para se cadastrar</span>
+
+          <!-- A ALTERAÇÃO SOLICITADA: Exige nome, espaço e sobrenome -->
+          <input 
+            type="text" 
+            placeholder="Nome Completo" 
+            required 
+            pattern="^[A-Za-zÀ-ÿ]+(\s+[A-Za-zÀ-ÿ]+)+$"
+            title="Por favor, insira seu nome e pelo menos um sobrenome."
+          />
+
+          <input
+            type="text"
+            placeholder="Email"
+            required
+            pattern=".+\.$"
+            title="O email deve terminar com .com"
+          />
+          <input
+            type="password"
+            placeholder="Senha"
+            required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"
+            title="Email ou senha incorreta. A senha deve ter no mínimo 8 caracteres, incluindo letra, número e caractere especial."
+          />
+
+          <input type="password" placeholder="Confirmar Senha" required />
+
+          <select name="nivelCadastro" id="nivelCadastro" required>
+            <option value="" disabled selected>Selecione...</option>
+            <option value="aprendiz">Aprendiz</option>
+            <option value="profissional">Profissional</option>
+          </select>
+
+          <button type="submit">Cadastrar</button>
+        </form>
+      </div>
+
+      <!-- Login -->
+      <div class="form-container sign-in">
+        <form>
+          <h1>Entrar</h1>
+
+          <span>Use seu email para entrar</span>
+
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$"
+            title="Digite um email terminado em .com"
+          />
+
+          <input
+            type="password"
+            placeholder="Senha"
+            required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"
+            title="A senha deve ter no mínimo 8 caracteres, incluindo letra, número e caractere especial."
+          />
+
+          <a href="./esqueciSenha.html">Esqueceu sua senha?</a>
+
+          <button type="submit" onclick="irParaPrincipal()">Entrar</button>
+        </form>
+      </div>
+
+      <!-- Painel Roxo -->
+      <div class="toggle-container">
+        <div class="toggle">
+          <div class="toggle-panel toggle-left">
+            <h1>Bem-vindo!</h1>
+
+            <p>Já possui uma conta?</p>
+
+            <button class="hidden" id="login">Entrar</button>
+          </div>
+
+          <div class="toggle-panel toggle-right">
+            <h1>Olá, amigo!</h1>
+
+            <p>Cadastre-se para acessar a plataforma</p>
+
+            <button class="hidden" id="register">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../scripts/cadastrar.js"></script>
+  </body>
+</html>

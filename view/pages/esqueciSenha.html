@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/esqueciSenha.css">
+    <title>Esqueci minha senha</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form>
+
+                <h1>Esqueci minha senha</h1>
+
+                <p>
+                    Digite sua senha nova.
+                </p>
+
+                <input 
+                    type="password" 
+                    name="nova_senha"
+                    placeholder="Digite sua nova senha"
+                    required
+                     pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"
+            title="A senha deve ter no mínimo 8 caracteres, incluindo letra, número e caractere especial."
+                >
+
+                <input 
+                    type="password" 
+                    name="confirmar_senha"
+                    placeholder="Confirmar nova senha"
+                    required
+                     pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"
+            title="A senha deve ter no mínimo 12 caracteres, incluindo letra, número e caractere especial."
+                >
+
+                <button type="submit" class="button">
+                    Enviar
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="../scripts/esqueciSenha.js"></script>
+</body>
+
+</html>
