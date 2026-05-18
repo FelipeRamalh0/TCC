@@ -83,7 +83,7 @@ CREATE TABLE Entregas (
         ON DELETE CASCADE
 );
 
-##### TABELA HISTÓRICO INICIANTE #####
+##### TABELA HISTÓRICO #####
 
 CREATE TABLE Historico_Aprendizes(
     id_historico INT AUTO_INCREMENT PRIMARY KEY,
@@ -123,6 +123,103 @@ CREATE INDEX idx_entrega_status ON Entregas(status_entrega);
 CREATE INDEX idx_historico_aprendiz ON Historico_Aprendizes(id_aprendiz);
 CREATE INDEX idx_historico_tarefa ON Historico_Aprendizes(id_tarefa);
 
+##### TRIGGERS #####
+
+### REMOVE DATA LIMITE QUANDO TAREFA FOR CONCLUÍDA ###
+
+DELIMITER $$
+
+CREATE TRIGGER trg_update_tarefa_status
+BEFORE UPDATE ON Tarefas
+FOR EACH ROW
+BEGIN
+    IF NEW.status_tarefa = 'concluida'
+       AND OLD.status_tarefa <> 'concluida' THEN
+        SET NEW.data_limite = NULL;
+    END IF;
+END$$
+
+DELIMITER ;
+
+---
+
+### GARANTE QUE SO PODE ATRIBUIR TAREFAS EM ANDAMENTO ###
+
+DELIMITER $$
+
+CREATE TRIGGER trg_validar_aprendiz_responsavel
+BEFORE UPDATE ON Tarefas
+FOR EACH ROW
+BEGIN
+    IF NEW.id_aprendiz_responsavel IS NOT NULL
+       AND NEW.status_tarefa <> 'em_andamento' THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Aprendiz responsável só pode ser atribuído a tarefas em andamento.';
+    END IF;
+END$$
+
+DELIMITER ;
+
+---
+
+### CRIA HISTÓRICO + PONTUAÇÃO QUANDO TAREFA CONCLUÍDA ###
+
+DELIMITER $$
+
+CREATE TRIGGER trg_criar_historico
+AFTER UPDATE ON Tarefas
+FOR EACH ROW
+BEGIN
+    IF NEW.status_tarefa = 'concluida'
+       AND OLD.status_tarefa <> 'concluida' THEN
+
+        INSERT INTO Historico_Aprendizes
+        (id_aprendiz, id_tarefa, pontuacao_ganha, status_final_tarefa)
+        VALUES
+        (
+            NEW.id_aprendiz_responsavel,
+            NEW.id_tarefa,
+            10,
+            'A'
+        );
+
+        UPDATE Aprendizes
+        SET pontuacao = pontuacao + 10
+        WHERE id_aprendiz = NEW.id_aprendiz_responsavel;
+
+    END IF;
+END$$
+
+DELIMITER ;
+
+---
+
+### ATUALIZA NÍVEL DE EXPERIÊNCIA AUTOMATICAMENTE ###
+
+DELIMITER $$
+
+CREATE TRIGGER trg_aumentar_nivel
+BEFORE UPDATE ON Aprendizes
+FOR EACH ROW
+BEGIN
+
+    IF NEW.pontuacao BETWEEN 0 AND 20 THEN
+        SET NEW.nivel_experiencia = 'Iniciante';
+
+    ELSEIF NEW.pontuacao BETWEEN 21 AND 50 THEN
+        SET NEW.nivel_experiencia = 'Basico';
+
+    ELSE
+        SET NEW.nivel_experiencia = 'Intermediario';
+
+    END IF;
+
+END$$
+
+DELIMITER ;
+
+---
+
 ##### INSERT USUARIOS #####
 
 INSERT INTO Usuarios (nome, email, senha_hash, tipo_usuario ) VALUES
@@ -132,6 +229,8 @@ INSERT INTO Usuarios (nome, email, senha_hash, tipo_usuario ) VALUES
 ('Henrique', 'henrique@email.com', 'hash4', 'Profissional'),
 ('Ramalho', 'ramalho@email.com', 'hash5', 'Profissional' );
 
+---
+
 ##### INSERT APRENDIZES #####
 
 INSERT INTO Aprendizes (id_usuario, nivel_experiencia, pontuacao, bio) VALUES
@@ -139,15 +238,15 @@ INSERT INTO Aprendizes (id_usuario, nivel_experiencia, pontuacao, bio) VALUES
 (2, 'Basico', 50, 'CEO de empresa de tecnologia.'),
 (3, 'Intermediario', 30, 'Freelancer em busca de novas práticas.');
 
-UPDATE Aprendizes
-SET pontuacao = pontuacao + 5
-WHERE id_aprendiz = 1;
+---
 
 ##### INSERT PROFISSIONAIS #####
 
 INSERT INTO Profissionais (id_usuario, empresa, cargo, bio) VALUES
 (4, 'Programer', 'Desenvolvedor Sênior', 'Especialista em Backend.'),
 (5, 'Programing', 'Tech Lead', 'Analista de sistemas.');
+
+---
 
 ##### INSERT TAREFAS #####
 
@@ -158,13 +257,7 @@ INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, data_limite,
 INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, nivel_dificuldade, id_aprendiz_responsavel, status_tarefa) VALUES
 (2, 'Refatorar Classe Login', 'Melhorar o código.', 'Backend', 'medio', 1, 'em_andamento');
 
-UPDATE Tarefas
-SET status_tarefa = 'em_andamento'
-WHERE id_tarefa = 1;
-
-UPDATE Tarefas
-SET status_tarefa = 'em_revisao'
-WHERE id_tarefa = 1;
+---
 
 ##### INSERT ENTREGAS #####
 
@@ -179,12 +272,16 @@ UPDATE Entregas
 SET status_entrega = 'Aprovado'
 WHERE id_entrega = 1;
 
+---
+
 ##### INSERT HISTÓRICO #####
 
 INSERT INTO Historico_Aprendizes (id_aprendiz, id_tarefa, pontuacao_ganha, status_final_tarefa) VALUES 
 (1, 2, 5, 'B'),
 (2, 1, 2, 'A'),
 (3, 1, 1, 'C');
+
+---
 
 ##### SELECTS #####
 
