@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/principal.css">
+    <title>First Step Dev</title>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- AREA LATERAL -->
+        <aside class="sidebar">
+
+            <div class="perfil">
+
+                <div class="foto-perfil">
+
+                    <img id="preview" src="https://i.pravatar.cc/120" alt="Perfil">
+
+                    <label for="fotoInput" class="editar-foto">
+                        +
+                    </label>
+
+                    <input type="file" id="fotoInput" accept="image/*">
+
+                </div>
+
+                <h3>Henrique</h3>
+                <p>Desenvolvedor Iniciante</p>
+
+            </div>
+
+            <div class="card-info">
+
+                <h4>Progresso</h4>
+
+                <div class="barra">
+                    <div class="progresso"></div>
+                </div>
+
+                <span id="textoProgresso">0% concluído</span>
+
+            </div>
+
+            <div class="card-info">
+
+                <h4>Lições Pendentes</h4>
+
+                <ul>
+                    <li>✔ HTML Básico</li>
+                    <li>✔ CSS Responsivo</li>
+                    <li>⏳ JavaScript DOM</li>
+                    <li>⏳ Projeto Landing Page</li>
+                </ul>
+
+            </div>
+
+            <div class="exit">
+               <a href="../../ProjetoTCCetec/TelaMenu/Menu.html">Sair</a>
+            </div>
+        </aside>
+
+        <!-- CONTEUDO -->
+        <main class="content">
+
+            <!-- PAINEL PROFESSOR -->
+
+            <div class="painel-professor" id="painelProfessor">
+
+                <h2>Área do Professor</h2>
+
+                <input 
+                    type="text" 
+                    id="tituloDesafio" 
+                    placeholder="Título do desafio"
+                >
+
+                <textarea 
+                    id="descricaoDesafio" 
+                    placeholder="Descrição da atividade"
+                ></textarea>
+
+                <button onclick="criarDesafio()">
+                    Publicar desafio
+                </button>
+
+            </div>
+
+            <section class="steps-section">
+
+                <h2>Painel Principal</h2>
+
+                <div class="steps" id="listaDesafios">
+
+                    <div class="step" onclick="abrirAtividade(
+                        'Atividade HTML',
+                        'Crie uma estrutura básica utilizando HTML5 com header, main e footer.'
+                    )">
+                        <span>📚</span>
+                        <p>Continue suas atividades e evolua suas habilidades na programação.</p>
+                    </div>
+
+                    <div class="step" onclick="abrirAtividade(
+                        'Desafio CSS',
+                        'Desenvolva uma landing page responsiva utilizando Flexbox.'
+                    )">
+                        <span>🚀</span>
+                        <p>Novos desafios reais foram adicionados por profissionais.</p>
+                    </div>
+
+                    <div class="step" onclick="abrirAtividade(
+                        'Feedback Profissional',
+                        'Veja as observações enviadas pelos profissionais sobre seu último projeto.'
+                    )">
+                        <span>💬</span>
+                        <p>Você possui novos feedbacks disponíveis para visualizar.</p>
+                    </div>
+
+                    <div class="step" onclick="abrirAtividade(
+                        'Projeto Portfólio',
+                        'Finalize seu portfólio pessoal e publique seus projetos.'
+                    )">
+                        <span>🏆</span>
+                        <p>Conclua desafios para aumentar seu nível e fortalecer seu portfólio.</p>
+                    </div>
+
+                    <!-- AREA PROFESSOR -->
+
+                    <div 
+                        class="step professor-area" 
+                        id="areaProfessor"
+                        onclick="abrirPainelProfessor()"
+                    >
+
+                        <span>👨‍🏫</span>
+
+                        <p>
+                            Área exclusiva para profissionais criarem desafios e avaliarem alunos.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- AREA DA ATIVIDADE -->
+
+                <div class="atividade-box" id="atividadeBox">
+
+                    <h3 id="tituloAtividade">Título</h3>
+
+                    <p id="descricaoAtividade">
+                        Descrição da atividade
+                    </p>
+
+                    <button onclick="concluirAtividade()">
+                        Concluir atividade
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../scripts/principal.js"></script>
+
+</body>
+</html>
