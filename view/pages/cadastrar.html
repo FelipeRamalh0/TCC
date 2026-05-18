@@ -10,20 +10,20 @@
     />
 
     <link rel="stylesheet" href="../css/cadastrar.css" />
-     <style>
-        .header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-        }
+    <style>
+      .header {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+      }
 
-        .header nav a {
-            text-decoration: none;
-            color: rgb(148, 51, 240);
-            font-size: 30px;
-            font-weight: bold;
-        }
+      .header nav a {
+        text-decoration: none;
+        color: rgb(148, 51, 240);
+        font-size: 30px;
+        font-weight: bold;
+      }
     </style>
 
     <title>First Step Dev</title>
@@ -31,11 +31,9 @@
 
   <body>
     <header class="header">
-
-        <nav>
-            <a href="../index.html">Início</a>
-        </nav>
-
+      <nav>
+        <a href="../index.html">Início</a>
+      </nav>
     </header>
     <div class="container" id="container">
       <!-- Cadastro -->
@@ -46,15 +44,17 @@
           <span>Use seu email para se cadastrar</span>
 
           <!-- A ALTERAÇÃO SOLICITADA: Exige nome, espaço e sobrenome -->
-          <input 
-            type="text" 
-            placeholder="Nome Completo" 
-            required 
+          <input
+          id="nomeCadastro"
+            type="text"
+            placeholder="Nome Completo"
+            required
             pattern="^[A-Za-zÀ-ÿ]+(\s+[A-Za-zÀ-ÿ]+)+$"
             title="Por favor, insira seu nome e pelo menos um sobrenome."
           />
 
           <input
+          id="emailCadastro"
             type="text"
             placeholder="Email"
             required
@@ -62,6 +62,7 @@
             title="O email deve terminar com .com"
           />
           <input
+          id="senhaCadastro"
             type="password"
             placeholder="Senha"
             required
@@ -69,7 +70,8 @@
             title="Email ou senha incorreta. A senha deve ter no mínimo 8 caracteres, incluindo letra, número e caractere especial."
           />
 
-          <input type="password" placeholder="Confirmar Senha" required />
+          <input type="password" placeholder="Confirmar Senha" required
+          id="cadastroConfirmarSenha" />
 
           <select name="nivelCadastro" id="nivelCadastro" required>
             <option value="" disabled selected>Selecione...</option>
@@ -89,14 +91,16 @@
           <span>Use seu email para entrar</span>
 
           <input
+          id="loginEmail"
             type="email"
             placeholder="Email"
             required
-            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$"
+            pattern=".+@.+\.com$"
             title="Digite um email terminado em .com"
           />
 
           <input
+          id="loginSenha"
             type="password"
             placeholder="Senha"
             required
