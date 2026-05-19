@@ -11,7 +11,7 @@ CREATE TABLE Usuarios(
     tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL
 );
 
-#####   TABELA Aprendizes   #####
+#####   TABELA APRENDIZES   #####
 
 CREATE TABLE Aprendizes (
     id_aprendiz INT AUTO_INCREMENT PRIMARY KEY,
@@ -102,6 +102,21 @@ CREATE TABLE Historico_Aprendizes(
         ON DELETE CASCADE
 );
 
+##### TABELA RECUPERAÇÃO DE SENHA #####
+
+CREATE TABLE Recuperacao_Senha(
+    id_recuperacao INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    token VARCHAR(255) UNIQUE NOT NULL,
+    expiracao DATETIME NOT NULL,
+    usado BOOLEAN NOT NULL DEFAULT FALSE,
+    data_solicitacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES Usuarios(id_usuario)
+        ON DELETE CASCADE
+);
+
 ##### INDEX #####
 
 CREATE INDEX idx_usuario_nome ON Usuarios(nome);
@@ -122,6 +137,9 @@ CREATE INDEX idx_entrega_status ON Entregas(status_entrega);
 
 CREATE INDEX idx_historico_aprendiz ON Historico_Aprendizes(id_aprendiz);
 CREATE INDEX idx_historico_tarefa ON Historico_Aprendizes(id_tarefa);
+
+CREATE INDEX idx_recuperacao_usuario ON Recuperacao_Senha(id_usuario);
+CREATE INDEX idx_recuperacao_token ON Recuperacao_Senha(token);
 
 ##### TRIGGERS #####
 
@@ -223,11 +241,11 @@ DELIMITER ;
 ##### INSERT USUARIOS #####
 
 INSERT INTO Usuarios (nome, email, senha_hash, tipo_usuario ) VALUES
-('Felipe', 'felipao@email.com', 'hash1', 'Aprendiz' ),
-('Bispo', 'bispox@email.com', 'hash2', 'Aprendiz' ),
-('Carlos', 'carlos@email.com', 'hash3', 'Aprendiz' ),
-('Henrique', 'henrique@email.com', 'hash4', 'Profissional'),
-('Ramalho', 'ramalho@email.com', 'hash5', 'Profissional' );
+('Felipe', 'felipao@email.com', '$2y$10$hashbcrypt1', 'Aprendiz'),
+('Bispo', 'bispox@email.com', '$2y$10$hashbcrypt2', 'Aprendiz'),
+('Carlos', 'carlos@email.com', '$2y$10$hashbcrypt3', 'Aprendiz'),
+('Henrique', 'henrique@email.com', '$2y$10$hashbcrypt4', 'Profissional'),
+('Ramalho', 'ramalho@email.com', '$2y$10$hashbcrypt5', 'Profissional');
 
 ---
 
@@ -283,6 +301,31 @@ INSERT INTO Historico_Aprendizes (id_aprendiz, id_tarefa, pontuacao_ganha, statu
 
 ---
 
+##### EXEMPLO RECUPERAÇÃO DE SENHA #####
+
+INSERT INTO Recuperacao_Senha
+(id_usuario, token, expiracao)
+VALUES
+(
+    1,
+    'token_abc_123',
+    DATE_ADD(NOW(), INTERVAL 1 HOUR)
+);
+
+---
+
+##### EXEMPLO REDEFINIR SENHA #####
+
+UPDATE Usuarios
+SET senha_hash = '$2y$10$NOVOHASHCRIPTOGRAFADO'
+WHERE id_usuario = 1;
+
+UPDATE Recuperacao_Senha
+SET usado = TRUE
+WHERE token = 'token_abc_123';
+
+---
+
 ##### SELECTS #####
 
 SELECT id_tarefa, data_criacao
@@ -327,3 +370,26 @@ FROM Entregas E
 INNER JOIN Tarefas T ON E.id_tarefa = T.id_tarefa
 INNER JOIN Aprendizes A ON E.id_aprendiz = A.id_aprendiz
 INNER JOIN Usuarios U ON A.id_usuario = U.id_usuario;
+
+---
+
+##### CONSULTA TOKENS VÁLIDOS #####
+
+SELECT *
+FROM Recuperacao_Senha
+WHERE usado = FALSE
+AND expiracao > NOW();
+
+---
+
+##### CONSULTA RECUPERAÇÃO POR USUÁRIO #####
+
+SELECT
+U.nome,
+U.email,
+R.token,
+R.expiracao,
+R.usado
+FROM Recuperacao_Senha R
+INNER JOIN Usuarios U
+ON R.id_usuario = U.id_usuario;
