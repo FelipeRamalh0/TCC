@@ -5,8 +5,9 @@ USE FirstStepDev;
 
 CREATE TABLE Usuarios(
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(30) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
+     bio TEXT,
     senha_hash VARCHAR(255) NOT NULL,
     tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL
 );
@@ -16,9 +17,11 @@ CREATE TABLE Usuarios(
 CREATE TABLE Aprendizes (
     id_aprendiz INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT UNIQUE NOT NULL,
-    nivel_experiencia ENUM('Iniciante','Basico','Intermediario'),
+    foto_perfil VARCHAR(255),
+    nivel_experiencia ENUM('Iniciante','Basico','Intermediario', 'Avançado'),
     pontuacao INT NOT NULL DEFAULT 0,
-    bio TEXT,
+    github VARCHAR(255),
+    linkedin VARCHAR(255),
 
     FOREIGN KEY (id_usuario)
         REFERENCES Usuarios(id_usuario)
@@ -28,15 +31,25 @@ CREATE TABLE Aprendizes (
 #####   TABELA PROFISSIONAIS    #####
 
 CREATE TABLE Profissionais(
+    CREATE TABLE Profissionais(
     id_profissional INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT UNIQUE NOT NULL,
     empresa VARCHAR(30),
     cargo VARCHAR(45),
-    bio TEXT,
-
-    FOREIGN KEY (id_usuario)
-        REFERENCES Usuarios(id_usuario)
-        ON DELETE CASCADE
+    github VARCHAR(255),
+    linkedin VARCHAR(255),
+    
+    -- ✅ Campos novos adicionados:
+    verificado TINYINT(1) NOT NULL DEFAULT 0,
+    status_verificacao ENUM('pendente', 'aprovado', 'rejeitado') NOT NULL DEFAULT 'pendente',
+    anos_experiencia INT NULL,
+    bio_profissional TEXT NULL,
+    revisado_por INT NULL,
+    revisado_em DATETIME NULL,
+    
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (revisado_por) REFERENCES Usuarios(id_usuario) ON DELETE SET NULL
+);
 );
 
 #####   TABELA TAREFAS  #####
@@ -45,7 +58,7 @@ CREATE TABLE Tarefas(
     id_tarefa INT AUTO_INCREMENT PRIMARY KEY,
     id_profissional INT NOT NULL,
     titulo VARCHAR(30) NOT NULL,
-    descricao VARCHAR(255),
+    descricao TEXT,
     categoria VARCHAR(50),
     data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_limite DATETIME,
@@ -89,6 +102,7 @@ CREATE TABLE Historico_Aprendizes(
     id_historico INT AUTO_INCREMENT PRIMARY KEY,
     id_aprendiz INT NOT NULL,
     id_tarefa INT NOT NULL,
+    id_entrega INT NULL,
     pontuacao_ganha INT NOT NULL,
     status_final_tarefa ENUM('D','C','B','A') NOT NULL,
     data_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -100,6 +114,17 @@ CREATE TABLE Historico_Aprendizes(
     FOREIGN KEY (id_tarefa)
         REFERENCES Tarefas(id_tarefa)
         ON DELETE CASCADE
+);
+CREATE TABLE Feedbacks (
+    id_feedback INT AUTO_INCREMENT PRIMARY KEY,
+    id_entrega INT NOT NULL,
+    id_profissional INT NOT NULL,
+    comentario TEXT NOT NULL,
+    nota INT CHECK (nota BETWEEN 0 AND 10),
+    data_feedback DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (id_entrega) REFERENCES Entregas(id_entrega) ON DELETE CASCADE,
+    FOREIGN KEY (id_profissional) REFERENCES Profissionais(id_profissional)
 );
 
 ##### TABELA RECUPERAÇÃO DE SENHA #####

@@ -20,12 +20,14 @@ export async function cadastrar(req, res) {
             nivel_experiencia,
             empresa,
             cargo,
-            bio
+            bio,
+            // Campos novos para Profissionais
+            anos_experiencia,
+            bio_profissional
         } = req.body;
 
         // Validar campos
         if (!nome || !email || !senha || !tipo_usuario) {
-
             return res.status(400).json({
                 erro: "Preencha todos os campos obrigatórios"
             });
@@ -35,7 +37,6 @@ export async function cadastrar(req, res) {
         const usuarioExistente = await buscarEmail(email);
 
         if (usuarioExistente) {
-
             return res.status(400).json({
                 erro: "Email já cadastrado"
             });
@@ -49,7 +50,8 @@ export async function cadastrar(req, res) {
             nome,
             email,
             senha_hash,
-            tipo_usuario
+            tipo_usuario,
+            bio
         });
 
         // Criar perfil específico
@@ -61,13 +63,15 @@ export async function cadastrar(req, res) {
                 bio
             });
 
-        } else {
+        } else if (tipo_usuario === "Profissional") {
 
             await criarProfissional({
                 id_usuario,
                 empresa,
                 cargo,
-                bio
+                bio,
+                anos_experiencia,
+                bio_profissional
             });
         }
 
@@ -90,7 +94,7 @@ export async function cadastrar(req, res) {
     }
 }
 
-// Login
+// Login (mantido igual)
 export async function login(req, res) {
 
     try {
@@ -101,7 +105,6 @@ export async function login(req, res) {
         const usuario = await buscarEmail(email);
 
         if (!usuario) {
-
             return res.status(404).json({
                 erro: "Usuário não encontrado"
             });
@@ -114,7 +117,6 @@ export async function login(req, res) {
         );
 
         if (!senhaValida) {
-
             return res.status(401).json({
                 erro: "Senha inválida"
             });
