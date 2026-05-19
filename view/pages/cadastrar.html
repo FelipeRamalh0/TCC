@@ -45,7 +45,7 @@
 
           <!-- A ALTERAÇÃO SOLICITADA: Exige nome, espaço e sobrenome -->
           <input
-          id="nomeCadastro"
+            id="nomeCadastro"
             type="text"
             placeholder="Nome Completo"
             required
@@ -54,15 +54,15 @@
           />
 
           <input
-          id="emailCadastro"
-            type="text"
+            id="emailCadastro"
+            type="email"
             placeholder="Email"
             required
-            pattern=".+\.$"
-            title="O email deve terminar com .com"
+            pattern=".+@.+\.com$"
+            title="Digite um email válido terminado em .com"
           />
           <input
-          id="senhaCadastro"
+            id="senhaCadastro"
             type="password"
             placeholder="Senha"
             required
@@ -70,8 +70,12 @@
             title="Email ou senha incorreta. A senha deve ter no mínimo 8 caracteres, incluindo letra, número e caractere especial."
           />
 
-          <input type="password" placeholder="Confirmar Senha" required
-          id="cadastroConfirmarSenha" />
+          <input
+            type="password"
+            placeholder="Confirmar Senha"
+            required
+            id="cadastroConfirmarSenha"
+          />
 
           <select name="nivelCadastro" id="nivelCadastro" required>
             <option value="" disabled selected>Selecione...</option>
@@ -91,7 +95,7 @@
           <span>Use seu email para entrar</span>
 
           <input
-          id="loginEmail"
+            id="loginEmail"
             type="email"
             placeholder="Email"
             required
@@ -100,7 +104,7 @@
           />
 
           <input
-          id="loginSenha"
+            id="loginSenha"
             type="password"
             placeholder="Senha"
             required
