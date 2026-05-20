@@ -1,0 +1,34 @@
+Profissional
+{
+    "nome": "Jose",
+    "email": "jose@email.com"
+    "senha": "Jose1234"
+    "tipo_usuario": "Profissional",
+    "empresa": "Itaú",
+    "cargo": "Desenvolvedor",
+    "bio": "Desenvolvedor Back-End"
+}
+Aprendiz
+{
+    "nome": "Osvaldo",
+    "email": "osvaldo@email.com",
+    "senha": "Osvaldo1234",
+    "tipo_usuario": "Aprendiz",
+    "nivel_experiencia": "Iniciante",
+    "bio": "Quero entrar na area sendo desenvolvedor"
+}
+Criar Tarefa
+{
+    "titulo": "Integre uma API",
+    "descricao": "Faça uma integração da API de tempo",
+    "data_limite": "20/06/2026",
+    "nivel_difuculdade": "facil"
+}
+Assumir Tarefa
+{
+    vazio
+}
+Atualizar status
+{
+    "status_tarefa": "concluida"
+}
