@@ -1,4 +1,3 @@
-DROP DATABASE IF EXISTS FirstStepDev;
 CREATE DATABASE FirstStepDev;
 USE FirstStepDev;
 
@@ -6,13 +5,11 @@ USE FirstStepDev;
 
 CREATE TABLE Usuarios(
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(150) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,        -- ← Corrigido para 255
-    bio TEXT,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+     bio TEXT,
     senha_hash VARCHAR(255) NOT NULL,
-    tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL,
-    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
-    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL
 );
 
 #####   TABELA APRENDIZES   #####
@@ -33,7 +30,7 @@ CREATE TABLE Aprendizes (
 
 #####   TABELA PROFISSIONAIS    #####
 
-
+CREATE TABLE Profissionais(
     CREATE TABLE Profissionais(
     id_profissional INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT UNIQUE NOT NULL,
@@ -53,26 +50,29 @@ CREATE TABLE Aprendizes (
     FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (revisado_por) REFERENCES Usuarios(id_usuario) ON DELETE SET NULL
 );
-
+);
 
 #####   TABELA TAREFAS  #####
 
 CREATE TABLE Tarefas(
     id_tarefa INT AUTO_INCREMENT PRIMARY KEY,
     id_profissional INT NOT NULL,
-    titulo VARCHAR(150) NOT NULL,
+    titulo VARCHAR(30) NOT NULL,
     descricao TEXT,
     categoria VARCHAR(50),
     data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_limite DATETIME,
     nivel_dificuldade ENUM('facil','medio','dificil') NOT NULL,
     status_tarefa ENUM('aberta','em_andamento','em_revisao','concluida','cancelada') NOT NULL DEFAULT 'aberta',
-    
+
     id_aprendiz_responsavel INT NULL,
-    id_entrega_atual INT NULL,                    -- ← Novo campo adicionado
-    
-    FOREIGN KEY (id_profissional) REFERENCES Profissionais(id_profissional) ON DELETE CASCADE,
-    FOREIGN KEY (id_aprendiz_responsavel) REFERENCES Aprendizes(id_aprendiz) ON DELETE SET NULL
+
+    FOREIGN KEY (id_profissional)
+        REFERENCES Profissionais(id_profissional)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_aprendiz_responsavel)
+        REFERENCES Aprendizes(id_aprendiz)
 );
 
 ##### TABELA ENTREGAS ######
@@ -85,40 +85,36 @@ CREATE TABLE Entregas (
     arquivo_url VARCHAR(255),
     link_repositorio VARCHAR(255),
     codigo_texto TEXT,
-    status_entrega ENUM('enviado','em_avaliacao','aprovado','rejeitado') 
-        NOT NULL DEFAULT 'enviado',                    -- ← Sem acentuação e em minúsculo
+    status_entrega ENUM('Enviado','Em avaliacao','Aprovado','Rejeitado') NOT NULL DEFAULT 'Enviado',
 
-    FOREIGN KEY (id_tarefa) REFERENCES Tarefas(id_tarefa) ON DELETE CASCADE,
-    FOREIGN KEY (id_aprendiz) REFERENCES Aprendizes(id_aprendiz) ON DELETE CASCADE
+    FOREIGN KEY (id_tarefa)
+        REFERENCES Tarefas(id_tarefa)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_aprendiz)
+        REFERENCES Aprendizes(id_aprendiz)
+        ON DELETE CASCADE
 );
 
 ##### TABELA HISTÓRICO #####
 
 CREATE TABLE Historico_Aprendizes(
     id_historico INT AUTO_INCREMENT PRIMARY KEY,
-    
     id_aprendiz INT NOT NULL,
     id_tarefa INT NOT NULL,
     id_entrega INT NULL,
-    id_profissional INT NULL,
-    
-    pontuacao_ganha INT NOT NULL DEFAULT 0,
-    
-    -- ✅ MELHORIA NO STATUS_FINAL
-    status_final ENUM('excelente', 'bom', 'regular', 'insuficiente') 
-        NOT NULL DEFAULT 'bom',
-    
-    nota_final INT NULL CHECK (nota_final BETWEEN 0 AND 10),
-    comentario_feedback TEXT NULL,
-    
+    pontuacao_ganha INT NOT NULL,
+    status_final_tarefa ENUM('D','C','B','A') NOT NULL,
     data_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (id_aprendiz) REFERENCES Aprendizes(id_aprendiz) ON DELETE CASCADE,
-    FOREIGN KEY (id_tarefa) REFERENCES Tarefas(id_tarefa) ON DELETE RESTRICT,
-    FOREIGN KEY (id_entrega) REFERENCES Entregas(id_entrega) ON DELETE SET NULL,
-    FOREIGN KEY (id_profissional) REFERENCES Profissionais(id_profissional) ON DELETE SET NULL
-);
+    FOREIGN KEY (id_aprendiz)
+        REFERENCES Aprendizes(id_aprendiz)
+        ON DELETE CASCADE,
 
+    FOREIGN KEY (id_tarefa)
+        REFERENCES Tarefas(id_tarefa)
+        ON DELETE CASCADE
+);
 CREATE TABLE Feedbacks (
     id_feedback INT AUTO_INCREMENT PRIMARY KEY,
     id_entrega INT NOT NULL,
