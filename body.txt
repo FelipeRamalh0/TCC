@@ -1,8 +1,8 @@
 Profissional
 {
     "nome": "Jose",
-    "email": "jose@email.com"
-    "senha": "Jose1234"
+    "email": "jose@email.com",
+    "senha": "Jose1234",
     "tipo_usuario": "Profissional",
     "empresa": "Itaú",
     "cargo": "Desenvolvedor",
@@ -21,8 +21,9 @@ Criar Tarefa
 {
     "titulo": "Integre uma API",
     "descricao": "Faça uma integração da API de tempo",
-    "data_limite": "20/06/2026",
-    "nivel_difuculdade": "facil"
+    "categoria": "Back End",
+    "data_limite": "2026-06-20",
+    "nivel_dificuldade": "facil"
 }
 Assumir Tarefa
 {
