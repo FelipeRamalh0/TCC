@@ -120,7 +120,7 @@ export async function assumir(req, res) {
         const usuario = req.usuario;
 
         // 🔥 Apenas aprendiz pode assumir
-        if (usuario.tipo !== "Aprendiz") {
+        if (usuario.tipo_usuario !== "Aprendiz") {
             return res.status(403).json({
                 erro: "Apenas aprendizes podem assumir tarefas"
             });
@@ -128,7 +128,7 @@ export async function assumir(req, res) {
 
         const atualizado = await assumirTarefa(
             id,
-            usuario.id
+            usuario.id_usuario
         );
 
         if (atualizado === 0) {

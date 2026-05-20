@@ -44,7 +44,7 @@ export async function assumirTarefa(id_tarefa, id_aprendiz) {
          status = 'em_andamento' WHERE id_tarefa = ?`,
          [id_aprendiz, id_tarefa]
     );
-    return rows.affectedRows;
+    return result.affectedRows;
     
 }
 
@@ -53,7 +53,7 @@ export async function atualizarTarefa(id_tarefa, status) {
         UPDATE Tarefas SET status = ? WHERE id_tarefa = ?`,
          [status, id_tarefa]
     )
-       return rows.affectedRows;
+       return result.affectedRows;
 }
 //Deletar por id
 export async function deletarTarefa(id) {
