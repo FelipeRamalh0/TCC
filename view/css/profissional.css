@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.atividade-box{
+    margin-top: 50px;
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 20px;
+    display: none;
+}
+
+.atividade-box h3{
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.atividade-box p{
+    color: #cbd5e1;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.atividade-box button{
+    background: #8b5cf6;
+    border: none;
+    padding: 14px 28px;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.atividade-box button:hover{
+    background: #7c3aed;
+    animation: aparecer 0.4s ease;
+}
+
+.step{
+    cursor: pointer;
+}
+
+@keyframes aparecer{
+
+    from{
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.professor-area{
+    border: 2px solid #8b5cf6;
+}
