@@ -41,7 +41,7 @@ const [rows]= await db.query(
 export async function assumirTarefa(id_tarefa, id_aprendiz) {
     const [result]= await db.query(
         `UPDATE Tarefas SET id_aprendiz_responsavel = ?,
-         status = 'em_andamento' WHERE id_tarefa = ?`,
+         status_tarefa = 'em_andamento' WHERE id_tarefa = ?`,
          [id_aprendiz, id_tarefa]
     );
     return result.affectedRows;
@@ -50,7 +50,7 @@ export async function assumirTarefa(id_tarefa, id_aprendiz) {
 
 export async function atualizarTarefa(id_tarefa, status) {
     const [result]= await db.query(`
-        UPDATE Tarefas SET status = ? WHERE id_tarefa = ?`,
+        UPDATE Tarefas SET status_tarefa = ? WHERE id_tarefa = ?`,
          [status, id_tarefa]
     )
        return result.affectedRows;

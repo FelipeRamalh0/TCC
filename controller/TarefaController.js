@@ -7,6 +7,7 @@ import {
     deletarTarefa
 } from "../model/tarefaModel.js";
 import {buscarProfissionalPorUsuario} from "../model/profissionalModel.js"
+import {buscarAprendizIdUsuario} from "../model/aprendizModel.js"
 
 // 🔹 Criar tarefa
 export async function criar(req, res) {
@@ -125,10 +126,13 @@ export async function assumir(req, res) {
                 erro: "Apenas aprendizes podem assumir tarefas"
             });
         }
-
+         // Buscar aprendiz pelo id_usuario
+        const aprendiz = await buscarAprendizIdUsuario(
+            usuario.id_usuario
+        );
         const atualizado = await assumirTarefa(
             id,
-            usuario.id_usuario
+            aprendiz.id_aprendiz
         );
 
         if (atualizado === 0) {
