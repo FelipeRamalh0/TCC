@@ -1,4 +1,4 @@
-import { db } from "../dbConfig/dbConfig";
+import { db } from "../dbConfig/dbConfig.js";
 
 export async function salvarToken(dados) {
     
@@ -16,7 +16,7 @@ export async function salvarToken(dados) {
 }
 
 export async function buscarToken(token){
-const [result]= await db.query(
+const [rows]= await db.query(
     `SELECT * FROM Recuperacao_Senha
     WHERE token= ? and usado = FALSE
     and expiracao > NOW()`,

@@ -47,6 +47,7 @@ export async function esqueciSenha(req, res){
             token,
             expiracao
         });
+        console.log(token)
 
         // Link
         const link = `http://localhost:3000/redefinir-senha/${token}`;
