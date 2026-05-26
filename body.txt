@@ -33,3 +33,22 @@ Atualizar status
 {
     "status_tarefa": "concluida"
 }
+Criar Entrega
+{
+  "id_tarefa": 1,
+  "arquivo_url": "http://meusite.com/projeto.zip",
+  "link_repositorio": "https://github.com/usuario/projeto",
+  "codigo_texto": "console.log('Entrega pronta')"
+}
+Atualizar status da Entrega
+{
+  "status": "Aprovado"
+}
+Recuperação de senha
+{
+    "email": "jose@email.com"
+}
+Redefinir senha
+{
+  "novaSenha": "123456789"
+}

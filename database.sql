@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS FirstStepDev;
 CREATE DATABASE FirstStepDev;
 USE FirstStepDev;
 

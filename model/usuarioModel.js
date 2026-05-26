@@ -51,4 +51,21 @@ export async function deletarUsuario(id){
     return result.affectedRows;
 }
 
+export async function atualizarSenha(
+    id_usuario,
+    senha_hash
+){
 
+    const [result] = await db.query(
+
+        `UPDATE Usuarios
+
+         SET senha_hash = ?
+
+         WHERE id_usuario = ?`,
+
+        [senha_hash, id_usuario]
+    );
+
+    return result.affectedRows;
+}
