@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 *{
     margin: 0;
@@ -7,174 +7,36 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
 body{
     background: #0f172a;
     color: white;
 }
 
+/* HEADER */
+
 .header{
     width: 100%;
-    padding: 25px 10%;
+    padding: 22px 10%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: fixed;
     top: 0;
-    backdrop-filter: blur(10px);
-    background: rgba(15, 23, 42, 0.8);
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+    background: rgba(15, 23, 42, 0.85);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .logo{
     text-decoration: none;
     color: #8b5cf6;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-nav a:hover{
-    color: #8b5cf6;
-}
-
-.login-btn{
-    background: #8b5cf6;
-    border: none;
-    color: white;
-    padding: 10px 22px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.cta-buttons{
-    margin-top: 40px;
-    text-align: center;
-    gap: 20px;
-}
-
-.primary-btn{
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-    border: none;
-    color: white;
-    padding: 15px 28px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 17px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.benefits{
-    padding: 120px 10%;
-    text-align: center;
-}
-
-.cards{
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-}
-
-.card{
-    background: #1e293b;
-    padding: 35px;
-    width: 320px;
-    border-radius: 20px;
-    transition: 0.3s;
-    
-}
-
-.benefits h2{
-    font-size: 42px;
-    margin-bottom: 60px;
-}
-
-.card:hover{
-    transform: translateY(-10px);
-}
-
-.card h3{
-    margin-bottom: 20px;
-    color: #8b5cf6;
-}
-
----
-
-.steps-section{
-    padding: 120px 10%;
-    text-align: center;
-}
-
-.steps-section h2{
-    font-size: 42px;
-    margin-bottom: 70px;
-}
-
-.steps{
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    flex-wrap: wrap;
-}
-
-.step{
-    background: #1e293b;
-    padding: 40px;
-    width: 250px;
-    border-radius: 20px;
-}
-
-.step span{
-    width: 60px;
-    height: 60px;
-    background: #8b5cf6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    margin: auto;
-    margin-bottom: 20px;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-/* CTA */
-.cta{
-    padding: 120px 10%;
-    text-align: center;
-}
-
-.cta h2{
-    font-size: 48px;
-    margin-bottom: 40px;
-}
-
-.cta button{
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-    border: none;
-    color: white;
-    padding: 18px 35px;
-    border-radius: 14px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.cta button:hover{
-    transform: scale(1.05);
-}
-
-
-
-
-
-h2 {
- text-align: center;
-}
-
-#step1, #step2, #step3 {
- text-align: center;
+    font-size: 30px;
+    font-weight: 800;
 }
 
 nav{
@@ -187,6 +49,7 @@ nav a{
     text-decoration: none;
     color: white;
     transition: 0.3s;
+    font-weight: 500;
 }
 
 nav a:hover{
@@ -194,11 +57,240 @@ nav a:hover{
 }
 
 .login-btn{
-    background: #8b5cf6;
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
     border: none;
     color: white;
-    padding: 10px 22px;
-    border-radius: 10px;
+    padding: 12px 24px;
+    border-radius: 12px;
     cursor: pointer;
+    font-weight: 600;
     transition: 0.3s;
+}
+
+.login-btn:hover{
+    transform: scale(1.05);
+}
+
+/* HERO */
+
+.hero{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 10%;
+    text-align: center;
+}
+
+.hero-content{
+    max-width: 850px;
+}
+
+.hero h1{
+    font-size: 68px;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    font-weight: 800;
+}
+
+.hero p{
+    font-size: 20px;
+    color: #cbd5e1;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.hero button{
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    border: none;
+    color: white;
+    padding: 18px 35px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.hero button:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(139,92,246,0.4);
+}
+
+/* BENEFITS */
+
+.benefits{
+    padding: 120px 10%;
+    text-align: center;
+}
+
+.benefits h2{
+    font-size: 48px;
+    margin-bottom: 70px;
+}
+
+.cards{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card{
+    background: #1e293b;
+    padding: 40px 30px;
+    width: 340px;
+    border-radius: 24px;
+    transition: 0.4s;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.card h3{
+    margin-bottom: 20px;
+    color: #8b5cf6;
+    font-size: 24px;
+}
+
+.card p{
+    color: #cbd5e1;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+/* STEPS */
+
+.steps-section{
+    padding: 120px 10%;
+    text-align: center;
+}
+
+.steps-section h2{
+    font-size: 48px;
+    margin-bottom: 70px;
+}
+
+.steps{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.step{
+    background: #1e293b;
+    padding: 35px 25px;
+    width: 240px;
+    border-radius: 22px;
+    transition: 0.3s;
+}
+
+.step:hover{
+    transform: translateY(-8px);
+}
+
+.step span{
+    width: 65px;
+    height: 65px;
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: auto auto 25px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.step p{
+    line-height: 1.7;
+    color: #cbd5e1;
+}
+
+/* CTA */
+
+.cta{
+    padding: 140px 10%;
+    text-align: center;
+}
+
+.cta h2{
+    font-size: 56px;
+    max-width: 900px;
+    margin: auto auto 40px;
+    line-height: 1.3;
+}
+
+.cta button{
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    border: none;
+    color: white;
+    padding: 18px 38px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.cta button:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(139,92,246,0.4);
+}
+
+/* RESPONSIVO */
+
+@media(max-width: 900px){
+
+    .hero h1{
+        font-size: 48px;
+    }
+
+    .hero p{
+        font-size: 18px;
+    }
+
+    .benefits h2,
+    .steps-section h2,
+    .cta h2{
+        font-size: 38px;
+    }
+
+    .header{
+        padding: 20px 6%;
+    }
+
+}
+
+@media(max-width: 600px){
+
+    .hero h1{
+        font-size: 38px;
+    }
+
+    .hero p{
+        font-size: 16px;
+    }
+
+    .card,
+    .step{
+        width: 100%;
+    }
+
+    .cta h2{
+        font-size: 34px;
+    }
+
+    nav{
+        gap: 15px;
+    }
+
+    .logo{
+        font-size: 24px;
+    }
+
 }
