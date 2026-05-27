@@ -5,7 +5,7 @@ import { usuariosRoutes } from "./routes/usuarioRoute.js";
 import { tarefaRoutes } from "./routes/tarefaRoute.js";
 import { recuperacaoRoutes } from "./routes/recuperacaoRoute.js"
 import { entregaRoutes} from "./routes/entregaRoute.js"
-import { historicoRoute } from  "./routes/historicoRoute.js"
+import { historicoRoutes } from  "./routes/historicoRoute.js"
 const PORT= process.env.PORT || 3000;
 
 const app= express();
@@ -21,7 +21,7 @@ app.use(usuariosRoutes);
 app.use(tarefaRoutes);
 app.use(recuperacaoRoutes);
 app.use(entregaRoutes);
-app.use()
+app.use(historicoRoutes);
 
 
 app.listen(PORT, ()=>{
