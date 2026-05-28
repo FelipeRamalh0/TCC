@@ -322,3 +322,35 @@ button:hover {
 
   margin-top: 10px;
 }
+
+/* BOTÕES DAS ATIVIDADES */
+
+.botoes-atividade {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-entregas {
+  background: #2563eb;
+}
+
+.btn-entregas:hover {
+  background: #1d4ed8;
+}
+
+.btn-excluir {
+  background: #ef4444;
+}
+
+.btn-excluir:hover {
+  background: #dc2626;
+}
+
+.atividade {
+  transition: 0.3s;
+}
+
+.atividade:hover {
+  transform: translateY(-4px);
+}

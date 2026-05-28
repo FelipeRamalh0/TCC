@@ -15,212 +15,246 @@
   </head>
 
   <body>
+
     <div class="container">
 
       <!-- SIDEBAR -->
 
       <aside class="sidebar">
+
         <h2>First Step Dev</h2>
 
         <nav>
 
-  <a onclick="trocarPagina('dashboard')">
-    <i class="fa-solid fa-house"></i>
-    Dashboard
-  </a>
+          <a onclick="trocarPagina('dashboard')">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+          </a>
 
-  <a onclick="trocarPagina('atividades')">
-    <i class="fa-solid fa-list-check"></i>
-    Atividades
-  </a>
+          <a onclick="trocarPagina('atividades')">
+            <i class="fa-solid fa-list-check"></i>
+            Atividades
+          </a>
 
-  <a onclick="trocarPagina('aprendizes')">
-    <i class="fa-solid fa-user-graduate"></i>
-    Aprendizes
-  </a>
+          <a onclick="trocarPagina('aprendizes')">
+            <i class="fa-solid fa-user-graduate"></i>
+            Aprendizes
+          </a>
 
-  <a onclick="trocarPagina('desempenho')">
-    <i class="fa-solid fa-chart-line"></i>
-    Desempenho
-  </a>
+          <a onclick="trocarPagina('desempenho')">
+            <i class="fa-solid fa-chart-line"></i>
+            Desempenho
+          </a>
 
-</nav>
+        </nav>
+
       </aside>
 
       <!-- CONTEÚDO -->
 
-     <div class="main-content">
+      <div class="main-content">
 
-  <!-- DASHBOARD -->
+        <!-- DASHBOARD -->
 
-  <section id="dashboard" class="pagina ativa">
+        <section id="dashboard" class="pagina ativa">
 
-    <header class="topbar">
-      <h1>Painel do Profissional</h1>
+          <header class="topbar">
 
-      <div class="profile">
-        👨‍🏫 Professor
+            <h1>Painel do Profissional</h1>
+
+            <div class="profile">
+              👨‍🏫 Professor
+            </div>
+
+          </header>
+
+          <section class="cards">
+
+            <div class="card">
+              <h3>12</h3>
+              <p>Atividades enviadas</p>
+            </div>
+
+            <div class="card">
+              <h3>8</h3>
+              <p>Entregas recebidas</p>
+            </div>
+
+            <div class="card">
+              <h3>24</h3>
+              <p>Aprendizes ativos</p>
+            </div>
+
+          </section>
+
+        </section>
+
+        <!-- ATIVIDADES -->
+
+        <section id="atividades" class="pagina">
+
+          <!-- FORMULÁRIO -->
+
+          <section class="atividade-form">
+
+            <h2>Criar nova atividade</h2>
+
+            <input
+              type="text"
+              id="titulo"
+              placeholder="Título da atividade"
+            />
+
+            <textarea
+              id="descricao"
+              placeholder="Descrição da atividade"
+            ></textarea>
+
+            <button onclick="criarAtividade()">
+              Enviar atividade
+            </button>
+
+          </section>
+
+          <!-- LISTA -->
+
+          <section class="lista">
+
+            <h2>Atividades enviadas</h2>
+
+            <div id="listaAtividades">
+
+              <!-- ATIVIDADE -->
+
+              <div class="atividade">
+
+                <h3>Landing Page Responsiva</h3>
+
+                <p>
+                  Desenvolver uma landing page moderna utilizando HTML, CSS e JavaScript.
+                </p>
+
+                <div class="botoes-atividade">
+
+                  <button class="btn-entregas">
+                    Ver entregas
+                  </button>
+
+                  <button
+                    class="btn-excluir"
+                    onclick="excluirAtividade(this)"
+                  >
+                    Excluir
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </section>
+
+        <!-- APRENDIZES -->
+
+        <section id="aprendizes" class="pagina">
+
+          <h1>Aprendizes</h1>
+
+          <div class="atividade">
+
+            <h3>Carlos Henrique</h3>
+
+            <p>
+              HTML • CSS • JavaScript
+            </p>
+
+          </div>
+
+          <div class="atividade">
+
+            <h3>Ana Julia</h3>
+
+            <p>
+              React • Node.js
+            </p>
+
+          </div>
+
+        </section>
+
+        <!-- DESEMPENHO -->
+
+        <section id="desempenho" class="pagina">
+
+          <h1>Entregas dos Aprendizes</h1>
+
+          <!-- ENTREGA -->
+
+          <div class="atividade entrega">
+
+            <div class="topo-entrega">
+
+              <div>
+
+                <h3>Landing Page Responsiva</h3>
+
+                <p>
+                  Enviado por: Carlos Henrique
+                </p>
+
+              </div>
+
+              <span class="status pendente">
+                Pendente
+              </span>
+
+            </div>
+
+            <div class="codigo-box">
+
+              <p>
+                Projeto desenvolvido com HTML, CSS e JavaScript.
+                Contém responsividade e animações.
+              </p>
+
+            </div>
+
+            <!-- FEEDBACK -->
+
+            <textarea
+              class="feedback-input"
+              placeholder="Digite um feedback para o aprendiz..."
+            ></textarea>
+
+            <div class="acoes">
+
+              <button onclick="aprovarAtividade(this)">
+                Aprovar
+              </button>
+
+              <button
+                class="btn-feedback"
+                onclick="enviarFeedback(this)"
+              >
+                Enviar Feedback
+              </button>
+
+            </div>
+
+            <div class="feedback-area"></div>
+
+          </div>
+
+        </section>
+
       </div>
-    </header>
 
-    <section class="cards">
-
-      <div class="card">
-        <h3>12</h3>
-        <p>Atividades enviadas</p>
-      </div>
-
-      <div class="card">
-        <h3>8</h3>
-        <p>Atividades concluídas</p>
-      </div>
-
-      <div class="card">
-        <h3>24</h3>
-        <p>Aprendizes ativos</p>
-      </div>
-
-    </section>
-
-  </section>
-
-  <!-- ATIVIDADES -->
-
-  <section id="atividades" class="pagina">
-
-    <!-- FORMULÁRIO -->
-
-    <section class="atividade-form">
-
-      <h2>Criar nova atividade</h2>
-
-      <input
-        type="text"
-        id="titulo"
-        placeholder="Título da atividade"
-      />
-
-      <textarea
-        id="descricao"
-        placeholder="Descrição da atividade"
-      ></textarea>
-
-      <button onclick="criarAtividade()">
-        Enviar atividade
-      </button>
-
-    </section>
-
-    <!-- LISTA -->
-
-    <section class="lista">
-
-      <h2>Atividades enviadas</h2>
-
-      <div id="listaAtividades">
-
-        <div class="atividade">
-
-          <h3>Landing Page Responsiva</h3>
-
-          <p>
-            Desenvolver uma landing page moderna utilizando HTML, CSS e JavaScript.
-          </p>
-
-          <button onclick="marcarConcluida(this)">
-            Marcar como concluída
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </section>
-
-  <!-- APRENDIZES -->
-
-  <section id="aprendizes" class="pagina">
-
-    <h1>Aprendizes</h1>
-
-    <div class="atividade">
-      <h3>Carlos Henrique</h3>
-      <p>HTML • CSS • JavaScript</p>
-    </div>
-
-    <div class="atividade">
-      <h3>Ana Julia</h3>
-      <p>React • Node.js</p>
-    </div>
-
-  </section>
-
-  <!-- DESEMPENHO -->
-
-  <section id="desempenho" class="pagina">
-
-    <h1>Entregas dos Aprendizes</h1>
-
-    <!-- ENTREGA -->
-
-    <div class="atividade entrega">
-
-      <div class="topo-entrega">
-
-        <div>
-          <h3>Landing Page Responsiva</h3>
-
-          <p>Enviado por: Carlos Henrique</p>
-        </div>
-
-        <span class="status pendente">
-          Pendente
-        </span>
-
-      </div>
-
-      <div class="codigo-box">
-
-        <p>
-          Projeto desenvolvido com HTML, CSS e JavaScript.
-          Contém responsividade e animações.
-        </p>
-
-      </div>
-
-      <!-- FEEDBACK -->
-
-      <textarea
-        class="feedback-input"
-        placeholder="Digite um feedback para o aprendiz..."
-      ></textarea>
-
-      <div class="acoes">
-
-        <button onclick="aprovarAtividade(this)">
-          Aprovar
-        </button>
-
-        <button
-          class="btn-feedback"
-          onclick="enviarFeedback(this)"
-        >
-          Enviar Feedback
-        </button>
-
-      </div>
-
-      <div class="feedback-area"></div>
-
-    </div>
-
-  </section>
-
-</main>
     </div>
 
     <script src="../scripts/profissional.js"></script>
+
   </body>
 </html>

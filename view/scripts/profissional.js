@@ -43,8 +43,8 @@ function criarAtividade() {
 
     <div class="botoes-atividade">
 
-      <button onclick="marcarConcluida(this)">
-        Concluir
+      <button class="btn-entregas">
+        Ver entregas
       </button>
 
       <button
@@ -63,18 +63,6 @@ function criarAtividade() {
   document.getElementById("titulo").value = "";
 
   document.getElementById("descricao").value = "";
-}
-
-function marcarConcluida(botao) {
-
-  const atividade =
-    botao.closest(".atividade");
-
-  atividade.classList.add("concluida");
-
-  botao.innerText = "Concluída";
-
-  botao.disabled = true;
 }
 
 function excluirAtividade(botao) {
