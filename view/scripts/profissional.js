@@ -1,282 +1,209 @@
+window.onload = () => {
+  carregarAtividades();
+  carregarEntregas();
+  carregarAprendizes();
+  atualizarAprendizesAtivos();
+};
 
-    // =========================
-    // TROCAR SEÇÕES
-    // =========================
+/* =========================
+   TROCA DE PÁGINA
+========================= */
+function trocarPagina(pagina) {
 
-    function mostrarSecao(secaoId){
+  document.querySelectorAll(".pagina").forEach(secao => {
+    secao.classList.remove("ativa");
+  });
 
-      const secoes = document.querySelectorAll(".section");
+  const elemento = document.getElementById(pagina);
 
-      secoes.forEach(secao => {
-        secao.classList.remove("active");
-      });
+  if (elemento) {
+    elemento.classList.add("ativa");
+  }
+}
 
-      document.getElementById(secaoId)
-        .classList.add("active");
+/* =========================
+   CRIAR ATIVIDADE
+========================= */
+function criarAtividade() {
+
+  const titulo = document.getElementById("titulo").value;
+  const descricao = document.getElementById("descricao").value;
+
+  if (!titulo || !descricao) {
+    alert("Preencha todos os campos!");
+    return;
+  }
+
+  let atividades = JSON.parse(localStorage.getItem("atividades")) || [];
+
+  atividades.push({
+    titulo,
+    descricao,
+    status: "Pendente"
+  });
+
+  localStorage.setItem("atividades", JSON.stringify(atividades));
+
+  alert("Atividade criada!");
+
+  document.getElementById("titulo").value = "";
+  document.getElementById("descricao").value = "";
+
+  carregarAtividades();
+}
+
+/* =========================
+   LISTAR ATIVIDADES
+========================= */
+function carregarAtividades() {
+
+  const lista = document.getElementById("listaAtividades");
+  lista.innerHTML = "";
+
+  let atividades = JSON.parse(localStorage.getItem("atividades")) || [];
+
+  atividades.forEach((a, index) => {
+
+    lista.innerHTML += `
+      <div class="atividade">
+        <h3>${a.titulo}</h3>
+        <p>${a.descricao}</p>
+
+        <div class="botoes-atividade">
+          <button class="btn-entregas">Ver entregas</button>
+          <button class="btn-excluir" onclick="excluirAtividade(${index})">Excluir</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+/* =========================
+   EXCLUIR ATIVIDADE
+========================= */
+function excluirAtividade(index) {
+
+  let atividades = JSON.parse(localStorage.getItem("atividades")) || [];
+
+  atividades.splice(index, 1);
+
+  localStorage.setItem("atividades", JSON.stringify(atividades));
+
+  carregarAtividades();
+}
+
+/* =========================
+   ENTREGAS
+========================= */
+function carregarEntregas() {
+
+  const area = document.getElementById("desempenho");
+  area.innerHTML = "";
+
+  let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
+
+  entregas.forEach((e, index) => {
+
+    area.innerHTML += `
+      <div class="atividade entrega">
+
+        <div class="topo-entrega">
+          <h3>${e.titulo}</h3>
+
+          <span class="status ${e.status === "Aprovado" ? "aprovado" : "pendente"}">
+            ${e.status}
+          </span>
+        </div>
+
+        <div class="codigo-box">
+          <p>${e.resposta || ""}</p>
+          <strong>Arquivo:</strong>
+          <p>${e.arquivo || ""}</p>
+        </div>
+
+        <textarea id="feedback-${index}" class="feedback-input"></textarea>
+
+        <div class="acoes">
+          <button onclick="aprovarAtividade(${index})">Aprovar</button>
+          <button class="btn-feedback" onclick="enviarFeedback(${index})">Feedback</button>
+        </div>
+
+      </div>
+    `;
+  });
+}
+
+/* =========================
+   APROVAR ENTREGA
+========================= */
+function aprovarAtividade(index) {
+
+  let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
+
+  if (entregas[index]) {
+    entregas[index].status = "Aprovado";
+  }
+
+  localStorage.setItem("entregas", JSON.stringify(entregas));
+
+  location.reload();
+}
+
+/* =========================
+   FEEDBACK
+========================= */
+function enviarFeedback(index) {
+
+  let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
+
+  const feedback = document.getElementById(`feedback-${index}`).value;
+
+  if (entregas[index]) {
+    entregas[index].feedback = feedback;
+  }
+
+  localStorage.setItem("entregas", JSON.stringify(entregas));
+
+  alert("Feedback enviado!");
+}
+
+/* =========================
+   APRENDIZES
+========================= */
+function carregarAprendizes() {
+
+  const lista = document.getElementById("listaAprendizes");
+
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  lista.innerHTML = "";
+
+  usuarios.forEach(u => {
+
+    if (u.tipo === "aprendiz") {
+
+      lista.innerHTML += `
+        <div class="atividade">
+          <h3>${u.nome}</h3>
+          <p>${u.email}</p>
+        </div>
+      `;
     }
+  });
+}
 
-    // =========================
-    // CRIAR TAREFA
-    // =========================
+/* =========================
+   APRENDIZES ATIVOS
+========================= */
+function atualizarAprendizesAtivos() {
 
-    const formTarefa =
-      document.getElementById("formTarefa");
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    formTarefa.addEventListener("submit",
-      async function(e){
+  const total = usuarios.filter(u => u.tipo === "aprendiz").length;
 
-      e.preventDefault();
+  const el = document.getElementById("totalAprendizes");
 
-      const token =
-        localStorage.getItem("token");
-
-      const titulo =
-        document.getElementById("titulo").value;
-
-      const descricao =
-        document.getElementById("descricao").value;
-
-      const nivel =
-        document.getElementById("nivel").value;
-
-      const categoria =
-        document.getElementById("categoria").value;
-
-      try{
-
-        const resposta = await fetch(
-          "http://localhost:3000/tarefas",
-          {
-            method:"POST",
-
-            headers:{
-              "Content-Type":"application/json",
-              "Authorization":`Bearer ${token}`
-            },
-
-            body:JSON.stringify({
-              titulo,
-              descricao,
-              categoria,
-              nivel_dificuldade:nivel
-            })
-          }
-        );
-
-        const dados = await resposta.json();
-
-        alert(dados.mensagem);
-
-        carregarTarefas();
-
-      }catch(erro){
-
-        console.log(erro);
-
-      }
-
-    });
-
-    // =========================
-    // LISTAR TAREFAS
-    // =========================
-
-    async function carregarTarefas(){
-
-      const token =
-        localStorage.getItem("token");
-
-      const resposta = await fetch(
-        "http://localhost:3000/tarefas/profissional",
-        {
-          headers:{
-            "Authorization":`Bearer ${token}`
-          }
-        }
-      );
-
-      const tarefas = await resposta.json();
-
-      const container =
-        document.getElementById("containerTarefas");
-
-      container.innerHTML = "";
-
-      tarefas.forEach(tarefa => {
-
-        container.innerHTML += `
-        
-          <div class="card">
-
-            <h3>${tarefa.titulo}</h3>
-
-            <p>${tarefa.descricao}</p>
-
-            <p>
-              Dificuldade:
-              ${tarefa.nivel_dificuldade}
-            </p>
-
-            <p>
-              Status:
-              ${tarefa.status_tarefa}
-            </p>
-
-          </div>
-
-        `;
-      });
-
-    }
-
-    // =========================
-    // LISTAR ENTREGAS
-    // =========================
-
-    async function carregarAvaliacoes(){
-
-      const token =
-        localStorage.getItem("token");
-
-      const resposta = await fetch(
-        "http://localhost:3000/entregas",
-        {
-          headers:{
-            "Authorization":`Bearer ${token}`
-          }
-        }
-      );
-
-      const entregas = await resposta.json();
-
-      const container =
-        document.getElementById("containerAvaliacoes");
-
-      container.innerHTML = "";
-
-      entregas.forEach(entrega => {
-
-        container.innerHTML += `
-
-          <div class="card">
-
-            <h3>${entrega.titulo}</h3>
-
-            <p>
-              Aprendiz:
-              ${entrega.aprendiz_nome}
-            </p>
-
-            <p>
-              ${entrega.codigo_texto || ""}
-            </p>
-
-            <button
-              class="aprovar"
-              onclick="avaliarEntrega(
-                ${entrega.id_entrega},
-                'Aprovado'
-              )"
-            >
-              Aprovar
-            </button>
-
-            <button
-              class="reprovar"
-              onclick="avaliarEntrega(
-                ${entrega.id_entrega},
-                'Rejeitado'
-              )"
-            >
-              Reprovar
-            </button>
-
-          </div>
-
-        `;
-      });
-
-    }
-
-    // =========================
-    // APROVAR / REPROVAR
-    // =========================
-
-    async function avaliarEntrega(id, status){
-
-      const token =
-        localStorage.getItem("token");
-
-      await fetch(
-        `http://localhost:3000/entregas/${id}`,
-        {
-          method:"PUT",
-
-          headers:{
-            "Content-Type":"application/json",
-            "Authorization":`Bearer ${token}`
-          },
-
-          body:JSON.stringify({
-            status_entrega:status
-          })
-        }
-      );
-
-      carregarAvaliacoes();
-
-    }
-
-    // =========================
-    // BIO
-    // =========================
-
-    async function salvarBio(){
-
-      const token =
-        localStorage.getItem("token");
-
-      const bio =
-        document.getElementById("bio").value;
-
-      const resposta = await fetch(
-        "http://localhost:3000/profissionais/bio",
-        {
-          method:"PUT",
-
-          headers:{
-            "Content-Type":"application/json",
-            "Authorization":`Bearer ${token}`
-          },
-
-          body:JSON.stringify({
-            bio
-          })
-        }
-      );
-
-      const dados = await resposta.json();
-
-      alert(dados.mensagem);
-
-    }
-
-    // =========================
-    // LOGOUT
-    // =========================
-
-    function logout(){
-
-      localStorage.removeItem("token");
-
-      window.location.href = "index.html";
-
-    }
-
-    // =========================
-    // INICIAR
-    // =========================
-
-    carregarTarefas();
-
-    carregarAvaliacoes();
+  if (el) {
+    el.innerText = total;
+  }
+}

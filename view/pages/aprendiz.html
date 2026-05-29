@@ -1,161 +1,151 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>
-    Painel Aprendiz - First Step Dev
-  </title>
-
- <link rel="stylesheet" href="../css/aprendiz.css">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/aprendiz.css">
+  <title>First Step Dev</title>
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
+  <div class="container">
 
-  <div class="sidebar">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <h2>First Step Dev</h2>
+      <div class="perfil">
 
-    <button onclick="mostrarSecao('tarefas')">
-      Tarefas
-    </button>
-    <button onclick="mostrarSecao('minhasTarefas')">
-  Minhas Tarefas
-</button>
+        <div class="foto-perfil">
 
-    <button onclick="mostrarSecao('historico')">
-      Histórico
-    </button>
+          <img id="preview" src="https://i.pravatar.cc/120" alt="Perfil">
 
-    <button onclick="mostrarSecao('pontuacao')">
-      Pontuação
-    </button>
+          <label for="fotoInput" class="editar-foto">+</label>
 
-    <button onclick="mostrarSecao('ranking')">
-      Ranking
-    </button>
+          <input type="file" id="fotoInput" accept="image/*">
 
-    <button onclick="logout()">
-      Logout
-    </button>
+        </div>
 
-  </div>
-
-  <!-- CONTEÚDO -->
-
-  <div class="content">
-
-    <!-- TAREFAS -->
-
-    <section id="tarefas" class="section active">
-
-      <h1>Tarefas Disponíveis</h1>
-
-      <div class="cards" id="containerTarefas">
+        <h3>Henrique</h3>
+        <p>Desenvolvedor Iniciante</p>
 
       </div>
 
-    </section>
-    <!-- MINHAS TAREFAS -->
-
-<section id="minhasTarefas" class="section">
-
-  <h1>Minhas Tarefas</h1>
-
-  <div
-    class="cards"
-    id="containerMinhasTarefas"
-  >
-
-  </div>
-
-</section>
-
-<!-- MODAL ENTREGA -->
-
-<div
-  id="modalEntrega"
-  class="modal"
-  style="display:none;"
->
-
-  <div class="modal-content">
-
-    <h2>Enviar Resposta</h2>
-
-    <textarea
-      id="codigoEntrega"
-      placeholder="Descreva sua solução"
-    ></textarea>
-
-    <input
-      type="text"
-      id="githubEntrega"
-      placeholder="Link GitHub"
-    >
-
-    <button onclick="enviarEntrega()">
-      Enviar Entrega
-    </button>
-
-    <button onclick="fecharModal()">
-      Fechar
-    </button>
-
-  </div>
-
-</div>
-
-    <!-- HISTÓRICO -->
-
-    <section id="historico" class="section">
-
-      <h1>Histórico de Tarefas</h1>
-
-      <div class="cards" id="containerHistorico">
-
+      <div class="exit">
+        <a href="../index.html">Sair</a>
       </div>
 
-    </section>
+    </aside>
 
-    <!-- PONTUAÇÃO -->
+    <!-- CONTEÚDO -->
+    <main class="content">
 
-    <section id="pontuacao" class="section">
+      <header class="topbar">
+        <h1>Painel do Aprendiz</h1>
+        <div class="status-perfil">🚀 Evoluindo na plataforma</div>
+      </header>
 
-      <h1>Minha Pontuação</h1>
+      <section class="steps-section">
 
-      <div class="pontuacao-box">
+        <h2>Atividades Recebidas</h2>
 
-        <p>Pontos acumulados</p>
+        <div class="steps" id="listaDesafios">
 
-        <h2 id="pontuacaoValor">
-          0
-        </h2>
+          <!-- ATIVIDADE 1 -->
+          <div class="atividade-card">
 
-      </div>
+            <div class="topo-atividade">
+              <h3>Landing Page Responsiva</h3>
+              <span class="status pendente">Pendente</span>
+            </div>
 
-    </section>
+            <p>Desenvolva uma landing page moderna utilizando HTML, CSS e JavaScript.</p>
 
-    <!-- RANKING -->
+            <div class="acoes-atividade">
 
-    <section id="ranking" class="section">
+              <button onclick="abrirAtividade(
+                'Landing Page Responsiva',
+                'Desenvolva uma landing page moderna utilizando HTML, CSS e JavaScript.'
+              )">
+                Ver atividade
+              </button>
 
-      <h1>Ranking dos Aprendizes</h1>
+              <button class="btn-enviar" onclick="abrirEnvio()">
+                Enviar projeto
+              </button>
 
-      <div class="ranking" id="containerRanking">
+            </div>
 
-      </div>
+          </div>
 
-    </section>
+          <!-- ATIVIDADE 2 -->
+          <div class="atividade-card">
+
+            <div class="topo-atividade">
+              <h3>Projeto Portfólio</h3>
+              <span class="status aprovado">Aprovado</span>
+            </div>
+
+            <p>Finalize seu portfólio pessoal e publique seus melhores projetos.</p>
+
+            <div class="feedback-professor">
+              <strong>Feedback do Professor:</strong>
+              <p>Excelente organização visual e responsividade 🚀</p>
+            </div>
+
+          </div>
+
+          <!-- ATIVIDADE 3 -->
+          <div class="atividade-card">
+
+            <div class="topo-atividade">
+              <h3>JavaScript DOM</h3>
+              <span class="status pendente">Em andamento</span>
+            </div>
+
+            <p>Desenvolva um sistema de tarefas utilizando manipulação do DOM.</p>
+
+            <div class="acoes-atividade">
+
+              <button onclick="abrirAtividade(
+                'JavaScript DOM',
+                'Desenvolva um sistema de tarefas utilizando manipulação do DOM.'
+              )">
+                Ver atividade
+              </button>
+
+              <button class="btn-enviar" onclick="abrirEnvio()">
+                Enviar projeto
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- BOX DA ATIVIDADE -->
+        <div class="atividade-box" id="atividadeBox">
+
+          <h3 id="tituloAtividade">Título da atividade</h3>
+          <p id="descricaoAtividade">Descrição da atividade</p>
+
+          <textarea id="respostaAluno" placeholder="Descreva seu projeto ou envie o link do GitHub..."></textarea>
+
+          <input type="file" id="arquivoProjeto" class="input-arquivo">
+
+          <p id="nomeArquivo"></p>
+
+          <button type="button" onclick="enviarProjeto()">
+            Enviar atividade
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
 
   </div>
 

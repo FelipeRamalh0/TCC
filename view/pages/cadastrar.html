@@ -1,145 +1,113 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="../css/cadastrar.css" />
-    <style>
-      .header {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 1000;
-      }
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../css/cadastrar.css" />
 
-      .header nav a {
-        text-decoration: none;
-        color: rgb(148, 51, 240);
-        font-size: 30px;
-        font-weight: bold;
-      }
-    </style>
+  <title>First Step Dev</title>
 
-    <title>First Step Dev</title>
-  </head>
+  <style>
+    .header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
 
-  <body>
-    <header class="header">
-      <nav>
-        <a href="../index.html">Início</a>
-      </nav>
-    </header>
-    <div class="container" id="container">
-      <!-- Cadastro -->
-      <div class="form-container sign-up">
-        <form>
-          <h1>Criar Conta</h1>
+    .header nav a {
+      text-decoration: none;
+      color: rgb(148, 51, 240);
+      font-size: 30px;
+      font-weight: bold;
+    }
+  </style>
+</head>
 
-          <span>Use seu email para se cadastrar</span>
+<body>
 
-          <!-- A ALTERAÇÃO SOLICITADA: Exige nome, espaço e sobrenome -->
-          <input
-            id="nomeCadastro"
-            type="text"
-            placeholder="Nome Completo"
-            required
-            pattern="^[A-Za-zÀ-ÿ]+(\s+[A-Za-zÀ-ÿ]+)+$"
-            title="Por favor, insira seu nome e pelo menos um sobrenome."
-          />
+  <header class="header">
+    <nav>
+      <a href="../index.html">Início</a>
+    </nav>
+  </header>
 
-          <input
-            id="emailCadastro"
-            type="email"
-            placeholder="Email"
-            required
-            pattern=".+@.+\.com$"
-            title="Digite um email válido terminado em .com"
-          />
-          <input
-            id="senhaCadastro"
-            type="password"
-            placeholder="Senha"
-            required
-            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"
-            title="Email ou senha incorreta. A senha deve ter no mínimo 8 caracteres, incluindo letra, número e caractere especial."
-          />
+  <div class="container" id="container">
 
-          <input
-            type="password"
-            placeholder="Confirmar Senha"
-            required
-            id="cadastroConfirmarSenha"
-          />
+    <!-- CADASTRO -->
+    <div class="form-container sign-up">
 
-          <select name="nivelCadastro" id="nivelCadastro" required>
-            <option value="" disabled selected>Selecione...</option>
-            <option value="aprendiz">Aprendiz</option>
-            <option value="profissional">Profissional</option>
-          </select>
+      <form onsubmit="fazerCadastro(event)">
 
-          <button type="submit">Cadastrar</button>
-        </form>
-      </div>
+        <h1>Criar Conta</h1>
+        <span>Use seu email para se cadastrar</span>
 
-      <!-- Login -->
-      <div class="form-container sign-in">
-        <form>
-          <h1>Entrar</h1>
+        <input id="nomeCadastro" type="text" placeholder="Nome Completo" required />
 
-          <span>Use seu email para entrar</span>
+        <input id="emailCadastro" type="email" placeholder="Email" required />
 
-          <input
-            id="loginEmail"
-            type="email"
-            placeholder="Email"
-            required
-            pattern=".+@.+\.com$"
-            title="Digite um email terminado em .com"
-          />
+        <input id="senhaCadastro" type="password" placeholder="Senha" required />
 
-          <input
-            id="loginSenha"
-            type="password"
-            placeholder="Senha"
-            required
-            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"
-            title="A senha deve ter no mínimo 8 caracteres, incluindo letra, número e caractere especial."
-          />
+        <input type="password" placeholder="Confirmar Senha" required id="cadastroConfirmarSenha" />
 
-          <a href="./esqueciSenha.html">Esqueceu sua senha?</a>
+        <select name="nivelCadastro" id="nivelCadastro" required>
+          <option value="" disabled selected>Selecione...</option>
+          <option value="aprendiz">Aprendiz</option>
+          <option value="profissional">Profissional</option>
+        </select>
 
-          <button type="submit" onclick="irParaPrincipal()">Entrar</button>
-        </form>
-      </div>
+        <button type="submit">Cadastrar</button>
 
-      <!-- Painel Roxo -->
-      <div class="toggle-container">
-        <div class="toggle">
-          <div class="toggle-panel toggle-left">
-            <h1>Bem-vindo!</h1>
+      </form>
 
-            <p>Já possui uma conta?</p>
-
-            <button class="hidden" id="login">Entrar</button>
-          </div>
-
-          <div class="toggle-panel toggle-right">
-            <h1>Olá, amigo!</h1>
-
-            <p>Cadastre-se para acessar a plataforma</p>
-
-            <button class="hidden" id="register">Cadastrar</button>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <script src="../scripts/cadastrar.js"></script>
-  </body>
+    <!-- LOGIN -->
+    <div class="form-container sign-in">
+
+      <form onsubmit="fazerLogin(event)">
+
+        <h1>Entrar</h1>
+        <span>Use seu email para entrar</span>
+
+        <input id="loginEmail" type="email" placeholder="Email" required />
+        <input id="loginSenha" type="password" placeholder="Senha" required />
+
+        <a href="./esqueciSenha.html">Esqueceu sua senha?</a>
+
+        <button type="submit">Entrar</button>
+
+      </form>
+
+    </div>
+
+    <!-- PAINEL -->
+    <div class="toggle-container">
+
+      <div class="toggle">
+
+        <div class="toggle-panel toggle-left">
+          <h1>Bem-vindo!</h1>
+          <p>Já possui uma conta?</p>
+          <button class="hidden" id="login">Entrar</button>
+        </div>
+
+        <div class="toggle-panel toggle-right">
+          <h1>Olá, amigo!</h1>
+          <p>Cadastre-se para acessar a plataforma</p>
+          <button class="hidden" id="register">Cadastrar</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="../scripts/cadastrar.js"></script>
+
+</body>
 </html>

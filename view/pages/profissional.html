@@ -1,136 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel Profissional - First Step Dev</title>
 
-  <link rel="stylesheet" href="../css/profissional.css">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Painel Profissional</title>
+
+  <link rel="stylesheet" href="../css/profissional.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
+  <div id="notificacao" class="notificacao"></div>
 
-  <div class="sidebar">
+  <div class="container">
 
-    <h2>First Step Dev</h2>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <button onclick="mostrarSecao('dashboard')">
-      Dashboard
-    </button>
+      <h2>First Step Dev</h2>
 
-    <button onclick="mostrarSecao('criarTarefa')">
-      Criar Tarefa
-    </button>
+      <nav>
 
-    <button onclick="mostrarSecao('avaliacoes')">
-      Avaliações
-    </button>
-
-    <button onclick="mostrarSecao('perfil')">
-      Meu Perfil
-    </button>
-
-    <button onclick="logout()">
-      Logout
-    </button>
-
-  </div>
-
-  <!-- CONTEÚDO -->
-
-  <div class="content">
-
-    <!-- DASHBOARD -->
-
-    <section id="dashboard" class="section active">
-
-      <h1>Minhas Tarefas</h1>
-
-      <div class="cards" id="containerTarefas">
-
-      </div>
-
-    </section>
-
-    <!-- CRIAR TAREFA -->
-
-    <section id="criarTarefa" class="section">
-
-      <h1>Criar Nova Tarefa</h1>
-
-      <form id="formTarefa">
-
-        <input 
-          type="text"
-          id="titulo"
-          placeholder="Título da tarefa"
-          required
-        >
-
-        <textarea
-          id="descricao"
-          placeholder="Descrição da tarefa"
-          required
-        ></textarea>
-
-        <select id="nivel">
-
-          <option value="facil">Fácil</option>
-
-          <option value="medio">Médio</option>
-
-          <option value="dificil">Difícil</option>
-
-        </select>
-
-        <input
-          type="text"
-          id="categoria"
-          placeholder="Categoria"
-        >
-
-        <button type="submit">
-          Publicar Tarefa
+        <button onclick="trocarPagina('dashboard')">
+          <i class="fa-solid fa-house"></i>
+          Dashboard
         </button>
 
-      </form>
-
-    </section>
-
-    <!-- AVALIAÇÕES -->
-
-    <section id="avaliacoes" class="section">
-
-      <h1>Avaliar Entregas</h1>
-
-      <div class="cards" id="containerAvaliacoes">
-
-      </div>
-
-    </section>
-
-    <!-- PERFIL -->
-
-    <section id="perfil" class="section">
-
-      <div class="perfil">
-
-        <h2>Meu Perfil</h2>
-
-        <textarea
-          id="bio"
-          placeholder="Escreva sua bio..."
-        ></textarea>
-
-        <button onclick="salvarBio()">
-          Salvar Bio
+        <button onclick="trocarPagina('atividades')">
+          <i class="fa-solid fa-list-check"></i>
+          Atividades
         </button>
 
-      </div>
+        <button onclick="trocarPagina('aprendizes')">
+          <i class="fa-solid fa-user-graduate"></i>
+          Aprendizes
+        </button>
 
-    </section>
+        <button onclick="trocarPagina('desempenho')">
+          <i class="fa-solid fa-chart-line"></i>
+          Desempenho
+        </button>
+
+      </nav>
+
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <div class="main-content">
+
+      <section id="dashboard" class="pagina ativa">
+
+        <header class="topbar">
+          <h1>Painel do Profissional</h1>
+          <div class="profile">👨‍🏫 Professor</div>
+        </header>
+
+        <section class="cards">
+
+          <div class="card">
+            <h3 id="totalAtividades">0</h3>
+            <p>Atividades enviadas</p>
+          </div>
+
+          <div class="card">
+            <h3 id="totalEntregas">0</h3>
+            <p>Entregas recebidas</p>
+          </div>
+
+          <div class="card">
+            <h3>24</h3>
+            <p>Aprendizes ativos</p>
+          </div>
+
+        </section>
+
+      </section>
+
+      <!-- ATIVIDADES -->
+      <section id="atividades" class="pagina">
+
+        <section class="atividade-form">
+
+          <h2>Criar nova atividade</h2>
+
+          <input type="text" id="titulo" placeholder="Título da atividade" />
+
+          <textarea id="descricao" placeholder="Descrição da atividade"></textarea>
+
+          <button type="button" onclick="criarAtividade()">
+            Enviar atividade
+          </button>
+
+        </section>
+
+        <section class="lista">
+          <h2>Atividades enviadas</h2>
+          <div id="listaAtividades"></div>
+        </section>
+
+      </section>
+
+      <!-- APRENDIZES -->
+      <section id="aprendizes" class="pagina">
+        <h1>Aprendizes</h1>
+        <div id="listaAprendizes"></div>
+      </section>
+
+      <!-- DESEMPENHO -->
+      <section id="desempenho" class="pagina">
+        <h1>Entregas dos Aprendizes</h1>
+      </section>
+
+    </div>
 
   </div>
 

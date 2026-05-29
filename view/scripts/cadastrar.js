@@ -1,181 +1,132 @@
 const container = document.getElementById('container');
 
 const registerBtn = document.getElementById('register');
-
 const loginBtn = document.getElementById('login');
 
-registerBtn.addEventListener('click', () => {
-    container.classList.add('active');
-});
+/* EVITA ERRO SE NÃO EXISTIR */
+if (registerBtn && loginBtn && container) {
 
-loginBtn.addEventListener('click', () => {
-    container.classList.remove('active');
-});
+    registerBtn.addEventListener('click', () => {
+        container.classList.add('active');
+    });
 
+    loginBtn.addEventListener('click', () => {
+        container.classList.remove('active');
+    });
 
-// ============================
-// FORMULÁRIOS
-// ============================
+}
 
-const formCadastro = document.querySelector('.sign-up form');
+/* FORMULÁRIOS */
 
-const formLogin = document.querySelector('.sign-in form');
+const formCadastro =
+    document.querySelector('.sign-up form');
 
+const formLogin =
+    document.querySelector('.sign-in form');
 
-// ============================
-// CADASTRO
-// ============================
+/* CADASTRO */
 
-formCadastro.addEventListener('submit', async (event) => {
+formCadastro.addEventListener('submit', (event) => {
 
     event.preventDefault();
 
-    const nome = document.getElementById('nomeCadastro').value;
+    const nome =
+        document.getElementById('nomeCadastro').value;
 
-    const email = document.getElementById('emailCadastro').value;
+    const email =
+        document.getElementById('emailCadastro').value;
 
-    const senha = document.getElementById('senhaCadastro').value;
+    const senha =
+        document.getElementById('senhaCadastro').value;
 
-    const confirmarSenha = document.getElementById('cadastroConfirmarSenha').value;
+    const confirmarSenha =
+        document.getElementById('cadastroConfirmarSenha').value;
 
-    const tipoSelecionado = document.getElementById('nivelCadastro').value;
+    const tipo =
+        document.getElementById('nivelCadastro').value;
 
-    // Converter para o ENUM do banco
-    const tipo_usuario =
-        tipoSelecionado === "aprendiz"
-            ? "Aprendiz"
-            : "Profissional";
-
-
-    // VALIDAR SENHAS
     if (senha !== confirmarSenha) {
-
         alert("As senhas não coincidem");
-
         return;
     }
 
-    try {
+    let usuarios =
+        JSON.parse(localStorage.getItem("usuarios")) || [];
 
-        const resposta = await fetch('http://localhost:3000/cadastrar', {
+    const usuarioExiste =
+        usuarios.find(usuario => usuario.email === email);
 
-            method: 'POST',
-
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify({
-                nome,
-                email,
-                senha,
-                tipo_usuario
-            })
-
-        });
-
-        const dados = await resposta.json();
-
-        console.log(dados);
-
-        if (resposta.ok) {
-
-            alert("Cadastro realizado com sucesso!");
-
-            // Volta para tela de login
-            container.classList.remove('active');
-
-            formCadastro.reset();
-
-        } else {
-
-            alert(dados.erro || dados.mensagem);
-
-        }
-
-    } catch (erro) {
-
-        console.log(erro);
-
-        alert("Erro ao conectar com o servidor");
-
+    if (usuarioExiste) {
+        alert("Esse email já está cadastrado!");
+        return;
     }
 
+    const novoUsuario = {
+        nome,
+        email,
+        senha,
+        tipo,
+        tecnologias: "HTML • CSS • JavaScript",
+        foto: "https://i.pravatar.cc/150"
+    };
+
+    usuarios.push(novoUsuario);
+
+    localStorage.setItem(
+        "usuarios",
+        JSON.stringify(usuarios)
+    );
+
+    alert("Cadastro realizado com sucesso!");
+
+    formCadastro.reset();
+
+    container.classList.remove('active');
 });
 
+/* LOGIN */
 
-// ============================
-// LOGIN
-// ============================
-
-formLogin.addEventListener('submit', async (event) => {
+formLogin.addEventListener('submit', (event) => {
 
     event.preventDefault();
 
-    const email = document.getElementById('loginEmail').value;
+    const email =
+        document.getElementById('loginEmail').value;
 
-    const senha = document.getElementById('loginSenha').value;
+    const senha =
+        document.getElementById('loginSenha').value;
 
-    try {
+    let usuarios =
+        JSON.parse(localStorage.getItem("usuarios")) || [];
 
-        const resposta = await fetch('http://localhost:3000/login', {
+    const usuario =
+        usuarios.find(user =>
+            user.email === email &&
+            user.senha === senha
+        );
 
-            method: 'POST',
-
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify({
-                email,
-                senha
-            })
-
-        });
-
-        const dados = await resposta.json();
-
-        console.log(dados);
-
-        if (resposta.ok) {
-
-            // Salvar token
-            localStorage.setItem("token", dados.token);
-
-            // Salvar usuário
-            localStorage.setItem("usuario", JSON.stringify(dados.usuario));
-
-            alert("Login realizado com sucesso!");
-
-            // Redirecionar
-            if(dados.usuario.tipo_usuario === "Profissional"){
-
-         window.location.href =
-            "profissional.html";
-
-      }
-
-      else if(
-         dados.usuario.tipo_usuario === "Aprendiz"
-      ){
-
-         window.location.href =
-            "aprendiz.html";
-
-      }
-
-        } else {
-
-            alert(dados.erro || dados.mensagem);
-
-        }
-
-    } catch (erro) {
-
-        console.log(erro);
-
-        alert("Erro ao conectar com o servidor");
-
+    if (!usuario) {
+        alert("Email ou senha incorretos!");
+        return;
     }
 
+    localStorage.setItem(
+        "usuarioLogado",
+        JSON.stringify(usuario)
+    );
+
+    alert("Login realizado com sucesso!");
+
+    /* REDIRECIONAR CORRIGIDO */
+
+    if (usuario.tipo?.toLowerCase().trim() === "profissional") {
+
+        window.location.href =
+            "profissional.html";
+
+    } else {
+
+        window.location.href =
+            "aprendiz.html";
+    }
 });
