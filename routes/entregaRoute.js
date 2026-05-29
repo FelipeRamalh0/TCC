@@ -10,7 +10,7 @@ import {
     deletar
 
 } from "../controller/entregaController.js";
-
+import upload from "../middleware/upload.js";
 import {
     verificarToken
 } from "../middleware/authMiddleware.js";
@@ -22,6 +22,7 @@ const router = Router();
 router.post(
     "/entregas",
     verificarToken,
+    upload.single("arquivo"),
     criar
 );
 

@@ -48,6 +48,21 @@ export async function listarTarefas(){
    return result;
 
 }
+export async function buscarTarefasPorProfissional(
+   id_profissional
+){
+
+   const [resultado] = await db.query(`
+   
+      SELECT *
+      FROM Tarefas
+      WHERE id_profissional = ?
+
+   `, [id_profissional]);
+
+   return resultado;
+
+}
 
 export async function buscarTarefasAprendiz(
    id_aprendiz

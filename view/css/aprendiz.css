@@ -137,3 +137,139 @@
       color:#38bdf8;
       margin-top:15px;
     }
+
+    .atividade-box{
+
+    background: #1f1f1f;
+    padding: 25px;
+
+    border-radius: 18px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+    margin-top: 20px;
+
+    transition: 0.3s;
+
+}
+
+.atividade-box:hover{
+
+    transform: translateY(-4px);
+
+}
+
+.atividade-box h3{
+
+    color: white;
+
+    font-size: 22px;
+
+    border-left: 5px solid #5865f2;
+
+    padding-left: 12px;
+
+}
+
+.atividade-box textarea{
+
+    width: 100%;
+    min-height: 140px;
+
+    resize: vertical;
+
+    border: none;
+    outline: none;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    background: #2b2b2b;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-family: sans-serif;
+
+}
+
+.atividade-box textarea::placeholder{
+
+    color: #aaaaaa;
+
+}
+
+.input-arquivo{
+
+    background: #2b2b2b;
+
+    color: white;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+}
+
+.input-arquivo::file-selector-button{
+
+    border: none;
+
+    background: #5865f2;
+
+    color: white;
+
+    padding: 10px 14px;
+
+    border-radius: 8px;
+
+    margin-right: 10px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+.input-arquivo::file-selector-button:hover{
+
+    background: #4752c4;
+
+}
+
+.atividade-box button{
+
+    border: none;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    background: #5865f2;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+.atividade-box button:hover{
+
+    background: #4752c4;
+
+    transform: scale(1.02);
+
+}

@@ -2,7 +2,7 @@
 // TROCAR SEÇÕES
 // =========================
 
-function mostrarSecao(secaoId){
+function mostrarSecao(secaoId) {
 
   const secoes =
     document.querySelectorAll(".section");
@@ -27,7 +27,7 @@ let tarefaSelecionada = null;
 // LISTAR TAREFAS
 // =========================
 
-async function carregarTarefas(){
+async function carregarTarefas() {
 
   const token =
     localStorage.getItem("token");
@@ -35,8 +35,8 @@ async function carregarTarefas(){
   const resposta = await fetch(
     "http://localhost:3000/tarefas",
     {
-      headers:{
-        "Authorization":`Bearer ${token}`
+      headers: {
+        "Authorization": `Bearer ${token}`
       }
     }
   );
@@ -92,7 +92,7 @@ async function carregarTarefas(){
 // ASSUMIR TAREFA
 // =========================
 
-async function assumirTarefa(id){
+async function assumirTarefa(id) {
 
   const token =
     localStorage.getItem("token");
@@ -100,10 +100,10 @@ async function assumirTarefa(id){
   const resposta = await fetch(
     `http://localhost:3000/tarefas/${id}/assumir`,
     {
-      method:"PUT",
+      method: "PUT",
 
-      headers:{
-        "Authorization":`Bearer ${token}`
+      headers: {
+        "Authorization": `Bearer ${token}`
       }
     }
   );
@@ -122,7 +122,7 @@ async function assumirTarefa(id){
 // MINHAS TAREFAS
 // =========================
 
-async function carregarMinhasTarefas(){
+async function carregarMinhasTarefas() {
 
   const token =
     localStorage.getItem("token");
@@ -130,8 +130,8 @@ async function carregarMinhasTarefas(){
   const resposta = await fetch(
     "http://localhost:3000/tarefas/minhas",
     {
-      headers:{
-        "Authorization":`Bearer ${token}`
+      headers: {
+        "Authorization": `Bearer ${token}`
       }
     }
   );
@@ -142,113 +142,129 @@ async function carregarMinhasTarefas(){
     document.getElementById(
       "containerMinhasTarefas"
     );
+  if (Array.isArray(tarefas)) {
+    console.log(tarefas)
+    tarefas.forEach((tarefa) => {
+      container.innerHTML += `
 
-  container.innerHTML = "";
+   <div class="atividade-box">
 
-  tarefas.forEach(tarefa => {
+      <h3>
+         ${tarefa.titulo}
+      </h3>
 
-    container.innerHTML += `
+      <textarea
+         id="resposta-${tarefa.id_tarefa}"
+         placeholder="
+Descreva seu projeto ou envie o link do GitHub...
+         "
+      ></textarea>
 
-      <div class="card">
+      <input
+         type="file"
+         id="arquivo-${tarefa.id_tarefa}"
+         class="input-arquivo"
+      >
 
-        <h3>${tarefa.titulo}</h3>
-
-        <p>${tarefa.descricao}</p>
-
-        <p>
-          Status:
-          ${tarefa.status_tarefa}
-        </p>
-
-        <button
-          onclick="
-            abrirModalEntrega(
-              ${tarefa.id_tarefa}
+      <button
+         type="button"
+         onclick="
+            enviarProjeto(
+               ${tarefa.id_tarefa}
             )
-          "
-        >
-          Enviar Resposta
-        </button>
+         "
+      >
+         Enviar atividade
+      </button>
 
-      </div>
+   </div>
 
-    `;
-  });
+`;
+    })
 
-}
+  } else {
 
-// =========================
-// ABRIR MODAL
-// =========================
+    console.log("Não veio array:");
+    console.log(tarefas);
 
-function abrirModalEntrega(id){
+  }
 
-  tarefaSelecionada = id;
 
-  document.getElementById(
-    "modalEntrega"
-  ).style.display = "flex";
 
-}
+};
 
-// =========================
-// FECHAR MODAL
-// =========================
 
-function fecharModal(){
 
-  document.getElementById(
-    "modalEntrega"
-  ).style.display = "none";
-
-}
 
 // =========================
 // ENVIAR ENTREGA
 // =========================
 
-async function enviarEntrega(){
+async function enviarProjeto(
+  id_tarefa
+) {
 
   const token =
     localStorage.getItem("token");
 
-  const codigo =
+  const respostaTexto =
     document.getElementById(
-      "codigoEntrega"
+      `resposta-${id_tarefa}`
     ).value;
 
-  const github =
+  const arquivo =
     document.getElementById(
-      "githubEntrega"
-    ).value;
+      `arquivo-${id_tarefa}`
+    ).files[0];
 
-  const resposta = await fetch(
-    "http://localhost:3000/entregas",
-    {
-      method:"POST",
+  const formData =
+    new FormData();
 
-      headers:{
-        "Content-Type":"application/json",
-        "Authorization":`Bearer ${token}`
-      },
-
-      body:JSON.stringify({
-
-        id_tarefa:tarefaSelecionada,
-
-        codigo_texto:codigo,
-
-        link_repositorio:github
-
-      })
-    }
+  formData.append(
+    "id_tarefa",
+    id_tarefa
   );
 
-  const dados = await resposta.json();
+  formData.append(
+    "codigo_texto",
+    respostaTexto
+  );
 
-  alert(dados.mensagem);
+  if (arquivo) {
 
-  fecharModal();
+    formData.append(
+      "arquivo",
+      arquivo
+    );
+
+  }
+
+  const resposta = await fetch(
+
+    "http://localhost:3000/entregas",
+
+    {
+
+      method: "POST",
+
+      headers: {
+        "Authorization":
+          `Bearer ${token}`
+      },
+
+      body: formData
+
+    }
+
+  );
+
+  const dados =
+    await resposta.json();
+
+  alert(
+    dados.mensagem ||
+    dados.erro
+  );
 
 }
 
@@ -256,7 +272,7 @@ async function enviarEntrega(){
 // HISTÓRICO
 // =========================
 
-async function carregarHistorico(){
+async function carregarHistorico() {
 
   const token =
     localStorage.getItem("token");
@@ -264,8 +280,8 @@ async function carregarHistorico(){
   const resposta = await fetch(
     "http://localhost:3000/historico",
     {
-      headers:{
-        "Authorization":`Bearer ${token}`
+      headers: {
+        "Authorization": `Bearer ${token}`
       }
     }
   );
@@ -308,7 +324,7 @@ async function carregarHistorico(){
 // PONTUAÇÃO
 // =========================
 
-async function carregarPontuacao(){
+async function carregarPontuacao() {
 
   const token =
     localStorage.getItem("token");
@@ -316,8 +332,8 @@ async function carregarPontuacao(){
   const resposta = await fetch(
     "http://localhost:3000/aprendizes/pontuacao",
     {
-      headers:{
-        "Authorization":`Bearer ${token}`
+      headers: {
+        "Authorization": `Bearer ${token}`
       }
     }
   );
@@ -334,16 +350,16 @@ async function carregarPontuacao(){
 // RANKING
 // =========================
 
-async function carregarRanking(){
+async function carregarRanking() {
 
   const token =
     localStorage.getItem("token");
 
   const resposta = await fetch(
-    "http://localhost:3000/aprendizes/ranking",
+    "http://localhost:3000/ranking",
     {
-      headers:{
-        "Authorization":`Bearer ${token}`
+      headers: {
+        "Authorization": `Bearer ${token}`
       }
     }
   );
@@ -357,7 +373,7 @@ async function carregarRanking(){
 
   container.innerHTML = "";
 
-  ranking.forEach((aprendiz,index) => {
+  ranking.forEach((aprendiz, index) => {
 
     container.innerHTML += `
 
@@ -385,7 +401,7 @@ async function carregarRanking(){
 // LOGOUT
 // =========================
 
-function logout(){
+function logout() {
 
   localStorage.removeItem("token");
 

@@ -1,6 +1,7 @@
 import {
     criarTarefa,
     listarTarefas,
+    buscarTarefasPorProfissional,
     buscarTarefaId,
     buscarTarefasAprendiz,
     assumirTarefa,
@@ -137,6 +138,31 @@ export async function listarMinhasTarefas(
 
       return res.status(500).json({
          erro: erro.message
+      });
+
+   }
+
+}
+export async function listarTarefasProfissional(req, res){
+
+   try {
+
+      const id_usuario = req.usuario.id_usuario;
+
+      const profissional =
+      await buscarProfissionalPorUsuario(id_usuario);
+
+      const tarefas =
+      await buscarTarefasPorProfissional(
+         profissional.id_profissional
+      );
+
+      return res.status(200).json(tarefas);
+
+   } catch(error){
+
+      return res.status(500).json({
+         erro: error.message
       });
 
    }

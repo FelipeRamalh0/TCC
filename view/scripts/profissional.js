@@ -94,7 +94,7 @@
           }
         }
       );
-
+      const tarefas = Array.isArray(dados) ? dados : [];
       const tarefas = await resposta.json();
 
       const container =
@@ -151,10 +151,10 @@
 
       const container =
         document.getElementById("containerAvaliacoes");
-
-      container.innerHTML = "";
-
+      
+      container.innerHTML= "";
       entregas.forEach(entrega => {
+        console.log(entrega);
 
         container.innerHTML += `
 
@@ -208,7 +208,7 @@
         localStorage.getItem("token");
 
       await fetch(
-        `http://localhost:3000/entregas/${id}`,
+        `http://localhost:3000/entregas/${id}/status`,
         {
           method:"PUT",
 
@@ -218,7 +218,7 @@
           },
 
           body:JSON.stringify({
-            status_entrega:status
+            status :status
           })
         }
       );
