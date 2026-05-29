@@ -148,7 +148,21 @@ formLogin.addEventListener('submit', async (event) => {
             alert("Login realizado com sucesso!");
 
             // Redirecionar
-            window.location.href = "../pages/principal.html";
+            if(dados.usuario.tipo_usuario === "Profissional"){
+
+         window.location.href =
+            "profissional.html";
+
+      }
+
+      else if(
+         dados.usuario.tipo_usuario === "Aprendiz"
+      ){
+
+         window.location.href =
+            "aprendiz.html";
+
+      }
 
         } else {
 

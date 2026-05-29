@@ -1,173 +1,165 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/aprendiz.css">
-    <title>First Step Dev</title>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Painel Aprendiz - First Step Dev
+  </title>
+
+ <link rel="stylesheet" href="../css/aprendiz.css">
+
 </head>
 
 <body>
 
-    <div class="container">
+  <!-- SIDEBAR -->
 
-        <!-- AREA LATERAL -->
-        <aside class="sidebar">
+  <div class="sidebar">
 
-            <div class="perfil">
+    <h2>First Step Dev</h2>
 
-                <div class="foto-perfil">
+    <button onclick="mostrarSecao('tarefas')">
+      Tarefas
+    </button>
+    <button onclick="mostrarSecao('minhasTarefas')">
+  Minhas Tarefas
+</button>
 
-                    <img id="preview" src="https://i.pravatar.cc/120" alt="Perfil">
+    <button onclick="mostrarSecao('historico')">
+      Histórico
+    </button>
 
-                    <label for="fotoInput" class="editar-foto">
-                        +
-                    </label>
+    <button onclick="mostrarSecao('pontuacao')">
+      Pontuação
+    </button>
 
-                    <input type="file" id="fotoInput" accept="image/*">
+    <button onclick="mostrarSecao('ranking')">
+      Ranking
+    </button>
 
-                </div>
+    <button onclick="logout()">
+      Logout
+    </button>
 
-                <h3>Henrique</h3>
-                <p>Desenvolvedor Iniciante</p>
+  </div>
 
-            </div>
+  <!-- CONTEÚDO -->
 
-            <div class="card-info">
+  <div class="content">
 
-                <h4>Progresso</h4>
+    <!-- TAREFAS -->
 
-                <div class="barra">
-                    <div class="progresso"></div>
-                </div>
+    <section id="tarefas" class="section active">
 
-                <span id="textoProgresso">0% concluído</span>
+      <h1>Tarefas Disponíveis</h1>
 
-            </div>
+      <div class="cards" id="containerTarefas">
 
-            <div class="card-info">
+      </div>
 
-                <h4>Lições Pendentes</h4>
+    </section>
+    <!-- MINHAS TAREFAS -->
 
-                <ul>
-                    <li>✔ HTML Básico</li>
-                    <li>✔ CSS Responsivo</li>
-                    <li>⏳ JavaScript DOM</li>
-                    <li>⏳ Projeto Landing Page</li>
-                </ul>
+<section id="minhasTarefas" class="section">
 
-            </div>
+  <h1>Minhas Tarefas</h1>
 
-            <div class="exit">
-               <a href="../index.html">Sair</a>
-            </div>
-        </aside>
+  <div
+    class="cards"
+    id="containerMinhasTarefas"
+  >
 
-        <!-- CONTEUDO -->
-        <main class="content">
+  </div>
 
-            <!-- PAINEL PROFESSOR -->
+</section>
 
-            <div class="painel-professor" id="painelProfessor">
+<!-- MODAL ENTREGA -->
 
-                <h2>Área do Professor</h2>
+<div
+  id="modalEntrega"
+  class="modal"
+  style="display:none;"
+>
 
-                <input 
-                    type="text" 
-                    id="tituloDesafio" 
-                    placeholder="Título do desafio"
-                >
+  <div class="modal-content">
 
-                <textarea 
-                    id="descricaoDesafio" 
-                    placeholder="Descrição da atividade"
-                ></textarea>
+    <h2>Enviar Resposta</h2>
 
-                <button onclick="criarDesafio()">
-                    Publicar desafio
-                </button>
+    <textarea
+      id="codigoEntrega"
+      placeholder="Descreva sua solução"
+    ></textarea>
 
-            </div>
+    <input
+      type="text"
+      id="githubEntrega"
+      placeholder="Link GitHub"
+    >
 
-            <section class="steps-section">
+    <button onclick="enviarEntrega()">
+      Enviar Entrega
+    </button>
 
-                <h2>Painel Principal</h2>
+    <button onclick="fecharModal()">
+      Fechar
+    </button>
 
-                <div class="steps" id="listaDesafios">
+  </div>
 
-                    <div class="step" onclick="abrirAtividade(
-                        'Atividade HTML',
-                        'Crie uma estrutura básica utilizando HTML5 com header, main e footer.'
-                    )">
-                        <span>📚</span>
-                        <p>Continue suas atividades e evolua suas habilidades na programação.</p>
-                    </div>
+</div>
 
-                    <div class="step" onclick="abrirAtividade(
-                        'Desafio CSS',
-                        'Desenvolva uma landing page responsiva utilizando Flexbox.'
-                    )">
-                        <span>🚀</span>
-                        <p>Novos desafios reais foram adicionados por profissionais.</p>
-                    </div>
+    <!-- HISTÓRICO -->
 
-                    <div class="step" onclick="abrirAtividade(
-                        'Feedback Profissional',
-                        'Veja as observações enviadas pelos profissionais sobre seu último projeto.'
-                    )">
-                        <span>💬</span>
-                        <p>Você possui novos feedbacks disponíveis para visualizar.</p>
-                    </div>
+    <section id="historico" class="section">
 
-                    <div class="step" onclick="abrirAtividade(
-                        'Projeto Portfólio',
-                        'Finalize seu portfólio pessoal e publique seus projetos.'
-                    )">
-                        <span>🏆</span>
-                        <p>Conclua desafios para aumentar seu nível e fortalecer seu portfólio.</p>
-                    </div>
+      <h1>Histórico de Tarefas</h1>
 
-                    <!-- AREA PROFESSOR -->
+      <div class="cards" id="containerHistorico">
 
-                    <div 
-                        class="step professor-area" 
-                        id="areaProfessor"
-                        onclick="abrirPainelProfessor()"
-                    >
+      </div>
 
-                        <span>👨‍🏫</span>
+    </section>
 
-                        <p>
-                            Área exclusiva para profissionais criarem desafios e avaliarem alunos.
-                        </p>
+    <!-- PONTUAÇÃO -->
 
-                    </div>
+    <section id="pontuacao" class="section">
 
-                </div>
+      <h1>Minha Pontuação</h1>
 
-                <!-- AREA DA ATIVIDADE -->
+      <div class="pontuacao-box">
 
-                <div class="atividade-box" id="atividadeBox">
+        <p>Pontos acumulados</p>
 
-                    <h3 id="tituloAtividade">Título</h3>
+        <h2 id="pontuacaoValor">
+          0
+        </h2>
 
-                    <p id="descricaoAtividade">
-                        Descrição da atividade
-                    </p>
+      </div>
 
-                    <button onclick="concluirAtividade()">
-                        Concluir atividade
-                    </button>
+    </section>
 
-                </div>
+    <!-- RANKING -->
 
-            </section>
+    <section id="ranking" class="section">
 
-        </main>
+      <h1>Ranking dos Aprendizes</h1>
 
-    </div>
+      <div class="ranking" id="containerRanking">
 
-    <script src="../scripts/principal.js"></script>
+      </div>
+
+    </section>
+
+  </div>
+
+  <script src="../scripts/aprendiz.js"></script>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ import {
     criarTarefa,
     listarTarefas,
     buscarTarefaId,
+    buscarTarefasAprendiz,
     assumirTarefa,
     atualizarTarefa,
     deletarTarefa
@@ -109,13 +110,44 @@ export async function buscarPorId(req, res) {
     }
 }
 
+export async function listarMinhasTarefas(
+   req,
+   res
+){
 
+   try{
+
+      const usuario = req.usuario;
+
+      const aprendiz =
+         await buscarAprendizIdUsuario(
+            usuario.id_usuario
+         );
+
+      const tarefas =
+         await buscarTarefasAprendiz(
+            aprendiz.id_aprendiz
+         );
+       
+      return res.json(tarefas);
+
+   }catch(erro){
+
+      console.log(erro);
+
+      return res.status(500).json({
+         erro: erro.message
+      });
+
+   }
+
+}
 
 
 export async function assumir(req, res) {
-
+console.log(req.usuario);
     try {
-
+        console.log(req.usuario)
         const { id } = req.params;
 
         const usuario = req.usuario;

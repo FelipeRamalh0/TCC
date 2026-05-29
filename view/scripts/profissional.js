@@ -1,132 +1,282 @@
-const listaAtividades =
-  document.getElementById("listaAtividades");
 
-function trocarPagina(idPagina) {
+    // =========================
+    // TROCAR SEÇÕES
+    // =========================
 
-  const paginas =
-    document.querySelectorAll(".pagina");
+    function mostrarSecao(secaoId){
 
-  paginas.forEach((pagina) => {
-    pagina.classList.remove("ativa");
-  });
+      const secoes = document.querySelectorAll(".section");
 
-  document
-    .getElementById(idPagina)
-    .classList.add("ativa");
-}
+      secoes.forEach(secao => {
+        secao.classList.remove("active");
+      });
 
-function criarAtividade() {
+      document.getElementById(secaoId)
+        .classList.add("active");
+    }
 
-  const titulo =
-    document.getElementById("titulo").value;
+    // =========================
+    // CRIAR TAREFA
+    // =========================
 
-  const descricao =
-    document.getElementById("descricao").value;
+    const formTarefa =
+      document.getElementById("formTarefa");
 
-  if (titulo === "" || descricao === "") {
+    formTarefa.addEventListener("submit",
+      async function(e){
 
-    alert("Preencha todos os campos!");
+      e.preventDefault();
 
-    return;
-  }
+      const token =
+        localStorage.getItem("token");
 
-  const novaAtividade =
-    document.createElement("div");
+      const titulo =
+        document.getElementById("titulo").value;
 
-  novaAtividade.classList.add("atividade");
+      const descricao =
+        document.getElementById("descricao").value;
 
-  novaAtividade.innerHTML = `
-  
-    <h3>${titulo}</h3>
+      const nivel =
+        document.getElementById("nivel").value;
 
-    <p>${descricao}</p>
+      const categoria =
+        document.getElementById("categoria").value;
 
-    <div class="botoes-atividade">
+      try{
 
-      <button class="btn-entregas">
-        Ver entregas
-      </button>
+        const resposta = await fetch(
+          "http://localhost:3000/tarefas",
+          {
+            method:"POST",
 
-      <button
-        class="btn-excluir"
-        onclick="excluirAtividade(this)"
-      >
-        Excluir
-      </button>
+            headers:{
+              "Content-Type":"application/json",
+              "Authorization":`Bearer ${token}`
+            },
 
-    </div>
+            body:JSON.stringify({
+              titulo,
+              descricao,
+              categoria,
+              nivel_dificuldade:nivel
+            })
+          }
+        );
 
-  `;
+        const dados = await resposta.json();
 
-  listaAtividades.appendChild(novaAtividade);
+        alert(dados.mensagem);
 
-  document.getElementById("titulo").value = "";
+        carregarTarefas();
 
-  document.getElementById("descricao").value = "";
-}
+      }catch(erro){
 
-function excluirAtividade(botao) {
+        console.log(erro);
 
-  const confirmar =
-    confirm("Deseja excluir esta atividade?");
+      }
 
-  if (!confirmar) {
-    return;
-  }
+    });
 
-  const atividade =
-    botao.closest(".atividade");
+    // =========================
+    // LISTAR TAREFAS
+    // =========================
 
-  atividade.remove();
-}
+    async function carregarTarefas(){
 
-function aprovarAtividade(botao) {
+      const token =
+        localStorage.getItem("token");
 
-  const entrega =
-    botao.closest(".entrega");
+      const resposta = await fetch(
+        "http://localhost:3000/tarefas/profissional",
+        {
+          headers:{
+            "Authorization":`Bearer ${token}`
+          }
+        }
+      );
 
-  const status =
-    entrega.querySelector(".status");
+      const tarefas = await resposta.json();
 
-  status.innerText = "Aprovado";
+      const container =
+        document.getElementById("containerTarefas");
 
-  status.classList.remove("pendente");
+      container.innerHTML = "";
 
-  status.classList.add("aprovado");
-}
+      tarefas.forEach(tarefa => {
 
-function enviarFeedback(botao) {
+        container.innerHTML += `
+        
+          <div class="card">
 
-  const entrega =
-    botao.closest(".entrega");
+            <h3>${tarefa.titulo}</h3>
 
-  const textarea =
-    entrega.querySelector(".feedback-input");
+            <p>${tarefa.descricao}</p>
 
-  const feedbackArea =
-    entrega.querySelector(".feedback-area");
+            <p>
+              Dificuldade:
+              ${tarefa.nivel_dificuldade}
+            </p>
 
-  if (textarea.value === "") {
+            <p>
+              Status:
+              ${tarefa.status_tarefa}
+            </p>
 
-    alert("Digite um feedback!");
+          </div>
 
-    return;
-  }
+        `;
+      });
 
-  const feedback =
-    document.createElement("div");
+    }
 
-  feedback.classList.add("feedback-card");
+    // =========================
+    // LISTAR ENTREGAS
+    // =========================
 
-  feedback.innerHTML = `
-  
-    <strong>Feedback enviado:</strong>
+    async function carregarAvaliacoes(){
 
-    <p>${textarea.value}</p>
+      const token =
+        localStorage.getItem("token");
 
-  `;
+      const resposta = await fetch(
+        "http://localhost:3000/entregas",
+        {
+          headers:{
+            "Authorization":`Bearer ${token}`
+          }
+        }
+      );
 
-  feedbackArea.appendChild(feedback);
+      const entregas = await resposta.json();
 
-  textarea.value = "";
-}
+      const container =
+        document.getElementById("containerAvaliacoes");
+
+      container.innerHTML = "";
+
+      entregas.forEach(entrega => {
+
+        container.innerHTML += `
+
+          <div class="card">
+
+            <h3>${entrega.titulo}</h3>
+
+            <p>
+              Aprendiz:
+              ${entrega.aprendiz_nome}
+            </p>
+
+            <p>
+              ${entrega.codigo_texto || ""}
+            </p>
+
+            <button
+              class="aprovar"
+              onclick="avaliarEntrega(
+                ${entrega.id_entrega},
+                'Aprovado'
+              )"
+            >
+              Aprovar
+            </button>
+
+            <button
+              class="reprovar"
+              onclick="avaliarEntrega(
+                ${entrega.id_entrega},
+                'Rejeitado'
+              )"
+            >
+              Reprovar
+            </button>
+
+          </div>
+
+        `;
+      });
+
+    }
+
+    // =========================
+    // APROVAR / REPROVAR
+    // =========================
+
+    async function avaliarEntrega(id, status){
+
+      const token =
+        localStorage.getItem("token");
+
+      await fetch(
+        `http://localhost:3000/entregas/${id}`,
+        {
+          method:"PUT",
+
+          headers:{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${token}`
+          },
+
+          body:JSON.stringify({
+            status_entrega:status
+          })
+        }
+      );
+
+      carregarAvaliacoes();
+
+    }
+
+    // =========================
+    // BIO
+    // =========================
+
+    async function salvarBio(){
+
+      const token =
+        localStorage.getItem("token");
+
+      const bio =
+        document.getElementById("bio").value;
+
+      const resposta = await fetch(
+        "http://localhost:3000/profissionais/bio",
+        {
+          method:"PUT",
+
+          headers:{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${token}`
+          },
+
+          body:JSON.stringify({
+            bio
+          })
+        }
+      );
+
+      const dados = await resposta.json();
+
+      alert(dados.mensagem);
+
+    }
+
+    // =========================
+    // LOGOUT
+    // =========================
+
+    function logout(){
+
+      localStorage.removeItem("token");
+
+      window.location.href = "index.html";
+
+    }
+
+    // =========================
+    // INICIAR
+    // =========================
+
+    carregarTarefas();
+
+    carregarAvaliacoes();

@@ -3,6 +3,7 @@ import {
     criar,
     listar,
     buscarPorId,
+    listarMinhasTarefas,
     assumir,
     atualizar,
     deletar
@@ -13,6 +14,7 @@ const router = Router();
 router.post("/tarefas", verificarToken, criar);
 router.get("/tarefas", verificarToken, listar);
 router.get("/tarefas/:id", verificarToken, buscarPorId);
+router.get("/tarefas/minhas", verificarToken, listarMinhasTarefas);
 router.put("/tarefas/:id/assumir", verificarToken, assumir);
 router.put("/tarefas/:id/status", verificarToken, atualizar);
 router.delete("/tarefas/:id", verificarToken, deletar);

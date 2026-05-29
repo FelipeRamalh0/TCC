@@ -23,11 +23,48 @@ export async function criarTarefa(dados) {
         return result.insertId
 }
 
-export async function listarTarefas() {
-    const [rows]= await db.query(
-        `SELECT * FROM Tarefas`
-    );
-    return rows
+export async function listarTarefas(){
+
+   const [result] = await db.query(`
+   
+      SELECT
+
+         t.*,
+
+         u.nome AS profissional_nome
+
+      FROM tarefas t
+
+      JOIN profissionais p
+      ON t.id_profissional = p.id_profissional
+
+      JOIN usuarios u
+      ON p.id_usuario = u.id_usuario
+
+      WHERE t.status_tarefa = 'aberta'
+
+   `);
+
+   return result;
+
+}
+
+export async function buscarTarefasAprendiz(
+   id_aprendiz
+){
+
+   const [result] = await db.query(`
+
+      SELECT *
+
+      FROM tarefas
+
+      WHERE id_aprendiz_responsavel = ?
+
+   `,[id_aprendiz]);
+
+   return result;
+
 }
 //Buscar Tarefa por Id tarefa
 export async function buscarTarefaId(id) {
