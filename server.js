@@ -12,7 +12,7 @@ const app= express();
 app.use(express.json());;
 app.use(cors());
 app.use(express.static("view"));
-
+app.use( "/uploads", express.static("uploads"));
 app.get("/", (req, res) => {
     res.sendFile(path.resolve("view/index.html"));
 });
@@ -23,7 +23,7 @@ app.use(recuperacaoRoutes);
 app.use(entregaRoutes);
 app.use(historicoRoutes);
 
-
 app.listen(PORT, ()=>{
     console.log(`Servidor rodando em: http://localhost:${PORT}`);
 })
+

@@ -13,23 +13,25 @@ import {
     buscarAprendizIdUsuario
 } from "../model/aprendizModel.js";
 
-export async function criar(req, res){
+export async function criar(req, res) {
 
     try {
 
         const {
 
             id_tarefa,
-            arquivo_url,
             link_repositorio,
             codigo_texto
 
         } = req.body;
+        const arquivo_url = req.file
+            ? req.file.filename
+            : null;
 
         const usuario = req.usuario;
 
         // Apenas aprendiz
-        if(usuario.tipo_usuario !== "Aprendiz"){
+        if (usuario.tipo_usuario !== "Aprendiz") {
 
             return res.status(403).json({
                 erro: "Apenas aprendizes podem enviar entregas"
@@ -56,7 +58,7 @@ export async function criar(req, res){
             id_entrega
         });
 
-    } catch (erro){
+    } catch (erro) {
 
         console.log(erro);
 
@@ -66,7 +68,7 @@ export async function criar(req, res){
     }
 }
 
-export async function listar(req, res){
+export async function listar(req, res) {
 
     try {
 
@@ -74,7 +76,7 @@ export async function listar(req, res){
 
         return res.json(entregas);
 
-    } catch (erro){
+    } catch (erro) {
 
         console.log(erro);
 
@@ -84,7 +86,7 @@ export async function listar(req, res){
     }
 }
 
-export async function buscarPorId(req, res){
+export async function buscarPorId(req, res) {
 
     try {
 
@@ -92,7 +94,7 @@ export async function buscarPorId(req, res){
 
         const entrega = await buscarEntregaPorId(id);
 
-        if(!entrega){
+        if (!entrega) {
 
             return res.status(404).json({
                 erro: "Entrega não encontrada"
@@ -101,7 +103,7 @@ export async function buscarPorId(req, res){
 
         return res.json(entrega);
 
-    } catch (erro){
+    } catch (erro) {
 
         console.log(erro);
 
@@ -111,7 +113,7 @@ export async function buscarPorId(req, res){
     }
 }
 
-export async function listarPorTarefa(req, res){
+export async function listarPorTarefa(req, res) {
 
     try {
 
@@ -123,7 +125,7 @@ export async function listarPorTarefa(req, res){
 
         return res.json(entregas);
 
-    } catch (erro){
+    } catch (erro) {
 
         console.log(erro);
 
@@ -133,18 +135,18 @@ export async function listarPorTarefa(req, res){
     }
 }
 
-export async function atualizarStatus(req, res){
+export async function atualizarStatus(req, res) {
 
     try {
+        
 
         const { id } = req.params;
 
         const { status } = req.body;
 
         const usuario = req.usuario;
-
         // Apenas profissional
-        if(usuario.tipo_usuario !== "Profissional"){
+        if (usuario.tipo_usuario !== "Profissional") {
 
             return res.status(403).json({
                 erro: "Apenas profissionais podem avaliar entregas"
@@ -152,12 +154,12 @@ export async function atualizarStatus(req, res){
         }
 
         const atualizado =
-        await atualizarStatusEntrega(
-            id,
-            status
-        );
+            await atualizarStatusEntrega(
+                id,
+                status
+            );
 
-        if(atualizado === 0){
+        if (atualizado === 0) {
 
             return res.status(404).json({
                 erro: "Entrega não encontrada"
@@ -168,7 +170,7 @@ export async function atualizarStatus(req, res){
             mensagem: "Status atualizado"
         });
 
-    } catch (erro){
+    } catch (erro) {
 
         console.log(erro);
 
@@ -178,7 +180,7 @@ export async function atualizarStatus(req, res){
     }
 }
 
-export async function deletar(req, res){
+export async function deletar(req, res) {
 
     try {
 
@@ -186,7 +188,7 @@ export async function deletar(req, res){
 
         const deletado = await deletarEntrega(id);
 
-        if(deletado === 0){
+        if (deletado === 0) {
 
             return res.status(404).json({
                 erro: "Entrega não encontrada"
@@ -197,7 +199,7 @@ export async function deletar(req, res){
             mensagem: "Entrega deletada"
         });
 
-    } catch (erro){
+    } catch (erro) {
 
         console.log(erro);
 

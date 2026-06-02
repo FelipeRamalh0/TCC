@@ -1,6 +1,7 @@
 import {
     criarTarefa,
     listarTarefas,
+    buscarTarefasPorProfissional,
     buscarTarefaId,
     buscarTarefasAprendiz,
     assumirTarefa,
@@ -62,7 +63,6 @@ export async function criar(req, res) {
 
 
 
-
 export async function listar(req, res) {
 
     try {
@@ -80,7 +80,6 @@ export async function listar(req, res) {
         });
     }
 }
-
 
 
 
@@ -142,7 +141,31 @@ export async function listarMinhasTarefas(
    }
 
 }
+export async function listarTarefasProfissional(req, res){
 
+   try {
+
+      const id_usuario = req.usuario.id_usuario;
+
+      const profissional =
+      await buscarProfissionalPorUsuario(id_usuario);
+
+      const tarefas =
+      await buscarTarefasPorProfissional(
+         profissional.id_profissional
+      );
+
+      return res.status(200).json(tarefas);
+
+   } catch(error){
+
+      return res.status(500).json({
+         erro: error.message
+      });
+
+   }
+
+}
 
 export async function assumir(req, res) {
 console.log(req.usuario);
@@ -189,7 +212,6 @@ console.log(req.usuario);
 
 
 
-
 //  Atualizar status
 export async function atualizar(req, res) {
 
@@ -223,7 +245,6 @@ export async function atualizar(req, res) {
         });
     }
 }
-
 
 
 
