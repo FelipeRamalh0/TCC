@@ -30,7 +30,7 @@ const token = localStorage.getItem("token");
   const titulo = document.getElementById("titulo").value;
   const descricao = document.getElementById("descricao").value;
   const nivel= document.getElementById("nivel").value;
-  const categoria= document.getElementedById("categoria").value;
+  const categoria= document.getElementById("categoria").value;
   if (!titulo || !descricao || !nivel || !categoria) {
     alert("Preencha todos os campos!");
     return;
