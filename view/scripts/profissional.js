@@ -25,6 +25,7 @@ function trocarPagina(pagina) {
    CRIAR ATIVIDADE
 ========================= */
 function criarAtividade() {
+const token = localStorage.getItem("token");
 
   const titulo = document.getElementById("titulo").value;
   const descricao = document.getElementById("descricao").value;
@@ -40,7 +41,7 @@ function criarAtividade() {
   atividades.push({
     titulo,
     descricao,
-    nivel, 
+    nivel_dificuldade: nivel, 
     categoria,
     status: "Pendente"
   });
