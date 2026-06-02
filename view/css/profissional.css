@@ -137,7 +137,7 @@ body {
 }
 
 .atividade-form input,
-.atividade-form textarea {
+.atividade-form textarea, select {
   width: 100%;
   padding: 14px;
   margin-bottom: 15px;
