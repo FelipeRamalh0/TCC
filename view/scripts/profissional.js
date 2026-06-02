@@ -28,8 +28,9 @@ function criarAtividade() {
 
   const titulo = document.getElementById("titulo").value;
   const descricao = document.getElementById("descricao").value;
-
-  if (!titulo || !descricao) {
+  const nivel= document.getElementedById("nivel").value;
+  const categoria= document.getElementedById("categoria").value;
+  if (!titulo || !descricao || !nivel || !categoria) {
     alert("Preencha todos os campos!");
     return;
   }
@@ -39,6 +40,8 @@ function criarAtividade() {
   atividades.push({
     titulo,
     descricao,
+    nivel, 
+    categoria,
     status: "Pendente"
   });
 
@@ -48,6 +51,8 @@ function criarAtividade() {
 
   document.getElementById("titulo").value = "";
   document.getElementById("descricao").value = "";
+  document.getElementById("nivel").value = "";
+  document.getElementById("categoria").value = "";
 
   carregarAtividades();
 }
@@ -68,6 +73,8 @@ function carregarAtividades() {
       <div class="atividade">
         <h3>${a.titulo}</h3>
         <p>${a.descricao}</p>
+        <p>${a.nivel}</p>
+        <p>${a.categoria}</p>
 
         <div class="botoes-atividade">
           <button class="btn-entregas">Ver entregas</button>

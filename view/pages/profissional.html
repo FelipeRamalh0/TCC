@@ -86,10 +86,36 @@
 
           <h2>Criar nova atividade</h2>
 
-          <input type="text" id="titulo" placeholder="Título da atividade" />
+        <input 
+          type="text"
+          id="titulo"
+          placeholder="Título da tarefa"
+          required
+        >
 
-          <textarea id="descricao" placeholder="Descrição da atividade"></textarea>
+        <textarea
+          id="descricao"
+          placeholder="Descrição da tarefa"
+          required
+        ></textarea>
 
+        <select id="nivel">
+
+          <option value="facil">Fácil</option>
+
+          <option value="medio">Médio</option>
+
+          <option value="dificil">Difícil</option>
+
+        </select>
+
+        <input
+          type="text"
+          id="categoria"
+          placeholder="Categoria"
+        >
+
+      
           <button type="button" onclick="criarAtividade()">
             Enviar atividade
           </button>
