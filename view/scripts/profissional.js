@@ -56,6 +56,10 @@ try {
       }
     )
   });
+  if (!resposta.ok) {
+  const erro = await resposta.json();
+  throw new Error(erro.mensagem || "Erro ao criar tarefa");
+}
   const dados= await resposta.json();
 
   localStorage.setItem("atividades", JSON.stringify(atividades));
@@ -66,12 +70,12 @@ try {
   document.getElementById("descricao").value = "";
   document.getElementById("nivel").value = "";
   document.getElementById("categoria").value = "";
-
+carregarAtividades();
 } catch (error) {
   console.error("Erro ao criar atividade", error)
 }
   
- carregarAtividades();
+ 
 }
 
 /* =========================
@@ -82,7 +86,7 @@ const token= localStorage.getItem("token");
   const lista = document.getElementById("listaAtividades");
   lista.innerHTML = "";
 
-  let tarefas = fetch(`http://localhost:3000/tarefas`,{
+  let atividades = fetch(`http://localhost:3000/tarefas`,{
     method: "GET",
     headers:{
       "Content-Type": "application/json",
@@ -90,7 +94,7 @@ const token= localStorage.getItem("token");
     }
   });
 
-  tarefas.forEach((t, index) => {
+  atividades.forEach((t, index) => {
 
     lista.innerHTML += `
       <div class="atividade">
