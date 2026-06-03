@@ -8,7 +8,7 @@ window.onload = () => {
 /* =========================
    TROCA DE PÁGINA
 ========================= */
-function trocarPagina(pagina) {
+async function trocarPagina(pagina) {
 
   document.querySelectorAll(".pagina").forEach(secao => {
     secao.classList.remove("ativa");
@@ -24,27 +24,39 @@ function trocarPagina(pagina) {
 /* =========================
    CRIAR ATIVIDADE
 ========================= */
-function criarAtividade() {
-const token = localStorage.getItem("token");
+async function criarAtividade() {
 
   const titulo = document.getElementById("titulo").value;
   const descricao = document.getElementById("descricao").value;
   const nivel= document.getElementById("nivel").value;
   const categoria= document.getElementById("categoria").value;
+
+
+  const token = localStorage.getItem("token");
+
   if (!titulo || !descricao || !nivel || !categoria) {
     alert("Preencha todos os campos!");
     return;
   }
+try {
 
-  let atividades = JSON.parse(localStorage.getItem("atividades")) || [];
-
-  atividades.push({
-    titulo,
+  const resposta= await fetch(`http://localhost:3000/tarefas`,{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify(
+      {
+         titulo,
     descricao,
     nivel_dificuldade: nivel, 
     categoria,
-    status: "Pendente"
+    status: "aberta"
+      }
+    )
   });
+  const dados= await resposta.json();
 
   localStorage.setItem("atividades", JSON.stringify(atividades));
 
@@ -55,27 +67,37 @@ const token = localStorage.getItem("token");
   document.getElementById("nivel").value = "";
   document.getElementById("categoria").value = "";
 
-  carregarAtividades();
+} catch (error) {
+  console.error("Erro ao criar atividade", error)
+}
+  
+ carregarAtividades();
 }
 
 /* =========================
    LISTAR ATIVIDADES
 ========================= */
-function carregarAtividades() {
-
+async function carregarAtividades() {
+const token= localStorage.getItem("token");
   const lista = document.getElementById("listaAtividades");
   lista.innerHTML = "";
 
-  let atividades = JSON.parse(localStorage.getItem("atividades")) || [];
+  let tarefas = fetch(`http://localhost:3000/tarefas`,{
+    method: "GET",
+    headers:{
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  });
 
-  atividades.forEach((a, index) => {
+  tarefas.forEach((t, index) => {
 
     lista.innerHTML += `
       <div class="atividade">
-        <h3>${a.titulo}</h3>
-        <p>${a.descricao}</p>
-        <p>${a.nivel_dificuldade}</p>
-        <p>${a.categoria}</p>
+        <h3>${t.titulo}</h3>
+        <p>${t.descricao}</p>
+        <p>${t.nivel_dificuldade}</p>
+        <p>${t.categoria}</p>
 
         <div class="botoes-atividade">
           <button class="btn-entregas">Ver entregas</button>
@@ -89,7 +111,7 @@ function carregarAtividades() {
 /* =========================
    EXCLUIR ATIVIDADE
 ========================= */
-function excluirAtividade(index) {
+async function excluirAtividade(index) {
 
   let atividades = JSON.parse(localStorage.getItem("atividades")) || [];
 
@@ -103,7 +125,7 @@ function excluirAtividade(index) {
 /* =========================
    ENTREGAS
 ========================= */
-function carregarEntregas() {
+async function carregarEntregas() {
 
   const area = document.getElementById("desempenho");
   area.innerHTML = "";
@@ -144,7 +166,7 @@ function carregarEntregas() {
 /* =========================
    APROVAR ENTREGA
 ========================= */
-function aprovarAtividade(index) {
+async function aprovarAtividade(index) {
 
   let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
 
@@ -160,7 +182,7 @@ function aprovarAtividade(index) {
 /* =========================
    FEEDBACK
 ========================= */
-function enviarFeedback(index) {
+async function enviarFeedback(index) {
 
   let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
 
@@ -178,7 +200,7 @@ function enviarFeedback(index) {
 /* =========================
    APRENDIZES
 ========================= */
-function carregarAprendizes() {
+async function carregarAprendizes() {
 
   const lista = document.getElementById("listaAprendizes");
 
@@ -203,7 +225,7 @@ function carregarAprendizes() {
 /* =========================
    APRENDIZES ATIVOS
 ========================= */
-function atualizarAprendizesAtivos() {
+async function atualizarAprendizesAtivos() {
 
   let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
