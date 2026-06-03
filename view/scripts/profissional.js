@@ -74,7 +74,7 @@ function carregarAtividades() {
       <div class="atividade">
         <h3>${a.titulo}</h3>
         <p>${a.descricao}</p>
-        <p>${a.nivel}</p>
+        <p>${a.nivel_dificuldade}</p>
         <p>${a.categoria}</p>
 
         <div class="botoes-atividade">
