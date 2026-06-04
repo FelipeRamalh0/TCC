@@ -94,7 +94,6 @@
           }
         }
       );
-      const tarefas = Array.isArray(dados) ? dados : [];
       const tarefas = await resposta.json();
 
       const container =
