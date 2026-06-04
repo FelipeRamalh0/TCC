@@ -1,122 +1,426 @@
-const listaDesafios = document.getElementById("listaDesafios");
-const atividadeBox = document.getElementById("atividadeBox");
-const tituloAtividade = document.getElementById("tituloAtividade");
-const descricaoAtividade = document.getElementById("descricaoAtividade");
-const arquivoProjeto = document.getElementById("arquivoProjeto");
-const nomeArquivo = document.getElementById("nomeArquivo");
+// =========================
+// TROCAR SEÇÕES
+// =========================
 
-window.addEventListener("load", () => {
-  carregarAtividades();
-});
+function mostrarSecao(secaoId) {
 
-/* MOSTRAR ATIVIDADES */
-function carregarAtividades() {
-  listaDesafios.innerHTML = "";
+  const secoes =
+    document.querySelectorAll(".section");
 
-  let atividades =
-    JSON.parse(localStorage.getItem("atividades")) || [];
+  secoes.forEach(secao => {
+    secao.classList.remove("active");
+  });
 
-  atividades.forEach((atividade) => {
-    listaDesafios.innerHTML += `
-      <div class="atividade-card">
+  document
+    .getElementById(secaoId)
+    .classList.add("active");
 
-        <div class="topo-atividade">
-          <h3>${atividade.titulo}</h3>
-          <span class="status pendente">${atividade.status}</span>
-        </div>
+}
 
-        <p>${atividade.descricao}</p>
+// =========================
+// VARIÁVEL GLOBAL
+// =========================
 
-        <div class="acoes-atividade">
-          <button onclick="abrirAtividade('${atividade.titulo}','${atividade.descricao}')">
-            Ver atividade
-          </button>
-        </div>
+let tarefaSelecionada = null;
+
+// =========================
+// LISTAR TAREFAS
+// =========================
+
+async function carregarTarefas() {
+
+  const token =
+    localStorage.getItem("token");
+
+  const resposta = await fetch(
+    "http://localhost:3000/tarefas",
+    {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+  );
+
+  const tarefas = await resposta.json();
+
+  const container =
+    document.getElementById("containerTarefas");
+
+  container.innerHTML = "";
+
+  tarefas.forEach(tarefa => {
+
+    container.innerHTML += `
+
+      <div class="card">
+
+        <h3>${tarefa.titulo}</h3>
+
+        <p>${tarefa.descricao}</p>
+
+        <p>
+          Categoria:
+          ${tarefa.categoria}
+        </p>
+
+        <p>
+          Dificuldade:
+          ${tarefa.nivel_dificuldade}
+        </p>
+
+        <p>
+          Profissional:
+          ${tarefa.profissional_nome}
+        </p>
+
+        <button
+          onclick="assumirTarefa(
+            ${tarefa.id_tarefa}
+          )"
+        >
+          Assumir Tarefa
+        </button>
 
       </div>
+
     `;
   });
+
 }
 
-/* ABRIR */
-function abrirAtividade(titulo, descricao) {
-  atividadeBox.style.display = "block";
-  tituloAtividade.innerText = titulo;
-  descricaoAtividade.innerText = descricao;
+// =========================
+// ASSUMIR TAREFA
+// =========================
+
+async function assumirTarefa(id) {
+
+  const token =
+    localStorage.getItem("token");
+
+  const resposta = await fetch(
+    `http://localhost:3000/tarefas/${id}/assumir`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+  );
+
+  const dados = await resposta.json();
+
+  alert(dados.mensagem);
+
+  carregarTarefas();
+
+  carregarMinhasTarefas();
+
 }
 
-/* ENVIAR */
-function enviarProjeto() {
-  const resposta = document.getElementById("respostaAluno").value;
+// =========================
+// MINHAS TAREFAS
+// =========================
 
-  if (resposta === "") {
-    mostrarNotificacao("❌ Digite sua resposta!");
-    return;
+async function carregarMinhasTarefas() {
+
+  const token =
+    localStorage.getItem("token");
+
+  const resposta = await fetch(
+    "http://localhost:3000/tarefas/minhas",
+    {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+  );
+
+  const tarefas = await resposta.json();
+
+  const container =
+    document.getElementById(
+      "containerMinhasTarefas"
+    );
+  if (Array.isArray(tarefas)) {
+    console.log(tarefas)
+    tarefas.forEach((tarefa) => {
+      container.innerHTML += `
+
+   <div class="atividade-box">
+
+      <h3>
+         ${tarefa.titulo}
+      </h3>
+
+      <textarea
+         id="resposta-${tarefa.id_tarefa}"
+         placeholder="
+Descreva seu projeto ou envie o link do GitHub...
+         "
+      ></textarea>
+
+      <input
+         type="file"
+         id="arquivo-${tarefa.id_tarefa}"
+         class="input-arquivo"
+      >
+
+      <button
+         type="button"
+         onclick="
+            enviarProjeto(
+               ${tarefa.id_tarefa}
+            )
+         "
+      >
+         Enviar atividade
+      </button>
+
+   </div>
+
+`;
+    })
+
+  } else {
+
+    console.log("Não veio array:");
+    console.log(tarefas);
+
   }
 
-  const arquivo = arquivoProjeto.files[0];
 
-  const entrega = {
-    titulo: tituloAtividade.innerText,
-    resposta,
-    arquivo: arquivo ? arquivo.name : "Nenhum arquivo enviado",
-    status: "Pendente",
-    feedback: ""
-  };
 
-  let entregas =
-    JSON.parse(localStorage.getItem("entregas")) || [];
+};
 
-  entregas.push(entrega);
 
-  localStorage.setItem("entregas", JSON.stringify(entregas));
 
-  mostrarNotificacao("🚀 Projeto enviado!");
 
-  document.getElementById("respostaAluno").value = "";
-  arquivoProjeto.value = "";
-  nomeArquivo.innerText = "";
-  atividadeBox.style.display = "none";
-}
+// =========================
+// ENVIAR ENTREGA
+// =========================
 
-/* FOTO PERFIL */
-const fotoInput = document.getElementById("fotoInput");
-const preview = document.getElementById("preview");
+async function enviarProjeto(
+  id_tarefa
+) {
 
-if (fotoInput) {
-  fotoInput.addEventListener("change", function () {
-    const arquivo = this.files[0];
+  const token =
+    localStorage.getItem("token");
 
-    if (arquivo) {
-      const leitor = new FileReader();
+  const respostaTexto =
+    document.getElementById(
+      `resposta-${id_tarefa}`
+    ).value;
 
-      leitor.onload = function (e) {
-        preview.src = e.target.result;
-      };
+  const arquivo =
+    document.getElementById(
+      `arquivo-${id_tarefa}`
+    ).files[0];
 
-      leitor.readAsDataURL(arquivo);
+  const formData =
+    new FormData();
+
+  formData.append(
+    "id_tarefa",
+    id_tarefa
+  );
+
+  formData.append(
+    "codigo_texto",
+    respostaTexto
+  );
+
+  if (arquivo) {
+
+    formData.append(
+      "arquivo",
+      arquivo
+    );
+
+  }
+
+  const resposta = await fetch(
+
+    "http://localhost:3000/entregas",
+
+    {
+
+      method: "POST",
+
+      headers: {
+        "Authorization":
+          `Bearer ${token}`
+      },
+
+      body: formData
+
     }
-  });
+
+  );
+
+  const dados =
+    await resposta.json();
+
+  alert(
+    dados.mensagem ||
+    dados.erro
+  );
+
 }
 
-/* ARQUIVO */
-if (arquivoProjeto) {
-  arquivoProjeto.addEventListener("change", function () {
-    if (this.files.length > 0) {
-      nomeArquivo.innerText =
-        "📁 Arquivo selecionado: " + this.files[0].name;
+// =========================
+// HISTÓRICO
+// =========================
+
+async function carregarHistorico() {
+
+  const token =
+    localStorage.getItem("token");
+
+  const resposta = await fetch(
+    "http://localhost:3000/historico",
+    {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
     }
+  );
+
+  const historico = await resposta.json();
+
+  const container =
+    document.getElementById(
+      "containerHistorico"
+    );
+
+  container.innerHTML = "";
+
+  historico.forEach(item => {
+
+    container.innerHTML += `
+
+      <div class="card">
+
+        <h3>${item.titulo}</h3>
+
+        <p>
+          Status:
+          ${item.status_final_tarefa}
+        </p>
+
+        <p>
+          Pontos:
+          ${item.pontuacao_ganha}
+        </p>
+
+      </div>
+
+    `;
   });
+
 }
 
-/* NOTIFICAÇÃO */
-function mostrarNotificacao(mensagem) {
-  const notificacao = document.getElementById("notificacao");
+// =========================
+// PONTUAÇÃO
+// =========================
 
-  notificacao.innerText = mensagem;
-  notificacao.classList.add("mostrar");
+async function carregarPontuacao() {
 
-  setTimeout(() => {
-    notificacao.classList.remove("mostrar");
-  }, 3000);
+  const token =
+    localStorage.getItem("token");
+
+  const resposta = await fetch(
+    "http://localhost:3000/aprendizes/pontuacao",
+    {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+  );
+
+  const dados = await resposta.json();
+
+  document.getElementById(
+    "pontuacaoValor"
+  ).innerText = dados.pontuacao;
+
 }
+
+// =========================
+// RANKING
+// =========================
+
+async function carregarRanking() {
+
+  const token =
+    localStorage.getItem("token");
+
+  const resposta = await fetch(
+    "http://localhost:3000/ranking",
+    {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+  );
+
+  const ranking = await resposta.json();
+
+  const container =
+    document.getElementById(
+      "containerRanking"
+    );
+
+  container.innerHTML = "";
+
+  ranking.forEach((aprendiz, index) => {
+
+    container.innerHTML += `
+
+      <div class="ranking-item">
+
+        <span>
+          #${index + 1}
+          -
+          ${aprendiz.nome}
+        </span>
+
+        <strong>
+          ${aprendiz.pontuacao}
+          pts
+        </strong>
+
+      </div>
+
+    `;
+  });
+
+}
+
+// =========================
+// LOGOUT
+// =========================
+
+function logout() {
+
+  localStorage.removeItem("token");
+
+  localStorage.removeItem("usuario");
+
+  window.location.href = "index.html";
+
+}
+
+// =========================
+// INICIAR
+// =========================
+
+carregarTarefas();
+
+carregarMinhasTarefas();
+
+carregarHistorico();
+
+carregarPontuacao();
+
+carregarRanking();

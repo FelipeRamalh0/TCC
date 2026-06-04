@@ -26,13 +26,15 @@ async function trocarPagina(pagina) {
 ========================= */
 async function criarAtividade() {
 
+
+   const token = localStorage.getItem("token");
   const titulo = document.getElementById("titulo").value;
   const descricao = document.getElementById("descricao").value;
   const nivel= document.getElementById("nivel").value;
   const categoria= document.getElementById("categoria").value;
 
 
-  const token = localStorage.getItem("token");
+ 
 
   if (!titulo || !descricao || !nivel || !categoria) {
     alert("Preencha todos os campos!");
@@ -56,10 +58,7 @@ try {
       }
     )
   });
-  if (!resposta.ok) {
-  const erro = await resposta.json();
-  throw new Error(erro.mensagem || "Erro ao criar tarefa");
-}
+
   const dados= await resposta.json();
 
   localStorage.setItem("atividades", JSON.stringify(atividades));
@@ -83,25 +82,27 @@ carregarAtividades();
 ========================= */
 async function carregarAtividades() {
 const token= localStorage.getItem("token");
-  const lista = document.getElementById("listaAtividades");
+
+ const resposta = await fetch(
+        "http://localhost:3000/tarefas/profissional",
+        {
+          headers:{
+            "Authorization":`Bearer ${token}`
+          }
+        }
+      );
+const lista = document.getElementById("listaAtividades");
   lista.innerHTML = "";
+  const atividades= await resposta.json();
 
-  let atividades = fetch(`http://localhost:3000/tarefas`,{
-    method: "GET",
-    headers:{
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    }
-  });
-
-  atividades.forEach((t, index) => {
+  atividades.forEach((a) => {
 
     lista.innerHTML += `
       <div class="atividade">
-        <h3>${t.titulo}</h3>
-        <p>${t.descricao}</p>
-        <p>${t.nivel_dificuldade}</p>
-        <p>${t.categoria}</p>
+        <h3>${a.titulo}</h3>
+        <p>${a.descricao}</p>
+        <p>${a.nivel_dificuldade}</p>
+        <p>${a.categoria}</p>
 
         <div class="botoes-atividade">
           <button class="btn-entregas">Ver entregas</button>
@@ -131,10 +132,18 @@ async function excluirAtividade(index) {
 ========================= */
 async function carregarEntregas() {
 
-  const area = document.getElementById("desempenho");
+  const token= localStorage.getItem("token")
+  const resposta = await fetch(
+        "http://localhost:3000/entregas",
+        {
+          headers:{
+            "Authorization":`Bearer ${token}`
+          }
+        }
+      );
+ const area = document.getElementById("desempenho");
   area.innerHTML = "";
-
-  let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
+      const entregas = await resposta.json();
 
   entregas.forEach((e, index) => {
 
@@ -143,22 +152,42 @@ async function carregarEntregas() {
 
         <div class="topo-entrega">
           <h3>${e.titulo}</h3>
-
+          <p>
+              Aprendiz:
+              ${entrega.aprendiz_nome}
+            </p>
           <span class="status ${e.status === "Aprovado" ? "aprovado" : "pendente"}">
             ${e.status}
           </span>
         </div>
 
         <div class="codigo-box">
-          <p>${e.resposta || ""}</p>
+          <p>${e.codigo_texto || ""}</p>
           <strong>Arquivo:</strong>
           <p>${e.arquivo || ""}</p>
         </div>
 
         <textarea id="feedback-${index}" class="feedback-input"></textarea>
 
-        <div class="acoes">
-          <button onclick="aprovarAtividade(${index})">Aprovar</button>
+        <button
+              class="aprovar"
+              onclick="avaliarEntrega(
+                ${e.id_entrega},
+                'Aprovado'
+              )"
+            >
+              Aprovar
+            </button>
+
+            <button
+              class="reprovar"
+              onclick="avaliarEntrega(
+                ${e.id_entrega},
+                'Rejeitado'
+              )"
+            >
+              Reprovar
+            </button>
           <button class="btn-feedback" onclick="enviarFeedback(${index})">Feedback</button>
         </div>
 
@@ -168,20 +197,27 @@ async function carregarEntregas() {
 }
 
 /* =========================
-   APROVAR ENTREGA
+   APROVAR/REPROVAR
 ========================= */
 async function aprovarAtividade(index) {
+const token =localStorage.getItem("token");
+ await fetch(
+        `http://localhost:3000/entregas/${id}/status`,
+        {
+          method:"PUT",
 
-  let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
+          headers:{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${token}`
+          },
 
-  if (entregas[index]) {
-    entregas[index].status = "Aprovado";
-  }
+          body:JSON.stringify({
+            status :status
+          })
+        }
+      );
 
-  localStorage.setItem("entregas", JSON.stringify(entregas));
-
-  location.reload();
-}
+      carregarAvaliacoes();
 
 /* =========================
    FEEDBACK
@@ -240,4 +276,11 @@ async function atualizarAprendizesAtivos() {
   if (el) {
     el.innerText = total;
   }
-}
+}}
+//LOGOUT
+   function logout(){
+
+      localStorage.removeItem("token");
+
+      window.location.href = "index.html";
+   }
