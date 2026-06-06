@@ -1,7 +1,7 @@
 window.onload = () => {
   carregarAtividades();
   carregarEntregas();
-  
+
 };
 
 /* =========================
@@ -44,12 +44,12 @@ async function criarAtividade() {
       return;
     }
     try {
-      
+
       const resposta = await fetch(`http://localhost:3000/tarefas`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(
           {
@@ -90,7 +90,7 @@ async function carregarAtividades() {
     "http://localhost:3000/tarefas/profissional",
     {
       headers: {
-        "Authorization" : `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
       }
     }
   );
@@ -98,10 +98,10 @@ async function carregarAtividades() {
   lista.innerHTML = "";
   const atividades = await resposta.json();
 
-  atividades.forEach((a, id_tarefa) => {
+  atividades.forEach((a) => {
 
     lista.innerHTML += `
-      <div class="atividade">
+      <div class="atividade" id="tarefa-${a.id_tarefa}">
         <h3>${a.titulo}</h3>
         <p>${a.descricao}</p>
         <p>${a.nivel_dificuldade}</p>
@@ -109,7 +109,7 @@ async function carregarAtividades() {
 
         <div class="botoes-atividade">
           <button class="btn-entregas">Ver entregas</button>
-          <button class="btn-excluir" onclick="excluirAtividade(${id_tarefa})">Excluir</button>
+          <button class="btn-excluir" onclick="excluirAtividade(${a.id_tarefa})">Excluir</button>
         </div>
       </div>
     `;
@@ -121,40 +121,45 @@ async function carregarAtividades() {
 ========================= */
 async function excluirAtividade(id_tarefa) {
 
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-    try {
+  try {
 
-        const resposta = await fetch(
-            `http://localhost:3000/tarefas/${id_tarefa}`,
-            {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        );
-
-        const dados = await resposta.json();
-
-        if (!resposta.ok) {
-
-            alert(dados.erro || "Erro ao excluir tarefa");
-            return;
-
+    const resposta = await fetch(
+      `http://localhost:3000/tarefas/${id_tarefa}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
         }
+      }
+    );
 
-        alert("Tarefa excluída com sucesso!");
+    const dados = await resposta.json();
 
-        carregarAtividades();
+    if (!resposta.ok) {
 
-    } catch (erro) {
-
-        console.error(erro);
-
-        alert("Erro ao conectar com o servidor");
+      alert(dados.erro || "Erro ao excluir tarefa");
+      return;
 
     }
+    const card = document.getElementById(`tarefa-${id_tarefa}`);
+
+    if (card) {
+      card.remove();
+    }
+
+    alert("Tarefa excluída com sucesso!");
+
+    await carregarAtividades();
+
+  } catch (erro) {
+
+    console.error(erro);
+
+    alert("Erro ao conectar com o servidor");
+
+  }
 
 }
 
@@ -165,11 +170,11 @@ async function carregarEntregas() {
 
   const token = localStorage.getItem("token")
   const resposta = await fetch("http://localhost:3000/entregas", {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
     }
+  }
   );
   const area = document.getElementById("desempenho");
   area.innerHTML = "";
@@ -231,98 +236,122 @@ async function carregarEntregas() {
 ========================= */
 async function aprovarAtividade(id_entrega) {
 
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-    const resposta = await fetch(
-        `http://localhost:3000/entregas/${id_entrega}/status`,
-        {
-            method: "PUT",
+  const resposta = await fetch(
+    `http://localhost:3000/entregas/${id_entrega}/status`,
+    {
+      method: "PUT",
 
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
 
-            body: JSON.stringify({
-                status: "Aprovado"
-            })
-        }
-    );
-
-    const dados = await resposta.json();
-
-    if (!resposta.ok) {
-
-        alert(dados.erro || "Erro ao aprovar entrega");
-        return;
-
+      body: JSON.stringify({
+        status: "Aprovado"
+      })
     }
+  );
 
-    alert("Entrega aprovada com sucesso!");
+  const dados = await resposta.json();
 
-    carregarAvaliacoes();
+  if (!resposta.ok) {
+
+    alert(dados.erro || "Erro ao aprovar entrega");
+    return;
+
+  }
+
+  alert("Entrega aprovada com sucesso!");
+
+  carregarAvaliacoes();
 }
 
 /* =========================
    REPROVAR
 ========================= */
 
-  async function reprovarAtividade(id_entrega) {
+async function reprovarAtividade(id_entrega) {
 
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-    const resposta = await fetch(
-        `http://localhost:3000/entregas/${id_entrega}/status`,
-        {
-            method: "PUT",
+  const resposta = await fetch(
+    `http://localhost:3000/entregas/${id_entrega}/status`,
+    {
+      method: "PUT",
 
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
 
-            body: JSON.stringify({
-                status: "Reprovado"
-            })
-        }
-    );
-
-    const dados = await resposta.json();
-
-    if (!resposta.ok) {
-
-        alert(dados.erro || "Erro ao aprovar entrega");
-        return;
-
+      body: JSON.stringify({
+        status: "Reprovado"
+      })
     }
+  );
 
-    alert("Entrega aprovada com sucesso!");
+  const dados = await resposta.json();
 
-    carregarAvaliacoes();
+  if (!resposta.ok) {
+
+    alert(dados.erro || "Erro ao aprovar entrega");
+    return;
+
+  }
+
+  alert("Entrega aprovada com sucesso!");
+
+  carregarAvaliacoes();
 }
 
-  /* =========================
-     FEEDBACK
-  ========================= */
-  async function enviarFeedback(index) {
+/* =========================
+   FEEDBACK
+========================= */
+async function enviarFeedback(index) {
 
-    let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
+  let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
 
-    const feedback = document.getElementById(`feedback-${index}`).value;
+  const feedback = document.getElementById(`feedback-${index}`).value;
 
-    if (entregas[index]) {
-      entregas[index].feedback = feedback;
-    }
-
-    localStorage.setItem("entregas", JSON.stringify(entregas));
-
-    alert("Feedback enviado!");
+  if (entregas[index]) {
+    entregas[index].feedback = feedback;
   }
+
+  localStorage.setItem("entregas", JSON.stringify(entregas));
+
+  alert("Feedback enviado!");
+}
 
 //LOGOUT
 function logout() {
 
   localStorage.removeItem("token");
 
+  window.location.href = "index.html";
+}
+//DELETAR CONTA
+async function deletarConta() {
+  const token = localStorage.getItem("token");
+
+  const resposta = await fetch("http://localhost:3000/deletar", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  }
+  )
+  const dados = await resposta.json();
+
+  if (!resposta.ok) {
+
+    alert(dados.erro || "Erro ao deletar conta");
+    return;
+
+  }
+
+  alert("Conta excluída com sucesso!");
   window.location.href = "index.html";
 }
