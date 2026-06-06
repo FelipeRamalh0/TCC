@@ -29,13 +29,14 @@ let tarefaSelecionada = null;
 
 async function carregarTarefas() {
 
-  const token =
-    localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const resposta = await fetch(
     "http://localhost:3000/tarefas",
     {
+      method: "GET",
       headers: {
+        "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       }
     }
@@ -48,34 +49,34 @@ async function carregarTarefas() {
 
   container.innerHTML = "";
 
-  tarefas.forEach(tarefa => {
+  tarefas.forEach(t => {
 
     container.innerHTML += `
 
       <div class="card">
 
-        <h3>${tarefa.titulo}</h3>
+        <h3>${t.titulo}</h3>
 
-        <p>${tarefa.descricao}</p>
+        <p>${t.descricao}</p>
 
         <p>
           Categoria:
-          ${tarefa.categoria}
+          ${t.categoria}
         </p>
 
         <p>
           Dificuldade:
-          ${tarefa.nivel_dificuldade}
+          ${t.nivel_dificuldade}
         </p>
 
         <p>
           Profissional:
-          ${tarefa.profissional_nome}
+          ${t.profissional_nome}
         </p>
 
         <button
           onclick="assumirTarefa(
-            ${tarefa.id_tarefa}
+            ${t.id_tarefa}
           )"
         >
           Assumir Tarefa
@@ -143,7 +144,6 @@ async function carregarMinhasTarefas() {
       "containerMinhasTarefas"
     );
   if (Array.isArray(tarefas)) {
-    console.log(tarefas)
     tarefas.forEach((tarefa) => {
       container.innerHTML += `
 
@@ -326,12 +326,12 @@ async function carregarHistorico() {
 
 async function carregarPontuacao() {
 
-  const token =
-    localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const resposta = await fetch(
-    "http://localhost:3000/aprendizes/pontuacao",
+    "http://localhost:3000/pontuacao",
     {
+      method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -409,6 +409,34 @@ function logout() {
 
   window.location.href = "index.html";
 
+}
+
+// =========================
+// DELETAR
+// =========================
+
+async function deletarConta() {
+  const token = localStorage.getItem("token");
+
+  const resposta = await fetch("http://localhost:3000/deletar", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  }
+  )
+  const dados = await resposta.json();
+
+  if (!resposta.ok) {
+
+    alert(dados.erro || "Erro ao deletar conta");
+    return;
+
+  }
+
+  alert("Conta excluída com sucesso!");
+  window.location.href = "index.html";
 }
 
 // =========================

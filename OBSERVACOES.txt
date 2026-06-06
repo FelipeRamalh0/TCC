@@ -1,3 +1,3 @@
-Criar botão para logout
-Criar botão para deletar conta
+Criar botão para logout (no profissional)
+Criar botão para deletar conta (no profissional e aprendiz)
 O Botão de ver entregas na pagina de atividades tem que levar a página desempenho para ser avaliada lá

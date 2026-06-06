@@ -40,6 +40,12 @@ Criar Entrega
   "link_repositorio": "https://github.com/usuario/projeto",
   "codigo_texto": "console.log('Entrega pronta')"
 }
+Buscar pontuação
+{
+    "pontuacao": 30,
+    "nivel_experiencia": "Basico"
+
+}
 Atualizar status da Entrega
 {
   "status": "Aprovado"

@@ -3,6 +3,7 @@ import {
     listarHistorico,
     buscarHistoricoPorId,
     buscarHistoricoAprendiz,
+    buscarPontuacao,
     rankingAprendizes
 
 } from "../model/historicoModel.js";
@@ -47,6 +48,39 @@ export async function buscarPorId(req, res) {
         return res.json(historico);
 
     } catch (erro) {
+
+        console.log(erro);
+
+        return res.status(500).json({
+            erro: erro.message
+        });
+    }
+}
+
+export async function pontuacao(req, res){
+
+    try {
+
+        const usuario = req.usuario;
+
+        const aprendiz = await buscarAprendizIdUsuario(
+            usuario.id_usuario
+        );
+
+        if(!aprendiz){
+
+            return res.status(404).json({
+                erro: "Aprendiz não encontrado"
+            });
+        }
+
+        const dados = await buscarPontuacao(
+            aprendiz.id_aprendiz
+        );
+
+        return res.json(dados);
+
+    } catch(erro){
 
         console.log(erro);
 

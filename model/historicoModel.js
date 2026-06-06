@@ -51,7 +51,22 @@ export async function buscarHistoricoAprendiz(
 
     return rows;
 }
+//buscar a pontuação do aprendiz
+export async function buscarPontuacao(id_aprendiz){
 
+    const [rows] = await db.query(
+
+        `SELECT
+            pontuacao,
+            nivel_experiencia
+         FROM Aprendizes
+         WHERE id_aprendiz = ?`,
+
+        [id_aprendiz]
+    );
+
+    return rows[0];
+}
 
 // Ranking
 export async function rankingAprendizes() {

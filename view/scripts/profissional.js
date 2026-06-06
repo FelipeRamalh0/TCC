@@ -89,6 +89,7 @@ async function carregarAtividades() {
   const resposta = await fetch(
     "http://localhost:3000/tarefas/profissional",
     {
+      method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -96,7 +97,8 @@ async function carregarAtividades() {
   );
   const lista = document.getElementById("listaAtividades");
   lista.innerHTML = "";
-  const atividades = await resposta.json();
+const atividades = await resposta.json()
+
 
   atividades.forEach((a) => {
 
