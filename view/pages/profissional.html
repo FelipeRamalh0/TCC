@@ -85,8 +85,8 @@
         <section class="atividade-form">
 
           <h2>Criar nova atividade</h2>
-
-        <input 
+          <form id="formTarefa">
+<input 
           type="text"
           id="titulo"
           placeholder="Título da tarefa"
@@ -114,12 +114,10 @@
           id="categoria"
           placeholder="Categoria"
         >
-
-      
-          <button type="button" onclick="criarAtividade()">
+        <button type="submit" onclick="criarAtividade()">
             Enviar atividade
           </button>
-
+          </form>
         </section>
 
         <section class="lista">

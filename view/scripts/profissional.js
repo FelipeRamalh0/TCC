@@ -1,8 +1,7 @@
 window.onload = () => {
   carregarAtividades();
   carregarEntregas();
-  carregarAprendizes();
-  atualizarAprendizesAtivos();
+  
 };
 
 /* =========================
@@ -25,77 +24,81 @@ async function trocarPagina(pagina) {
    CRIAR ATIVIDADE
 ========================= */
 async function criarAtividade() {
+  const formTarefa = document.getElementById("formTarefa");
+
+  formTarefa.addEventListener("submit", async function (e) {
 
 
-   const token = localStorage.getItem("token");
-  const titulo = document.getElementById("titulo").value;
-  const descricao = document.getElementById("descricao").value;
-  const nivel= document.getElementById("nivel").value;
-  const categoria= document.getElementById("categoria").value;
+
+    const token = localStorage.getItem("token");
+    const titulo = document.getElementById("titulo").value;
+    const descricao = document.getElementById("descricao").value;
+    const nivel = document.getElementById("nivel").value;
+    const categoria = document.getElementById("categoria").value;
 
 
- 
 
-  if (!titulo || !descricao || !nivel || !categoria) {
-    alert("Preencha todos os campos!");
-    return;
-  }
-try {
 
-  const resposta= await fetch(`http://localhost:3000/tarefas`,{
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify(
-      {
-         titulo,
-    descricao,
-    nivel_dificuldade: nivel, 
-    categoria,
-    status: "aberta"
-      }
-    )
-  });
+    if (!titulo || !descricao || !nivel || !categoria) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+    try {
 
-  const dados= await resposta.json();
+      const resposta = await fetch(`http://localhost:3000/tarefas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(
+          {
+            titulo,
+            descricao,
+            nivel_dificuldade: nivel,
+            categoria,
+            status: "aberta"
+          }
+        )
+      });
 
-  localStorage.setItem("atividades", JSON.stringify(atividades));
+      const dados = await resposta.json();
 
-  alert("Atividade criada!");
+      localStorage.setItem("atividades", JSON.stringify(atividades));
 
-  document.getElementById("titulo").value = "";
-  document.getElementById("descricao").value = "";
-  document.getElementById("nivel").value = "";
-  document.getElementById("categoria").value = "";
-carregarAtividades();
-} catch (error) {
-  console.error("Erro ao criar atividade", error)
+      alert("Atividade criada!");
+
+      document.getElementById("titulo").value = "";
+      document.getElementById("descricao").value = "";
+      document.getElementById("nivel").value = "";
+      document.getElementById("categoria").value = "";
+      carregarAtividades();
+    } catch (error) {
+      console.error("Erro ao criar atividade", error)
+    }
+
+
+  })
 }
-  
- 
-}
-
 /* =========================
    LISTAR ATIVIDADES
 ========================= */
 async function carregarAtividades() {
-const token= localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
- const resposta = await fetch(
-        "http://localhost:3000/tarefas/profissional",
-        {
-          headers:{
-            "Authorization":`Bearer ${token}`
-          }
-        }
-      );
-const lista = document.getElementById("listaAtividades");
+  const resposta = await fetch(
+    "http://localhost:3000/tarefas/profissional",
+    {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+  );
+  const lista = document.getElementById("listaAtividades");
   lista.innerHTML = "";
-  const atividades= await resposta.json();
+  const atividades = await resposta.json();
 
-  atividades.forEach((a) => {
+  atividades.forEach((a, index) => {
 
     lista.innerHTML += `
       <div class="atividade">
@@ -132,18 +135,16 @@ async function excluirAtividade(index) {
 ========================= */
 async function carregarEntregas() {
 
-  const token= localStorage.getItem("token")
-  const resposta = await fetch(
-        "http://localhost:3000/entregas",
-        {
-          headers:{
-            "Authorization":`Bearer ${token}`
-          }
-        }
-      );
- const area = document.getElementById("desempenho");
+  const token = localStorage.getItem("token")
+  const resposta = await fetch("http://localhost:3000/entregas", {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+  );
+  const area = document.getElementById("desempenho");
   area.innerHTML = "";
-      const entregas = await resposta.json();
+  const entregas = await resposta.json();
 
   entregas.forEach((e, index) => {
 
@@ -154,7 +155,7 @@ async function carregarEntregas() {
           <h3>${e.titulo}</h3>
           <p>
               Aprendiz:
-              ${entrega.aprendiz_nome}
+              ${e.aprendiz_nome}
             </p>
           <span class="status ${e.status === "Aprovado" ? "aprovado" : "pendente"}">
             ${e.status}
@@ -200,87 +201,48 @@ async function carregarEntregas() {
    APROVAR/REPROVAR
 ========================= */
 async function aprovarAtividade(index) {
-const token =localStorage.getItem("token");
- await fetch(
-        `http://localhost:3000/entregas/${id}/status`,
-        {
-          method:"PUT",
+  const token = localStorage.getItem("token");
+  await fetch(
+    `http://localhost:3000/entregas/${id}/status`,
+    {
+      method: "PUT",
 
-          headers:{
-            "Content-Type":"application/json",
-            "Authorization":`Bearer ${token}`
-          },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
 
-          body:JSON.stringify({
-            status :status
-          })
-        }
-      );
-
-      carregarAvaliacoes();
-
-/* =========================
-   FEEDBACK
-========================= */
-async function enviarFeedback(index) {
-
-  let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
-
-  const feedback = document.getElementById(`feedback-${index}`).value;
-
-  if (entregas[index]) {
-    entregas[index].feedback = feedback;
-  }
-
-  localStorage.setItem("entregas", JSON.stringify(entregas));
-
-  alert("Feedback enviado!");
-}
-
-/* =========================
-   APRENDIZES
-========================= */
-async function carregarAprendizes() {
-
-  const lista = document.getElementById("listaAprendizes");
-
-  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-  lista.innerHTML = "";
-
-  usuarios.forEach(u => {
-
-    if (u.tipo === "aprendiz") {
-
-      lista.innerHTML += `
-        <div class="atividade">
-          <h3>${u.nome}</h3>
-          <p>${u.email}</p>
-        </div>
-      `;
+      body: JSON.stringify({
+        status: status
+      })
     }
-  });
+  );
+
+  carregarAvaliacoes();
+
+  /* =========================
+     FEEDBACK
+  ========================= */
+  async function enviarFeedback(index) {
+
+    let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
+
+    const feedback = document.getElementById(`feedback-${index}`).value;
+
+    if (entregas[index]) {
+      entregas[index].feedback = feedback;
+    }
+
+    localStorage.setItem("entregas", JSON.stringify(entregas));
+
+    alert("Feedback enviado!");
+  }
 }
 
-/* =========================
-   APRENDIZES ATIVOS
-========================= */
-async function atualizarAprendizesAtivos() {
-
-  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-  const total = usuarios.filter(u => u.tipo === "aprendiz").length;
-
-  const el = document.getElementById("totalAprendizes");
-
-  if (el) {
-    el.innerText = total;
-  }
-}}
 //LOGOUT
-   function logout(){
+function logout() {
 
-      localStorage.removeItem("token");
+  localStorage.removeItem("token");
 
-      window.location.href = "index.html";
-   }
+  window.location.href = "index.html";
+}
