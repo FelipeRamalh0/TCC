@@ -98,7 +98,7 @@ async function carregarAtividades() {
   lista.innerHTML = "";
   const atividades = await resposta.json();
 
-  atividades.forEach((a, index) => {
+  atividades.forEach((a, id_tarefa) => {
 
     lista.innerHTML += `
       <div class="atividade">
@@ -109,7 +109,7 @@ async function carregarAtividades() {
 
         <div class="botoes-atividade">
           <button class="btn-entregas">Ver entregas</button>
-          <button class="btn-excluir" onclick="excluirAtividade(${index})">Excluir</button>
+          <button class="btn-excluir" onclick="excluirAtividade(${id_tarefa})">Excluir</button>
         </div>
       </div>
     `;
@@ -119,15 +119,43 @@ async function carregarAtividades() {
 /* =========================
    EXCLUIR ATIVIDADE
 ========================= */
-async function excluirAtividade(index) {
+async function excluirAtividade(id_tarefa) {
 
-  let atividades = JSON.parse(localStorage.getItem("atividades")) || [];
+    const token = localStorage.getItem("token");
 
-  atividades.splice(index, 1);
+    try {
 
-  localStorage.setItem("atividades", JSON.stringify(atividades));
+        const resposta = await fetch(
+            `http://localhost:3000/tarefas/${id_tarefa}`,
+            {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
 
-  carregarAtividades();
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+
+            alert(dados.erro || "Erro ao excluir tarefa");
+            return;
+
+        }
+
+        alert("Tarefa excluída com sucesso!");
+
+        carregarAtividades();
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        alert("Erro ao conectar com o servidor");
+
+    }
+
 }
 
 /* =========================
@@ -199,27 +227,79 @@ async function carregarEntregas() {
 }
 
 /* =========================
-   APROVAR/REPROVAR
+   APROVAR
 ========================= */
-async function aprovarAtividade(index) {
-  const token = localStorage.getItem("token");
-  await fetch(
-    `http://localhost:3000/entregas/${id}/status`,
-    {
-      method: "PUT",
+async function aprovarAtividade(id_entrega) {
 
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
+    const token = localStorage.getItem("token");
 
-      body: JSON.stringify({
-        status: status
-      })
+    const resposta = await fetch(
+        `http://localhost:3000/entregas/${id_entrega}/status`,
+        {
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+
+            body: JSON.stringify({
+                status: "Aprovado"
+            })
+        }
+    );
+
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+
+        alert(dados.erro || "Erro ao aprovar entrega");
+        return;
+
     }
-  );
 
-  carregarAvaliacoes();
+    alert("Entrega aprovada com sucesso!");
+
+    carregarAvaliacoes();
+}
+
+/* =========================
+   REPROVAR
+========================= */
+
+  async function reprovarAtividade(id_entrega) {
+
+    const token = localStorage.getItem("token");
+
+    const resposta = await fetch(
+        `http://localhost:3000/entregas/${id_entrega}/status`,
+        {
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+
+            body: JSON.stringify({
+                status: "Reprovado"
+            })
+        }
+    );
+
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+
+        alert(dados.erro || "Erro ao aprovar entrega");
+        return;
+
+    }
+
+    alert("Entrega aprovada com sucesso!");
+
+    carregarAvaliacoes();
+}
 
   /* =========================
      FEEDBACK
@@ -238,7 +318,6 @@ async function aprovarAtividade(index) {
 
     alert("Feedback enviado!");
   }
-}
 
 //LOGOUT
 function logout() {
