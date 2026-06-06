@@ -5,6 +5,7 @@ const SECRET = process.env.SECRET;
 export function verificarToken(req, res, next) {
 
     try {
+        console.log(req.headers.authorization);
 
         const authHeader = req.headers.authorization;
 

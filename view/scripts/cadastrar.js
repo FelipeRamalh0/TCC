@@ -86,47 +86,76 @@ formCadastro.addEventListener('submit', (event) => {
 
 /* LOGIN */
 
-formLogin.addEventListener('submit', (event) => {
+formLogin.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
     const email =
-        document.getElementById('loginEmail').value;
+        document.getElementById("loginEmail").value;
 
     const senha =
-        document.getElementById('loginSenha').value;
+        document.getElementById("loginSenha").value;
 
-    let usuarios =
-        JSON.parse(localStorage.getItem("usuarios")) || [];
+    try {
 
-    const usuario =
-        usuarios.find(user =>
-            user.email === email &&
-            user.senha === senha
+        const resposta = await fetch(
+            "http://localhost:3000/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    senha
+                })
+            }
         );
 
-    if (!usuario) {
-        alert("Email ou senha incorretos!");
-        return;
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+
+            alert(dados.erro);
+            return;
+
+        }
+
+        localStorage.setItem(
+            "token",
+            dados.token
+        );
+
+        localStorage.setItem(
+            "usuario",
+            JSON.stringify(dados.usuario)
+        );
+
+        alert("Login realizado com sucesso!");
+
+        if (
+            dados.usuario.tipo_usuario ===
+            "Profissional"
+        ) {
+
+            window.location.href =
+                "profissional.html";
+
+        } else {
+
+            window.location.href =
+                "aprendiz.html";
+
+        }
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        alert(
+            "Erro ao conectar com o servidor"
+        );
+
     }
 
-    localStorage.setItem(
-        "usuarioLogado",
-        JSON.stringify(usuario)
-    );
-
-    alert("Login realizado com sucesso!");
-
-    /* REDIRECIONAR CORRIGIDO */
-
-    if (usuario.tipo?.toLowerCase().trim() === "profissional") {
-
-        window.location.href =
-            "profissional.html";
-
-    } else {
-
-        window.location.href =
-            "aprendiz.html";
-    }
 });

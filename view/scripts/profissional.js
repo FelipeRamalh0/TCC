@@ -44,12 +44,12 @@ async function criarAtividade() {
       return;
     }
     try {
-
+      
       const resposta = await fetch(`http://localhost:3000/tarefas`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Authorization" : `Bearer ${token}`
         },
         body: JSON.stringify(
           {
@@ -90,7 +90,7 @@ async function carregarAtividades() {
     "http://localhost:3000/tarefas/profissional",
     {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization" : `Bearer ${token}`
       }
     }
   );
@@ -138,6 +138,7 @@ async function carregarEntregas() {
   const token = localStorage.getItem("token")
   const resposta = await fetch("http://localhost:3000/entregas", {
       headers: {
+        "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       }
     }
