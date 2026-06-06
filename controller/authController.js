@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { criarUsuario, buscarEmail } from "../model/usuarioModel.js";
 import { criarAprendiz } from "../model/aprendizModel.js";
 import { criarProfissional } from "../model/profissionalModel.js";
+import { deletarUsuario } from "../model/usuarioModel.js";
 
 const SECRET = process.env.SECRET;
 
@@ -149,6 +150,37 @@ export async function login(req, res) {
             code: erro.code,
             sqlMessage: erro.sqlMessage,
             stack: erro.stack
+        });
+    }
+}
+
+
+
+export async function deletar(req, res) {
+
+    try {
+
+        const { id } = req.params;
+
+        const deletado = await deletarUsuario(id);
+
+        if (deletado === 0) {
+
+            return res.status(404).json({
+                erro: "Usuário não encontrado"
+            });
+        }
+
+        return res.json({
+            mensagem: "Usuário deletado com sucesso"
+        });
+
+    } catch (erro) {
+
+        console.log(erro);
+
+        return res.status(500).json({
+            erro: erro.message
         });
     }
 }
