@@ -26,64 +26,76 @@ const formLogin =
 
 /* CADASTRO */
 
-formCadastro.addEventListener('submit', (event) => {
+formCadastro.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
     const nome =
-        document.getElementById('nomeCadastro').value;
+        document.getElementById("nomeCadastro").value;
 
     const email =
-        document.getElementById('emailCadastro').value;
+        document.getElementById("emailCadastro").value;
 
     const senha =
-        document.getElementById('senhaCadastro').value;
+        document.getElementById("senhaCadastro").value;
 
     const confirmarSenha =
-        document.getElementById('cadastroConfirmarSenha').value;
+        document.getElementById("cadastroConfirmarSenha").value;
 
-    const tipo =
-        document.getElementById('nivelCadastro').value;
+    const tipo_usuario =
+        document.getElementById("nivelCadastro").value;
 
     if (senha !== confirmarSenha) {
+
         alert("As senhas não coincidem");
         return;
+
     }
 
-    let usuarios =
-        JSON.parse(localStorage.getItem("usuarios")) || [];
+    try {
 
-    const usuarioExiste =
-        usuarios.find(usuario => usuario.email === email);
+        const resposta = await fetch(
+            "http://localhost:3000/cadastrar",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nome,
+                    email,
+                    senha,
+                    tipo_usuario
+                })
+            }
+        );
 
-    if (usuarioExiste) {
-        alert("Esse email já está cadastrado!");
-        return;
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+
+            alert(dados.erro);
+            return;
+
+        }
+
+        alert("Cadastro realizado com sucesso!");
+
+        formCadastro.reset();
+
+        container.classList.remove("active");
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        alert(
+            "Erro ao conectar com o servidor"
+        );
+
     }
 
-    const novoUsuario = {
-        nome,
-        email,
-        senha,
-        tipo,
-        tecnologias: "HTML • CSS • JavaScript",
-        foto: "https://i.pravatar.cc/150"
-    };
-
-    usuarios.push(novoUsuario);
-
-    localStorage.setItem(
-        "usuarios",
-        JSON.stringify(usuarios)
-    );
-
-    alert("Cadastro realizado com sucesso!");
-
-    formCadastro.reset();
-
-    container.classList.remove('active');
 });
-
 /* LOGIN */
 
 formLogin.addEventListener("submit", async (event) => {
