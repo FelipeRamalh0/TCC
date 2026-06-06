@@ -156,28 +156,19 @@ export async function login(req, res) {
 
 
 
-export async function deletar(req, res) {
+export async function deletarMinhaConta(req, res) {
 
     try {
 
-        const { id } = req.params;
+        const id = req.usuario.id_usuario;
 
         const deletado = await deletarUsuario(id);
 
-        if (deletado === 0) {
-
-            return res.status(404).json({
-                erro: "Usuário não encontrado"
-            });
-        }
-
         return res.json({
-            mensagem: "Usuário deletado com sucesso"
+            mensagem: "Conta removida com sucesso"
         });
 
     } catch (erro) {
-
-        console.log(erro);
 
         return res.status(500).json({
             erro: erro.message
