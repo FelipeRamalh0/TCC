@@ -17,7 +17,7 @@ CREATE TABLE Usuarios(
 CREATE TABLE Aprendizes (
     id_aprendiz INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT UNIQUE NOT NULL,
-    nivel_experiencia ENUM('Iniciante','Basico','Intermediario'),
+    nivel_experiencia ENUM('Iniciante','Basico','Intermediario', 'Avancado'),
     pontuacao INT NOT NULL DEFAULT 0,
     bio TEXT,
 
@@ -190,7 +190,8 @@ AFTER UPDATE ON Tarefas
 FOR EACH ROW
 BEGIN
     IF NEW.status_tarefa = 'concluida'
-       AND OLD.status_tarefa <> 'concluida' THEN
+       AND OLD.status_tarefa <> 'concluida'
+       AND NEW.id_aprendiz_responsavel IS NOT NULL THEN
 
         INSERT INTO Historico_Aprendizes
         (id_aprendiz, id_tarefa, pontuacao_ganha, status_final_tarefa)
@@ -228,8 +229,10 @@ BEGIN
     ELSEIF NEW.pontuacao BETWEEN 21 AND 50 THEN
         SET NEW.nivel_experiencia = 'Basico';
 
-    ELSE
+    ELSEIF NEW.pontuacao BETWEEN 51 and 100 THEN
         SET NEW.nivel_experiencia = 'Intermediario';
+        
+        ELSE SET NEW.nivel_experiencia = 'Avancado';
 
     END IF;
 
