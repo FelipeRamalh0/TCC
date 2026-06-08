@@ -357,3 +357,14 @@ async function deletarConta() {
   alert("Conta excluída com sucesso!");
   window.location.href = "index.html";
 }
+
+function exit() {
+
+  localStorage.removeItem("token");
+
+  localStorage.removeItem("usuario");
+
+  window.location.href = "../index.html";
+
+}
+

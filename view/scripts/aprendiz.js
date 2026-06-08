@@ -401,13 +401,13 @@ async function carregarRanking() {
 // LOGOUT
 // =========================
 
-function logout() {
+function exit() {
 
   localStorage.removeItem("token");
 
   localStorage.removeItem("usuario");
 
-  window.location.href = "index.html";
+  window.location.href = "../index.html";
 
 }
 
