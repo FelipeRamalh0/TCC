@@ -1,11 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Perfil Profissional</title>
+
+    <link rel="stylesheet" href="../css/profissionaPerfil.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
-    
+
+<section id="perfil" class="pagina">
+
+    <h1>
+        <i class="fa-solid fa-user-tie"></i>
+        Meu Perfil
+    </h1>
+
+    <div class="perfil-container">
+
+        <!-- CARD PERFIL -->
+
+        <div class="perfil-card">
+
+            <img
+                src="../img/avatar.png"
+                alt="Foto do Profissional"
+                class="foto-preview"
+            >
+
+            <input
+                type="file"
+                id="fotoPerfil"
+                accept="image/*"
+            >
+
+            <h2 id="nomePerfil">
+                Professor Felipe
+            </h2>
+
+            <p>
+                Desenvolvedor Full Stack
+            </p>
+
+            <div class="stats-perfil">
+
+                <div class="stat">
+                    <h3>42</h3>
+                    <p>Atividades</p>
+                </div>
+
+                <div class="stat">
+                    <h3>24</h3>
+                    <p>Aprendizes</p>
+                </div>
+
+                <div class="stat">
+                    <h3>95%</h3>
+                    <p>Aprovação</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FORMULÁRIO -->
+
+        <div class="atividade-form">
+
+            <h2>
+                <i class="fa-solid fa-pen-to-square"></i>
+                Editar Informações
+            </h2>
+
+            <input
+                type="text"
+                id="nome"
+                placeholder="Nome Completo"
+            >
+
+            <input
+                type="email"
+                id="email"
+                placeholder="E-mail"
+            >
+
+            <input
+                type="text"
+                id="linkedin"
+                placeholder="LinkedIn"
+            >
+
+            <input
+                type="text"
+                id="github"
+                placeholder="GitHub"
+            >
+
+            <textarea
+                id="bio"
+                placeholder="Conte um pouco sobre você..."
+            ></textarea>
+
+            <h2 style="margin-top: 25px;">
+                Segurança
+            </h2>
+
+            <input
+                type="password"
+                id="senhaAtual"
+                placeholder="Senha Atual"
+            >
+
+            <input
+                type="password"
+                id="novaSenha"
+                placeholder="Nova Senha"
+            >
+
+            <input
+                type="password"
+                id="confirmarSenha"
+                placeholder="Confirmar Nova Senha"
+            >
+
+            <div class="acoes-perfil">
+
+                <button
+                    class="btn-salvar"
+                    onclick="salvarPerfil()"
+                >
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Salvar Alterações
+                </button>
+
+                <button
+                    class="btn-excluir-conta"
+                    onclick="excluirConta()"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                    Excluir Conta
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="../scripts/profissionalPerfil.js"></script>
+
 </body>
 </html>

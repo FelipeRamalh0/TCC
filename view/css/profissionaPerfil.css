@@ -1,0 +1,158 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  padding: 40px;
+  background: linear-gradient(
+    135deg,
+    #0b0618,
+    #140b2f,
+    #1c1040
+  );
+  color: white;
+}
+
+/* =========================
+   PERFIL PREMIUM
+========================= */
+
+.perfil-container {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 25px;
+  margin-top: 25px;
+}
+
+.perfil-card {
+  background: rgba(20, 11, 47, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(168, 85, 247, .25);
+  border-radius: 25px;
+  padding: 35px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,.25);
+}
+
+.perfil-card img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #a855f7;
+  box-shadow: 0 0 35px rgba(168,85,247,.5);
+  margin-bottom: 20px;
+}
+
+.perfil-card h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.perfil-card p {
+  color: #cbd5e1;
+  margin-bottom: 20px;
+}
+
+.perfil-card input[type="file"] {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.atividade-form {
+  background: rgba(20, 11, 47, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  border: 1px solid rgba(168,85,247,.25);
+  padding: 35px;
+}
+
+.atividade-form h2 {
+  color: #c084fc;
+  margin-bottom: 20px;
+}
+
+.atividade-form input,
+.atividade-form textarea {
+  background: rgba(15,23,42,.9);
+  border: 1px solid rgba(168,85,247,.2);
+}
+
+.atividade-form textarea {
+  min-height: 140px;
+}
+
+.acoes-perfil {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-salvar {
+  flex: 1;
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #a855f7
+  );
+}
+
+.btn-excluir-conta {
+  flex: 1;
+  background: linear-gradient(
+    135deg,
+    #dc2626,
+    #ef4444
+  );
+}
+
+.btn-excluir-conta:hover {
+  box-shadow: 0 0 25px rgba(239,68,68,.4);
+}
+
+/* ESTATÍSTICAS */
+
+.stats-perfil {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.stat {
+  flex: 1;
+  background: rgba(15,23,42,.8);
+  border: 1px solid rgba(168,85,247,.15);
+  padding: 18px;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.stat h3 {
+  color: #c084fc;
+  font-size: 26px;
+}
+
+.stat p {
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+
+  .perfil-container {
+    grid-template-columns: 1fr;
+  }
+
+  .acoes-perfil {
+    flex-direction: column;
+  }
+
+  .stats-perfil {
+    flex-direction: column;
+  }
+
+}
