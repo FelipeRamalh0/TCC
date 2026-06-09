@@ -98,7 +98,7 @@ export async function meuHistorico(req, res) {
 
         // Buscar aprendiz
         const aprendiz =
-        await buscarAprendizPorUsuario(
+        await buscarAprendizIdUsuario(
             usuario.id_usuario
         );
 

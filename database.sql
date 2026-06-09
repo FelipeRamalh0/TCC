@@ -170,11 +170,16 @@ CREATE TRIGGER trg_validar_aprendiz_responsavel
 BEFORE UPDATE ON Tarefas
 FOR EACH ROW
 BEGIN
-    IF NEW.id_aprendiz_responsavel IS NOT NULL
+
+    IF OLD.id_aprendiz_responsavel IS NULL
+       AND NEW.id_aprendiz_responsavel IS NOT NULL
        AND NEW.status_tarefa <> 'em_andamento' THEN
+
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Aprendiz responsável só pode ser atribuído a tarefas em andamento.';
+
     END IF;
+
 END$$
 
 DELIMITER ;
