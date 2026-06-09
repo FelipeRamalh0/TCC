@@ -164,6 +164,8 @@ DELIMITER ;
 
 ### GARANTE QUE SO PODE ATRIBUIR TAREFAS EM ANDAMENTO ###
 
+
+
 DELIMITER $$
 
 CREATE TRIGGER trg_validar_aprendiz_responsavel
@@ -337,9 +339,11 @@ WHERE token = 'token_abc_123';
 
 ##### SELECTS #####
 
+
 SELECT id_tarefa, data_criacao
 FROM Tarefas
 ORDER BY data_criacao DESC;
+
 
 SELECT T.titulo, U.nome
 FROM Tarefas T
@@ -402,3 +406,5 @@ R.usado
 FROM Recuperacao_Senha R
 INNER JOIN Usuarios U
 ON R.id_usuario = U.id_usuario;
+
+
