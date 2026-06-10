@@ -15,7 +15,7 @@ import {buscarAprendizIdUsuario} from "../model/aprendizModel.js"
 export async function criar(req, res) {
 
     try {
-
+    
         const {
             titulo,
             descricao,
@@ -50,6 +50,7 @@ export async function criar(req, res) {
             mensagem: "Tarefa criada com sucesso",
             id_tarefa
         });
+        
 
     } catch (erro) {
 

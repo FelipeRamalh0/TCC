@@ -44,7 +44,7 @@ async function criarAtividade() {
       return;
     }
     try {
-       
+
       const resposta = await fetch(`http://localhost:3000/tarefas`, {
         method: "POST",
         headers: {
@@ -97,7 +97,7 @@ async function carregarAtividades() {
   );
   const lista = document.getElementById("listaAtividades");
   lista.innerHTML = "";
-const atividades = await resposta.json()
+  const atividades = await resposta.json()
 
 
   atividades.forEach((a) => {
@@ -110,7 +110,7 @@ const atividades = await resposta.json()
         <p>${a.categoria}</p>
 
         <div class="botoes-atividade">
-          <button class="btn-entregas">Ver entregas</button>
+          <button class="btn-entregas" onclick="trocarPagina('desempenho')">Ver entregas</button>
           <button class="btn-excluir" onclick="excluirAtividade(${a.id_tarefa})">Excluir</button>
         </div>
       </div>
@@ -182,6 +182,11 @@ async function carregarEntregas() {
   area.innerHTML = "";
   const entregas = await resposta.json();
 
+  if (!resposta.ok) {
+    const erro = await resposta.json();
+    console.error(erro);
+    return;
+  }
   entregas.forEach((e, index) => {
 
     area.innerHTML += `
@@ -193,18 +198,23 @@ async function carregarEntregas() {
               Aprendiz:
               ${e.aprendiz_nome}
             </p>
-          <span class="status ${e.status === "Aprovado" ? "aprovado" : "pendente"}">
-            ${e.status}
+          <span class="status ${e.status_entrega === "Aprovado" ? "Aprovado" : "pendente"}">
+            ${e.status_entrega}
           </span>
         </div>
 
         <div class="codigo-box">
           <p>${e.codigo_texto || ""}</p>
           <strong>Arquivo:</strong>
-          <p>${e.arquivo || ""}</p>
+<a
+  href="http://localhost:3000/uploads/${e.arquivo_url}"
+  target="_blank"
+>
+  Ver arquivo
+</a>
         </div>
 
-        <textarea id="feedback-${index}" class="feedback-input"></textarea>
+        <textarea id="feedback-${index}" class="feedback-input" placeholder="Dê o seu feedback"></textarea>
 
         <button
               class="aprovar"

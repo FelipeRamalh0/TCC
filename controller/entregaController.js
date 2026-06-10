@@ -73,6 +73,7 @@ export async function listar(req, res) {
     try {
 
         const entregas = await listarEntregas();
+         console.log(entregas);
 
         return res.json(entregas);
 

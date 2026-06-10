@@ -55,8 +55,17 @@ export async function buscarEntregaPorId(id){
 
     const [rows] = await db.query(
 
-        `SELECT * FROM Entregas
-         WHERE id_entrega = ?`,
+        `   SELECT
+            E.*,
+            T.titulo,
+            U.nome AS aprendiz_nome
+        FROM Entregas E
+        INNER JOIN Tarefas T
+            ON E.id_tarefa = T.id_tarefa
+        INNER JOIN Aprendizes A
+            ON E.id_aprendiz = A.id_aprendiz
+        INNER JOIN Usuarios U
+            ON A.id_usuario = U.id_usuario`,
 
         [id]
     );
