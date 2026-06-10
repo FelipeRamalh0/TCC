@@ -142,6 +142,7 @@ export async function listarMinhasTarefas(
 
 }
 export async function listarTarefasProfissional(req, res){
+console.log(req.usuario);
 
    try {
 
@@ -168,9 +169,9 @@ export async function listarTarefasProfissional(req, res){
 }
 
 export async function assumir(req, res) {
-console.log(req.usuario);
+
     try {
-        console.log(req.usuario)
+        
         const { id } = req.params;
 
         const usuario = req.usuario;

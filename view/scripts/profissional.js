@@ -44,7 +44,7 @@ async function criarAtividade() {
       return;
     }
     try {
-        console.log({tipo_usuario});
+       
       const resposta = await fetch(`http://localhost:3000/tarefas`, {
         method: "POST",
         headers: {

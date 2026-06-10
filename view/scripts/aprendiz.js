@@ -183,9 +183,8 @@ Descreva seu projeto ou envie o link do GitHub...
     })
 
   } else {
-
-    console.log("Não veio array:");
-    console.log(tarefas);
+console.log(JSON.stringify(dados, null, 2));
+    
 
   }
 
