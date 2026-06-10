@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="../css/profissionaPerfil.css">
 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -28,41 +30,32 @@
 
         <div class="perfil-card">
 
-            <img
-                src="../img/avatar.png"
-                alt="Foto do Profissional"
-                class="foto-preview"
-            >
 
-            <input
-                type="file"
-                id="fotoPerfil"
-                accept="image/*"
-            >
-
-            <h2 id="nomePerfil">
-                Professor Felipe
-            </h2>
-
-            <p>
-                Desenvolvedor Full Stack
+            <p id="cargoPerfil">
+                Profissional
             </p>
 
-            <div class="stats-perfil">
+            <div class="info-perfil">
 
-                <div class="stat">
-                    <h3>42</h3>
-                    <p>Atividades</p>
+                <div class="info-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span id="emailPerfil">
+                        Email não informado
+                    </span>
                 </div>
 
-                <div class="stat">
-                    <h3>24</h3>
-                    <p>Aprendizes</p>
+                <div class="info-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <span id="telefonePerfil">
+                        Telefone não informado
+                    </span>
                 </div>
 
-                <div class="stat">
-                    <h3>95%</h3>
-                    <p>Aprovação</p>
+                <div class="info-item">
+                    <i class="fa-solid fa-building"></i>
+                    <span id="empresaPerfil">
+                        Empresa não informada
+                    </span>
                 </div>
 
             </div>
@@ -88,6 +81,24 @@
                 type="email"
                 id="email"
                 placeholder="E-mail"
+            >
+
+            <input
+                type="text"
+                id="telefone"
+                placeholder="Telefone"
+            >
+
+            <input
+                type="text"
+                id="empresa"
+                placeholder="Empresa"
+            >
+
+            <input
+                type="text"
+                id="cargo"
+                placeholder="Cargo"
             >
 
             <input
