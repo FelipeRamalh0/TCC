@@ -183,7 +183,6 @@ async function carregarEntregas() {
   const entregas = await resposta.json();
 
   if (!resposta.ok) {
-    const erro = await resposta.json();
     console.error(erro);
     return;
   }
@@ -218,8 +217,8 @@ async function carregarEntregas() {
 
         <button
               class="aprovar"
-              onclick="avaliarEntrega(
-                ${e.id_entrega},
+              onclick="aprovarAtividade(
+                ${e.id_entrega}, ${index},
                 'Aprovado'
               )"
             >
@@ -228,14 +227,14 @@ async function carregarEntregas() {
 
             <button
               class="reprovar"
-              onclick="avaliarEntrega(
+              onclick="reprovarAtividade(
                 ${e.id_entrega},
+                ${index},
                 'Rejeitado'
               )"
             >
               Reprovar
             </button>
-          <button class="btn-feedback" onclick="enviarFeedback(${index})">Feedback</button>
         </div>
 
       </div>
@@ -246,10 +245,19 @@ async function carregarEntregas() {
 /* =========================
    APROVAR
 ========================= */
-async function aprovarAtividade(id_entrega) {
+async function aprovarAtividade(id_entrega, index) {
 
   const token = localStorage.getItem("token");
 
+  const feedback =
+    document.getElementById(
+      `feedback-${index}`
+    ).value;
+
+  if (!feedback.trim()) {
+    alert("Digite um feedback.");
+    return;
+  }
   const resposta = await fetch(
     `http://localhost:3000/entregas/${id_entrega}/status`,
     {
@@ -261,7 +269,8 @@ async function aprovarAtividade(id_entrega) {
       },
 
       body: JSON.stringify({
-        status: "Aprovado"
+        status: "Aprovado",
+        feedback
       })
     }
   );
@@ -299,7 +308,8 @@ async function reprovarAtividade(id_entrega) {
       },
 
       body: JSON.stringify({
-        status: "Reprovado"
+        status: "Reprovado",
+        feedback
       })
     }
   );
@@ -316,24 +326,6 @@ async function reprovarAtividade(id_entrega) {
   alert("Entrega aprovada com sucesso!");
 
   carregarAvaliacoes();
-}
-
-/* =========================
-   FEEDBACK
-========================= */
-async function enviarFeedback(index) {
-
-  let entregas = JSON.parse(localStorage.getItem("entregas")) || [];
-
-  const feedback = document.getElementById(`feedback-${index}`).value;
-
-  if (entregas[index]) {
-    entregas[index].feedback = feedback;
-  }
-
-  localStorage.setItem("entregas", JSON.stringify(entregas));
-
-  alert("Feedback enviado!");
 }
 
 //LOGOUT

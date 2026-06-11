@@ -301,7 +301,8 @@ async function carregarHistorico() {
       <div class="card">
 
         <h3>${item.titulo}</h3>
-
+        <p>Feedback do professor: 
+        ${item.feedback}</p>
         <p>
           Status:
           ${item.status_final_tarefa}

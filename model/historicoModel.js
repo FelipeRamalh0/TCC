@@ -6,9 +6,21 @@ export async function listarHistorico() {
 
     const [rows] = await db.query(
 
-        `SELECT *
-
-         FROM Historico_Aprendizes`
+        `  SELECT
+            H.*,
+            T.titulo,
+            U.nome AS aprendiz_nome,
+            E.feedback
+        FROM Historico_Aprendizes H
+        INNER JOIN Tarefas T
+            ON H.id_tarefa = T.id_tarefa
+        INNER JOIN Aprendizes A
+            ON H.id_aprendiz = A.id_aprendiz
+        INNER JOIN Usuarios U
+            ON A.id_usuario = U.id_usuario
+        LEFT JOIN Entregas E
+            ON E.id_tarefa = H.id_tarefa
+           AND E.id_aprendiz = H.id_aprendiz`
     );
 
     return rows;

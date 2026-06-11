@@ -73,7 +73,7 @@ export async function listar(req, res) {
     try {
 
         const entregas = await listarEntregas();
-         console.log(entregas);
+        console.log(entregas);
 
         return res.json(entregas);
 
@@ -139,11 +139,11 @@ export async function listarPorTarefa(req, res) {
 export async function atualizarStatus(req, res) {
 
     try {
-        
+
 
         const { id } = req.params;
 
-        const { status } = req.body;
+        const { status, feedback } = req.body;
 
         const usuario = req.usuario;
         // Apenas profissional
@@ -154,10 +154,17 @@ export async function atualizarStatus(req, res) {
             });
         }
 
+        if (!feedback || !feedback.trim()) {
+            return res.status(400).json({
+                erro: "Feedback obrigatório"
+            });
+        }
+
         const atualizado =
             await atualizarStatusEntrega(
                 id,
-                status
+                status,
+                feedback
             );
 
         if (atualizado === 0) {

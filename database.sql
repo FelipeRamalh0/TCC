@@ -73,8 +73,9 @@ CREATE TABLE Entregas (
     arquivo_url VARCHAR(255),
     link_repositorio VARCHAR(255),
     codigo_texto TEXT,
+    feedback TEXT,
     status_entrega ENUM('Enviado','Em avaliacao','Aprovado','Rejeitado') NOT NULL DEFAULT 'Enviado',
-
+	
     FOREIGN KEY (id_tarefa)
         REFERENCES Tarefas(id_tarefa)
         ON DELETE CASCADE,
@@ -247,7 +248,6 @@ END$$
 
 DELIMITER ;
 
----
 
 ##### INSERT USUARIOS #####
 
@@ -298,7 +298,8 @@ SET status_entrega = 'Em avaliacao'
 WHERE id_entrega = 1;
 
 UPDATE Entregas
-SET status_entrega = 'Aprovado'
+SET status_entrega = 'Aprovado',
+feedback = 'Bom trabalho, código limpo.'
 WHERE id_entrega = 1;
 
 ---
@@ -359,6 +360,17 @@ FROM Tarefas
 WHERE data_limite < NOW()
 AND status_tarefa != 'concluida';
 
+SELECT
+    H.*,
+    T.titulo,
+    E.feedback
+FROM Historico_Aprendizes H
+INNER JOIN Tarefas T
+    ON H.id_tarefa = T.id_tarefa
+LEFT JOIN Entregas E
+    ON E.id_tarefa = H.id_tarefa
+   AND E.id_aprendiz = H.id_aprendiz;
+
 SELECT T.titulo, U.nome
 FROM Tarefas T
 INNER JOIN Aprendizes A ON T.id_aprendiz_responsavel = A.id_aprendiz
@@ -396,7 +408,7 @@ INNER JOIN Usuarios U ON A.id_usuario = U.id_usuario;
         INNER JOIN Usuarios U
             ON A.id_usuario = U.id_usuario
 
----
+
 
 ##### CONSULTA TOKENS VÁLIDOS #####
 
@@ -405,7 +417,7 @@ FROM Recuperacao_Senha
 WHERE usado = FALSE
 AND expiracao > NOW();
 
----
+
 
 ##### CONSULTA RECUPERAÇÃO POR USUÁRIO #####
 

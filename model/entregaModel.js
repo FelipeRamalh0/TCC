@@ -94,18 +94,19 @@ export async function listarEntregasPorTarefa(
 // Atualizar status
 export async function atualizarStatusEntrega(
     id_entrega,
-    status
+    status,
+    feedback
 ){
 
     const [result] = await db.query(
 
         `UPDATE Entregas
 
-         SET status_entrega = ?
-
+         SET status_entrega = ?,
+        feedback = ?
          WHERE id_entrega = ?`,
 
-        [status, id_entrega]
+        [status, feedback, id_entrega]
     );
 
     return result.affectedRows;
