@@ -153,8 +153,8 @@ CREATE TRIGGER trg_update_tarefa_status
 BEFORE UPDATE ON Tarefas
 FOR EACH ROW
 BEGIN
-    IF NEW.status_tarefa = 'concluida'
-       AND OLD.status_tarefa <> 'concluida' THEN
+    IF NEW.status_entrega = 'Aprovado'
+       AND OLD.status_entrega <> 'Aprovado' THEN
         SET NEW.data_limite = NULL;
     END IF;
 END$$
@@ -193,33 +193,50 @@ DELIMITER ;
 
 DELIMITER $$
 
+DROP TRIGGER IF EXISTS trg_criar_historico$$
+
 CREATE TRIGGER trg_criar_historico
 AFTER UPDATE ON Tarefas
 FOR EACH ROW
 BEGIN
-    IF NEW.status_tarefa = 'concluida'
-       AND OLD.status_tarefa <> 'concluida'
+
+    DECLARE v_pontos INT;
+
+    IF NEW.status_entrega = 'Aprovado'
+       AND OLD.status_entrega <> 'Aprovado'
        AND NEW.id_aprendiz_responsavel IS NOT NULL THEN
 
+        SET v_pontos =
+            CASE NEW.nivel_dificuldade
+                WHEN 'facil' THEN 10
+                WHEN 'medio' THEN 20
+                WHEN 'dificil' THEN 30
+            END;
+
         INSERT INTO Historico_Aprendizes
-        (id_aprendiz, id_tarefa, pontuacao_ganha, status_final_tarefa)
+        (
+            id_aprendiz,
+            id_tarefa,
+            pontuacao_ganha,
+            status_final_tarefa
+        )
         VALUES
         (
             NEW.id_aprendiz_responsavel,
             NEW.id_tarefa,
-            10,
+            v_pontos,
             'A'
         );
 
         UPDATE Aprendizes
-        SET pontuacao = pontuacao + 10
+        SET pontuacao = pontuacao + v_pontos
         WHERE id_aprendiz = NEW.id_aprendiz_responsavel;
 
     END IF;
+
 END$$
 
 DELIMITER ;
-
 ---
 
 ### ATUALIZA NÍVEL DE EXPERIÊNCIA AUTOMATICAMENTE ###

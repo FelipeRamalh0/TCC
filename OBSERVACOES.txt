@@ -1,2 +1,6 @@
 Criar botão para deletar conta (no profissional e aprendiz)
 O Botão de ver entregas na pagina de atividades tem que levar a página desempenho para ser avaliada lá
+
+
+Histórico do Aprendiz tem que aparecer apenas seu historico. Rpovavelmente tera que criar no controller
+buscarEntregasPorAprendiz

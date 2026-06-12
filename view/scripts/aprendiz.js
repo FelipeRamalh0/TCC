@@ -180,6 +180,7 @@ Descreva seu projeto ou envie o link do GitHub...
    </div>
 
 `;
+
     })
 
   } else {
@@ -303,10 +304,6 @@ async function carregarHistorico() {
         <h3>${item.titulo}</h3>
         <p>Feedback do professor: 
         ${item.feedback}</p>
-        <p>
-          Status:
-          ${item.status_final_tarefa}
-        </p>
 
         <p>
           Pontos:

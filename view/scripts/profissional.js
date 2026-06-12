@@ -269,7 +269,7 @@ async function aprovarAtividade(id_entrega, index) {
       },
 
       body: JSON.stringify({
-        status: "Aprovado",
+        status_entrega: "Aprovado",
         feedback
       })
     }
@@ -286,9 +286,7 @@ async function aprovarAtividade(id_entrega, index) {
 
   alert("Entrega aprovada com sucesso!");
 
-  carregarAvaliacoes();
 }
-
 /* =========================
    REPROVAR
 ========================= */
@@ -296,7 +294,15 @@ async function aprovarAtividade(id_entrega, index) {
 async function reprovarAtividade(id_entrega) {
 
   const token = localStorage.getItem("token");
+  const feedback =
+    document.getElementById(
+      `feedback-${index}`
+    ).value;
 
+  if (!feedback.trim()) {
+    alert("Digite um feedback.");
+    return;
+  }
   const resposta = await fetch(
     `http://localhost:3000/entregas/${id_entrega}/status`,
     {
@@ -325,7 +331,7 @@ async function reprovarAtividade(id_entrega) {
 
   alert("Entrega aprovada com sucesso!");
 
-  carregarAvaliacoes();
+ 
 }
 
 //LOGOUT
