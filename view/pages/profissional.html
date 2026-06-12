@@ -1,137 +1,115 @@
 <!doctype html>
 <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Profissional</title>
 
-  <title>Painel Profissional</title>
+    <link rel="stylesheet" href="../css/profissional.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
 
-  <link rel="stylesheet" href="../css/profissional.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-</head>
+  <body>
+    <div id="notificacao" class="notificacao"></div>
 
-<body>
+    <div class="container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h2>First Step Dev</h2>
 
-  <div id="notificacao" class="notificacao"></div>
-
-  <div class="container">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-
-      <h2>First Step Dev</h2>
-
-      <nav>
-
-        <button onclick="trocarPagina('dashboard')">
-          <i class="fa-solid fa-house"></i>
-          Dashboard
-        </button>
-
-        <button onclick="trocarPagina('atividades')">
-          <i class="fa-solid fa-list-check"></i>
-          Atividades
-        </button>
-
-        <button onclick="trocarPagina('desempenho')">
-          <i class="fa-solid fa-chart-line"></i>
-          Entregas
-        </button>
-
-        <button onclick="exit()">
-      Sair
-    </button>
-
-      </nav>
-
-    </aside>
-
-    <!-- CONTEÚDO -->
-    <div class="main-content">
-
-      <section id="dashboard" class="pagina ativa">
-
-        <header class="topbar">
-          <h1>Painel do Profissional</h1>
-          <div class="profile">👨‍🏫 Professor</div>
-        </header>
-
-        <section class="cards">
-
-          <div class="card">
-            <h3 id="totalAtividades">0</h3>
-            <p>Atividades enviadas</p>
-          </div>
-
-          <div class="card">
-            <h3 id="totalEntregas">0</h3>
-            <p>Entregas recebidas</p>
-          </div>
-
-        </section>
-
-      </section>
-
-      <!-- ATIVIDADES -->
-      <section id="atividades" class="pagina">
-
-        <section class="atividade-form">
-
-          <h2>Criar nova atividade</h2>
-          <form id="formTarefa">
-<input 
-          type="text"
-          id="titulo"
-          placeholder="Título da tarefa"
-          required
-        >
-
-        <textarea
-          id="descricao"
-          placeholder="Descrição da tarefa"
-          required
-        ></textarea>
-
-        <select id="nivel">
-
-          <option value="facil">Fácil</option>
-
-          <option value="medio">Médio</option>
-
-          <option value="dificil">Difícil</option>
-
-        </select>
-
-        <input
-          type="text"
-          id="categoria"
-          placeholder="Categoria"
-        >
-        <button type="submit" onclick="criarAtividade()">
-            Enviar atividade
+        <nav>
+          <button onclick="trocarPagina('dashboard')">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
           </button>
-          </form>
+
+          <button onclick="trocarPagina('atividades')">
+            <i class="fa-solid fa-list-check"></i>
+            Atividades
+          </button>
+
+          <button onclick="trocarPagina('desempenho')">
+            <i class="fa-solid fa-chart-line"></i>
+            Entregas
+          </button>
+
+          <button onclick="exit()">Sair</button>
+        </nav>
+      </aside>
+
+      <!-- CONTEÚDO -->
+      <div class="main-content">
+        <section id="dashboard" class="pagina ativa">
+          <button
+            class="profile-btn"
+            onclick="window.location.href = '../pages/profissionalPerfil.html'"
+          >
+            <i class="fa-solid fa-user-tie"></i>
+            Professor
+          </button>
+          <section class="cards">
+            <div class="card">
+              <h3 id="totalAtividades">0</h3>
+              <p>Atividades enviadas</p>
+            </div>
+
+            <div class="card">
+              <h3 id="totalEntregas">0</h3>
+              <p>Entregas recebidas</p>
+            </div>
+          </section>
         </section>
 
-        <section class="lista">
-          <h2>Atividades enviadas</h2>
-          <div id="listaAtividades"></div>
+        <!-- ATIVIDADES -->
+        <section id="atividades" class="pagina">
+          <section class="atividade-form">
+            <h2>Criar nova atividade</h2>
+            <form id="formTarefa">
+              <input
+                type="text"
+                id="titulo"
+                placeholder="Título da tarefa"
+                required
+              />
+
+              <textarea
+                id="descricao"
+                placeholder="Descrição da tarefa"
+                required
+              ></textarea>
+
+              <select id="nivel">
+                <option value="facil">Fácil</option>
+
+                <option value="medio">Médio</option>
+
+                <option value="dificil">Difícil</option>
+              </select>
+
+              <input type="text" id="categoria" placeholder="Categoria" />
+              <button type="submit" onclick="criarAtividade()">
+                Enviar atividade
+              </button>
+            </form>
+          </section>
+
+          <section class="lista">
+            <h2>Atividades enviadas</h2>
+            <div id="listaAtividades"></div>
+          </section>
         </section>
 
-      </section>
-
-
-      <!-- DESEMPENHO -->
-      <section id="desempenho" class="pagina">
-        <h1>Entregas dos Aprendizes</h1>
-      </section>
-
+        <!-- DESEMPENHO -->
+        <section id="desempenho" class="pagina">
+          <h1>Entregas dos Aprendizes</h1>
+        </section>
+      </div>
     </div>
 
-  </div>
-
-  <script src="../scripts/profissional.js"></script>
-
-</body>
+    <script src="../scripts/profissional.js"></script>
+  </body>
 </html>

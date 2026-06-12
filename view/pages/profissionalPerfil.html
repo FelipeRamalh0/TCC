@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,56 +14,37 @@
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 
 <body>
 
-<section id="perfil" class="pagina">
+<section id="perfil">
 
-    <h1>
-        <i class="fa-solid fa-user-tie"></i>
-        Meu Perfil
-    </h1>
+    <div class="topo-perfil">
+
+     
+     <button
+            class="profile-btn"
+            onclick="window.location.href = '../pages/profissional.html'"
+          >
+            <i class="fa-solid fa-arrow-left"></i>
+            Voltar
+          </button>
+
+        <h1>
+            <i class="fa-solid fa-user-tie"></i>
+            Perfil Profissional
+        </h1>
+
+    </div>
 
     <div class="perfil-container">
 
-        <!-- CARD PERFIL -->
-
-        <div class="perfil-card">
+        <!-- CARD -->
 
 
-            <p id="cargoPerfil">
-                Profissional
-            </p>
-
-            <div class="info-perfil">
-
-                <div class="info-item">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span id="emailPerfil">
-                        Email não informado
-                    </span>
-                </div>
-
-                <div class="info-item">
-                    <i class="fa-solid fa-phone"></i>
-                    <span id="telefonePerfil">
-                        Telefone não informado
-                    </span>
-                </div>
-
-                <div class="info-item">
-                    <i class="fa-solid fa-building"></i>
-                    <span id="empresaPerfil">
-                        Empresa não informada
-                    </span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- FORMULÁRIO -->
+        <!-- FORM -->
 
         <div class="atividade-form">
 
@@ -118,7 +100,7 @@
                 placeholder="Conte um pouco sobre você..."
             ></textarea>
 
-            <h2 style="margin-top: 25px;">
+            <h2 class="titulo-seguranca">
                 Segurança
             </h2>
 
@@ -169,4 +151,5 @@
 <script src="../scripts/profissionalPerfil.js"></script>
 
 </body>
+
 </html>
