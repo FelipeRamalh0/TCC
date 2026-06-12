@@ -171,7 +171,7 @@ async function excluirAtividade(id_tarefa) {
 async function carregarEntregas() {
 
   const token = localStorage.getItem("token")
-  const resposta = await fetch("http://localhost:3000/entregas", {
+  const resposta = await fetch("http://localhost:3000/entregas-profissional", {
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}`
@@ -197,8 +197,8 @@ async function carregarEntregas() {
               Aprendiz:
               ${e.aprendiz_nome}
             </p>
-          <span class="status ${e.status_entrega === "Aprovado" ? "Aprovado" : "pendente"}">
-            ${e.status_entrega}
+          <span class="status ${e.status === "Aprovado" ? "Aprovado" : "pendente"}">
+            ${e.status}
           </span>
         </div>
 
@@ -213,31 +213,40 @@ async function carregarEntregas() {
 </a>
         </div>
 
-        <textarea id="feedback-${index}" class="feedback-input" placeholder="Dê o seu feedback"></textarea>
-
-        <button
-              class="aprovar"
-              onclick="aprovarAtividade(
-                ${e.id_entrega}, ${index},
-                'Aprovado'
-              )"
-            >
-              Aprovar
-            </button>
-
-            <button
-              class="reprovar"
-              onclick="reprovarAtividade(
-                ${e.id_entrega},
-                ${index},
-                'Rejeitado'
-              )"
-            >
-              Reprovar
-            </button>
+    ${
+      e.status_entrega === "Aprovado"
+      ? `
+        <div class="feedback-salvo">
+            <strong>Feedback:</strong>
+            <p>${e.feedback || "Sem feedback"}</p>
         </div>
 
-      </div>
+        <button disabled>
+            Entrega já aprovada
+        </button>
+      `
+      : `
+        <textarea
+            id="feedback-${index}"
+            class="feedback-input"
+            placeholder="Dê o seu feedback">
+        </textarea>
+
+        <button
+            class="aprovar"
+            onclick="aprovarAtividade(${e.id_entrega}, ${index})">
+            Aprovar
+        </button>
+
+        <button
+            class="reprovar"
+            onclick="reprovarAtividade(${e.id_entrega}, ${index})">
+            Reprovar
+        </button>
+      `
+    }
+
+</div>
     `;
   });
 }
@@ -269,12 +278,13 @@ async function aprovarAtividade(id_entrega, index) {
       },
 
       body: JSON.stringify({
-        status_entrega: "Aprovado",
+        status: "Aprovado",
         feedback
       })
     }
+    
   );
-
+  
   const dados = await resposta.json();
 
   if (!resposta.ok) {

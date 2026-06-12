@@ -90,6 +90,31 @@ export async function listarEntregasPorTarefa(
     return rows;
 }
 
+export async function listarEntregasPorProfissional(
+    id_profissional
+){
+
+    const [rows] = await db.query(
+
+        `SELECT
+    E.*,
+    T.titulo,
+    U.nome AS aprendiz_nome
+FROM Entregas E
+INNER JOIN Tarefas T
+    ON E.id_tarefa = T.id_tarefa
+INNER JOIN Aprendizes A
+    ON E.id_aprendiz = A.id_aprendiz
+INNER JOIN Usuarios U
+    ON A.id_usuario = U.id_usuario
+WHERE T.id_profissional = ?;`,
+
+        [id_profissional]
+    );
+
+    return rows;
+}
+
 
 // Atualizar status
 export async function atualizarStatusEntrega(

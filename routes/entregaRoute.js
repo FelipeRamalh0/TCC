@@ -7,7 +7,8 @@ import {
     buscarPorId,
     listarPorTarefa,
     atualizarStatus,
-    deletar
+    deletar,
+    listarEntregasProfissional
 
 } from "../controller/entregaController.js";
 import upload from "../middleware/upload.js";
@@ -31,6 +32,14 @@ router.get(
     verificarToken,
     listar
 );
+
+// Listar entregas por profissional
+router.get(
+    "/entregas-profissional",
+    verificarToken,
+    listarEntregasProfissional
+);
+
 
 // Buscar entrega por ID
 router.get(

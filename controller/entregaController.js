@@ -4,6 +4,7 @@ import {
     listarEntregas,
     buscarEntregaPorId,
     listarEntregasPorTarefa,
+    listarEntregasPorProfissional,
     atualizarStatusEntrega,
     deletarEntrega
 
@@ -133,6 +134,29 @@ export async function listarPorTarefa(req, res) {
         return res.status(500).json({
             erro: erro.message
         });
+    }
+}
+export async function listarEntregasProfissional(req, res) {
+    try {
+
+        const id_usuario = req.usuario.id_usuario;
+
+        const profissional =
+            await buscarProfissionalPorUsuario(id_usuario);
+
+        const entregas =
+            await listarEntregasPorProfissional(
+                profissional.id_profissional
+            );
+
+        return res.json(entregas);
+
+    } catch (erro) {
+
+        return res.status(500).json({
+            erro: erro.message
+        });
+
     }
 }
 

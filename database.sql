@@ -153,8 +153,8 @@ CREATE TRIGGER trg_update_tarefa_status
 BEFORE UPDATE ON Tarefas
 FOR EACH ROW
 BEGIN
-    IF NEW.status_entrega = 'Aprovado'
-       AND OLD.status_entrega <> 'Aprovado' THEN
+    IF NEW.status_tarefa = 'concluido'
+       AND OLD.status_tarefa <> 'concluido' THEN
         SET NEW.data_limite = NULL;
     END IF;
 END$$
@@ -196,33 +196,36 @@ DELIMITER $$
 DROP TRIGGER IF EXISTS trg_criar_historico$$
 
 CREATE TRIGGER trg_criar_historico
-AFTER UPDATE ON Tarefas
+AFTER UPDATE ON Entregas
 FOR EACH ROW
 BEGIN
 
     DECLARE v_pontos INT;
+    DECLARE v_nivel VARCHAR(20);
 
     IF NEW.status_entrega = 'Aprovado'
-       AND OLD.status_entrega <> 'Aprovado'
-       AND NEW.id_aprendiz_responsavel IS NOT NULL THEN
+       AND OLD.status_entrega <> 'Aprovado' THEN
+
+        SELECT nivel_dificuldade
+        INTO v_nivel
+        FROM Tarefas
+        WHERE id_tarefa = NEW.id_tarefa;
 
         SET v_pontos =
-            CASE NEW.nivel_dificuldade
+            CASE v_nivel
                 WHEN 'facil' THEN 10
                 WHEN 'medio' THEN 20
                 WHEN 'dificil' THEN 30
             END;
 
-        INSERT INTO Historico_Aprendizes
-        (
+        INSERT INTO Historico_Aprendizes (
             id_aprendiz,
             id_tarefa,
             pontuacao_ganha,
             status_final_tarefa
         )
-        VALUES
-        (
-            NEW.id_aprendiz_responsavel,
+        VALUES (
+            NEW.id_aprendiz,
             NEW.id_tarefa,
             v_pontos,
             'A'
@@ -230,7 +233,7 @@ BEGIN
 
         UPDATE Aprendizes
         SET pontuacao = pontuacao + v_pontos
-        WHERE id_aprendiz = NEW.id_aprendiz_responsavel;
+        WHERE id_aprendiz = NEW.id_aprendiz;
 
     END IF;
 
