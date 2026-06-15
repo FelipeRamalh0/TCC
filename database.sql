@@ -153,8 +153,8 @@ CREATE TRIGGER trg_update_tarefa_status
 BEFORE UPDATE ON Tarefas
 FOR EACH ROW
 BEGIN
-    IF NEW.status_tarefa = 'concluido'
-       AND OLD.status_tarefa <> 'concluido' THEN
+    IF NEW.status_tarefa = 'concluida'
+       AND OLD.status_tarefa <> 'concluida' THEN
         SET NEW.data_limite = NULL;
     END IF;
 END$$
@@ -206,65 +206,47 @@ BEGIN
     IF NEW.status_entrega = 'Aprovado'
        AND OLD.status_entrega <> 'Aprovado' THEN
 
+        UPDATE Tarefas
+        SET status_tarefa = 'concluida'
+        WHERE id_tarefa = NEW.id_tarefa;
+
         SELECT nivel_dificuldade
         INTO v_nivel
         FROM Tarefas
         WHERE id_tarefa = NEW.id_tarefa;
 
         SET v_pontos =
-            CASE v_nivel
-                WHEN 'facil' THEN 10
-                WHEN 'medio' THEN 20
-                WHEN 'dificil' THEN 30
-            END;
+    CASE v_nivel
+        WHEN 'facil' THEN 10
+        WHEN 'medio' THEN 20
+        WHEN 'dificil' THEN 30
+    END;
 
-        INSERT INTO Historico_Aprendizes (
-            id_aprendiz,
-            id_tarefa,
-            pontuacao_ganha,
-            status_final_tarefa
-        )
-        VALUES (
-            NEW.id_aprendiz,
-            NEW.id_tarefa,
-            v_pontos,
-            'A'
-        );
+IF NOT EXISTS (
+    SELECT 1
+    FROM Historico_Aprendizes
+    WHERE id_tarefa = NEW.id_tarefa
+      AND id_aprendiz = NEW.id_aprendiz
+) THEN
 
-        UPDATE Aprendizes
-        SET pontuacao = pontuacao + v_pontos
-        WHERE id_aprendiz = NEW.id_aprendiz;
+    INSERT INTO Historico_Aprendizes (
+        id_aprendiz,
+        id_tarefa,
+        pontuacao_ganha,
+        status_final_tarefa
+    )
+    VALUES (
+        NEW.id_aprendiz,
+        NEW.id_tarefa,
+        v_pontos,
+        'A'
+    );
 
-    END IF;
+    UPDATE Aprendizes
+    SET pontuacao = pontuacao + v_pontos
+    WHERE id_aprendiz = NEW.id_aprendiz;
 
-END$$
-
-DELIMITER ;
----
-
-### ATUALIZA NÍVEL DE EXPERIÊNCIA AUTOMATICAMENTE ###
-
-DELIMITER $$
-
-CREATE TRIGGER trg_aumentar_nivel
-BEFORE UPDATE ON Aprendizes
-FOR EACH ROW
-BEGIN
-
-    IF NEW.pontuacao BETWEEN 0 AND 20 THEN
-        SET NEW.nivel_experiencia = 'Iniciante';
-
-    ELSEIF NEW.pontuacao BETWEEN 21 AND 50 THEN
-        SET NEW.nivel_experiencia = 'Basico';
-
-    ELSEIF NEW.pontuacao BETWEEN 51 and 100 THEN
-        SET NEW.nivel_experiencia = 'Intermediario';
-        
-        ELSE SET NEW.nivel_experiencia = 'Avancado';
-
-    END IF;
-
-END$$
+END IF;
 
 DELIMITER ;
 
@@ -324,12 +306,15 @@ WHERE id_entrega = 1;
 
 ---
 
+
+
 ##### INSERT HISTÓRICO #####
 
 INSERT INTO Historico_Aprendizes (id_aprendiz, id_tarefa, pontuacao_ganha, status_final_tarefa) VALUES 
 (1, 2, 5, 'B'),
 (2, 1, 2, 'A'),
 (3, 1, 1, 'C');
+
 
 ---
 
@@ -365,6 +350,13 @@ SELECT id_tarefa, data_criacao
 FROM Tarefas
 ORDER BY data_criacao DESC;
 
+UPDATE Entregas
+SET status_entrega = 'Reprovado'
+WHERE id_entrega = 1;
+
+UPDATE Tarefas
+SET status_tarefa = 'em_andamento'
+WHERE id_tarefa = 1;
 
 SELECT T.titulo, U.nome
 FROM Tarefas T
@@ -374,6 +366,11 @@ INNER JOIN Usuarios U ON P.id_usuario = U.id_usuario;
 SELECT *
 FROM Entregas
 WHERE status_entrega = 'Aprovado';
+
+SELECT *
+FROM Tarefas
+WHERE id_aprendiz_responsavel = 1
+AND status_tarefa = 'em_andamento';
 
 SELECT titulo, data_limite
 FROM Tarefas
