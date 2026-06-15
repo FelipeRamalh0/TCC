@@ -38,6 +38,51 @@ export async function criarEntrega(dados){
     return result.insertId;
 }
 
+export async function buscarEntregaPorTarefaEAprendiz(
+    id_tarefa,
+    id_aprendiz
+) {
+    const [rows] = await db.query(
+        `
+        SELECT *
+        FROM Entregas
+        WHERE id_tarefa = ?
+        AND id_aprendiz = ?
+        `,
+        [id_tarefa, id_aprendiz]
+    );
+
+    return rows[0];
+}
+
+export async function atualizarEntregaReprovada(
+    id_entrega,
+    arquivo_url,
+    link_repositorio,
+    codigo_texto
+) {
+
+    const [result] = await db.query(
+        `
+        UPDATE Entregas
+        SET
+            arquivo_url = ?,
+            link_repositorio = ?,
+            codigo_texto = ?,
+            status_entrega = 'Em avaliacao',
+            feedback = NULL
+        WHERE id_entrega = ?
+        `,
+        [
+            arquivo_url,
+            link_repositorio,
+            codigo_texto,
+            id_entrega
+        ]
+    );
+
+    return result.affectedRows;
+}
 
 // Listar entregas
 export async function listarEntregas(){

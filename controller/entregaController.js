@@ -3,16 +3,21 @@ import {
     criarEntrega,
     listarEntregas,
     buscarEntregaPorId,
+    buscarEntregaPorTarefaEAprendiz,
+    atualizarEntregaReprovada,
     listarEntregasPorTarefa,
     listarEntregasPorProfissional,
     atualizarStatusEntrega,
     deletarEntrega
 
 } from "../model/entregaModel.js";
-
+import {
+    atualizarStatusTarefa
+} from "../model/tarefaModel.js";
 import {
     buscarAprendizIdUsuario
 } from "../model/aprendizModel.js";
+import {buscarProfissionalPorUsuario} from "../model/profissionalModel.js";
 
 export async function criar(req, res) {
 
@@ -43,8 +48,35 @@ export async function criar(req, res) {
         const aprendiz = await buscarAprendizIdUsuario(
             usuario.id_usuario
         );
+        const entregaExistente =
+    await buscarEntregaPorTarefaEAprendiz(
+        id_tarefa,
+        aprendiz.id_aprendiz
+    );
+    if (
+    entregaExistente &&
+    entregaExistente.status_entrega === "Aprovado"
+) {
+    return res.status(400).json({
+        erro: "Esta tarefa já foi aprovada."
+    });
+}
+let id_entrega;
+if (
+    entregaExistente &&
+    entregaExistente.status_entrega === "Reprovado"
+) {
 
-        const id_entrega = await criarEntrega({
+    await atualizarEntregaReprovada(
+        entregaExistente.id_entrega,
+        arquivo_url,
+        link_repositorio,
+        codigo_texto
+    );
+
+} else {
+
+    id_entrega = await criarEntrega({
 
             id_tarefa,
             id_aprendiz: aprendiz.id_aprendiz,
@@ -52,6 +84,13 @@ export async function criar(req, res) {
             link_repositorio,
             codigo_texto
         });
+        await atualizarStatusTarefa(
+    id_tarefa,
+    "em_revisao"
+);
+
+}
+        
 
         return res.status(201).json({
 
@@ -152,7 +191,7 @@ export async function listarEntregasProfissional(req, res) {
         return res.json(entregas);
 
     } catch (erro) {
-
+        console.log(erro)
         return res.status(500).json({
             erro: erro.message
         });

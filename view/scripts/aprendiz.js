@@ -188,13 +188,7 @@ console.log(JSON.stringify(dados, null, 2));
     
 
   }
-
-
-
 };
-
-
-
 
 // =========================
 // ENVIAR ENTREGA

@@ -74,7 +74,7 @@ CREATE TABLE Entregas (
     link_repositorio VARCHAR(255),
     codigo_texto TEXT,
     feedback TEXT,
-    status_entrega ENUM('Enviado','Em avaliacao','Aprovado','Rejeitado') NOT NULL DEFAULT 'Enviado',
+    status_entrega ENUM('Enviado','Em avaliacao','Aprovado','Reprovado') NOT NULL DEFAULT 'Enviado',
 	
     FOREIGN KEY (id_tarefa)
         REFERENCES Tarefas(id_tarefa)

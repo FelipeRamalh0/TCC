@@ -71,15 +71,31 @@ export async function buscarTarefasAprendiz(
    const [result] = await db.query(`
 
       SELECT *
-
       FROM tarefas
-
       WHERE id_aprendiz_responsavel = ?
+      AND status_tarefa = 'em_andamento'
 
    `,[id_aprendiz]);
 
    return result;
 
+}
+
+export async function atualizarStatusTarefa(
+    id_tarefa,
+    status
+){
+
+    const [result] = await db.query(
+        `
+        UPDATE Tarefas
+        SET status_tarefa = ?
+        WHERE id_tarefa = ?
+        `,
+        [status, id_tarefa]
+    );
+
+    return result.affectedRows;
 }
 //Buscar Tarefa por Id tarefa
 export async function buscarTarefaId(id) {

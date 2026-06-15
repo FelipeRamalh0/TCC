@@ -183,7 +183,7 @@ async function carregarEntregas() {
   const entregas = await resposta.json();
 
   if (!resposta.ok) {
-    console.error(erro);
+    console.error(Error);
     return;
   }
   entregas.forEach((e, index) => {
@@ -301,7 +301,7 @@ async function aprovarAtividade(id_entrega, index) {
    REPROVAR
 ========================= */
 
-async function reprovarAtividade(id_entrega) {
+async function reprovarAtividade(id_entrega, index) {
 
   const token = localStorage.getItem("token");
   const feedback =
@@ -339,7 +339,7 @@ async function reprovarAtividade(id_entrega) {
 
   }
 
-  alert("Entrega aprovada com sucesso!");
+  alert("Entrega reprovada com sucesso!");
 
  
 }
