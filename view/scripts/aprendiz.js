@@ -184,7 +184,11 @@ Descreva seu projeto ou envie o link do GitHub...
     })
 
   } else {
-console.log(JSON.stringify(dados, null, 2));
+  container.innerHTML = `
+    <p>
+      Nenhuma tarefa disponível.
+    </p>
+  `;
     
 
   }
@@ -252,14 +256,24 @@ async function enviarProjeto(
 
   );
 
-  const dados =
-    await resposta.json();
+  const dados = await resposta.json();
+
 
   alert(
     dados.mensagem ||
     dados.erro
   );
+  
+ if (resposta.ok) {
 
+  alert("Entrega enviada com sucesso!");
+
+  document.getElementById(
+    "containerMinhasTarefas"
+  ).innerHTML = "";
+
+  await carregarMinhasTarefas();
+}
 }
 
 // =========================

@@ -250,6 +250,27 @@ END IF;
 
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS trg_reprovar_tarefa;
+
+DELIMITER $$
+
+CREATE TRIGGER trg_reprovar_tarefa
+AFTER UPDATE ON Entregas
+FOR EACH ROW
+BEGIN
+
+    IF NEW.status_entrega = 'Reprovado'
+       AND OLD.status_entrega <> 'Reprovado' THEN
+
+        UPDATE Tarefas
+        SET status_tarefa = 'em_andamento'
+        WHERE id_tarefa = NEW.id_tarefa;
+
+    END IF;
+
+END$$
+
+DELIMITER ;
 
 ##### INSERT USUARIOS #####
 
@@ -447,5 +468,6 @@ R.usado
 FROM Recuperacao_Senha R
 INNER JOIN Usuarios U
 ON R.id_usuario = U.id_usuario;
+
 
 

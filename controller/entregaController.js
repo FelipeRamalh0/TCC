@@ -73,6 +73,11 @@ if (
         link_repositorio,
         codigo_texto
     );
+    await atualizarStatusTarefa(
+    id_tarefa,
+    "em_revisao"
+);
+id_entrega = entregaExistente.id_entrega;
 
 } else {
 

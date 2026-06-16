@@ -198,7 +198,6 @@ async function carregarEntregas() {
               ${e.aprendiz_nome}
             </p>
           <span class="status ${e.status === "Aprovado" ? "Aprovado" : "pendente"}">
-            ${e.status}
           </span>
         </div>
 
