@@ -246,8 +246,11 @@ IF NOT EXISTS (
     SET pontuacao = pontuacao + v_pontos
     WHERE id_aprendiz = NEW.id_aprendiz;
 
-END IF;
+END IF;  
 
+END IF;   
+
+END$$
 DELIMITER ;
 
 DROP TRIGGER IF EXISTS trg_reprovar_tarefa;

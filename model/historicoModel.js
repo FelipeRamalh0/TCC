@@ -26,7 +26,34 @@ export async function listarHistorico() {
     return rows;
 }
 
+export async function listarHistoricoAprendiz(
+    id_aprendiz
+) {
 
+    const [rows] = await db.query(
+
+        `SELECT
+            H.*,
+            T.titulo,
+            U.nome AS aprendiz_nome,
+            E.feedback
+        FROM Historico_Aprendizes H
+        INNER JOIN Tarefas T
+            ON H.id_tarefa = T.id_tarefa
+        INNER JOIN Aprendizes A
+            ON H.id_aprendiz = A.id_aprendiz
+        INNER JOIN Usuarios U
+            ON A.id_usuario = U.id_usuario
+        LEFT JOIN Entregas E
+            ON E.id_tarefa = H.id_tarefa
+           AND E.id_aprendiz = H.id_aprendiz
+        WHERE H.id_aprendiz = ?`,
+
+        [id_aprendiz]
+    );
+
+    return rows;
+}
 // Buscar histórico por ID
 export async function buscarHistoricoPorId(id) {
 

@@ -117,6 +117,8 @@ async function assumirTarefa(id) {
 
   carregarMinhasTarefas();
 
+  projetoReprovado();
+
 }
 
 // =========================
@@ -143,6 +145,7 @@ async function carregarMinhasTarefas() {
     document.getElementById(
       "containerMinhasTarefas"
     );
+    container.innerHTML = "";
   if (Array.isArray(tarefas)) {
     tarefas.forEach((tarefa) => {
       container.innerHTML += `
@@ -274,6 +277,52 @@ async function enviarProjeto(
 
   await carregarMinhasTarefas();
 }
+}
+
+async function projetoReprovado() {
+
+  const token = localStorage.getItem("token");
+
+  const resposta = await fetch(
+    "http://localhost:3000/entregas",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  const entregas = await resposta.json();
+console.log(entregas)
+  const alertas =
+    document.getElementById("alertas");
+
+  alertas.innerHTML = "";
+
+  entregas.forEach((entrega) => {
+
+    if (
+      entrega.status_entrega === "Reprovado"
+    ) {
+
+      alertas.innerHTML += `
+        <div class="alerta-reprovacao">
+
+          Sua tarefa
+          <strong>${entrega.titulo}</strong>
+          foi reprovada.
+
+          <br><br>
+
+          <strong>Feedback:</strong>
+          ${entrega.feedback}
+
+        </div>
+      `;
+    }
+
+  });
+
 }
 
 // =========================
@@ -448,12 +497,13 @@ async function deletarConta() {
 // INICIAR
 // =========================
 
-carregarTarefas();
+window.onload = async () => {
 
-carregarMinhasTarefas();
+  await carregarTarefas();
+  await carregarMinhasTarefas();
+  await carregarHistorico();
+  await carregarPontuacao();
+  await carregarRanking();
+  await projetoReprovado();
 
-carregarHistorico();
-
-carregarPontuacao();
-
-carregarRanking();
+};

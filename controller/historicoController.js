@@ -1,6 +1,7 @@
 import {
 
     listarHistorico,
+    listarHistoricoAprendiz,
     buscarHistoricoPorId,
     buscarHistoricoAprendiz,
     buscarPontuacao,
@@ -14,15 +15,20 @@ export async function listar(req, res) {
 
     try {
 
+        const aprendiz =
+            await buscarAprendizIdUsuario(
+                req.usuario.id_usuario
+            );
+
         const historico =
-        await listarHistorico();
+            await listarHistoricoAprendiz(
+                aprendiz.id_aprendiz
+            );
 
         return res.json(historico);
 
     } catch (erro) {
-
-        console.log(erro);
-
+        console.log(erro)
         return res.status(500).json({
             erro: erro.message
         });
@@ -36,7 +42,7 @@ export async function buscarPorId(req, res) {
         const { id } = req.params;
 
         const historico =
-        await buscarHistoricoPorId(id);
+            await buscarHistoricoPorId(id);
 
         if (!historico) {
 
@@ -57,7 +63,7 @@ export async function buscarPorId(req, res) {
     }
 }
 
-export async function pontuacao(req, res){
+export async function pontuacao(req, res) {
 
     try {
 
@@ -67,7 +73,7 @@ export async function pontuacao(req, res){
             usuario.id_usuario
         );
 
-        if(!aprendiz){
+        if (!aprendiz) {
 
             return res.status(404).json({
                 erro: "Aprendiz não encontrado"
@@ -80,7 +86,7 @@ export async function pontuacao(req, res){
 
         return res.json(dados);
 
-    } catch(erro){
+    } catch (erro) {
 
         console.log(erro);
 
@@ -98,14 +104,14 @@ export async function meuHistorico(req, res) {
 
         // Buscar aprendiz
         const aprendiz =
-        await buscarAprendizIdUsuario(
-            usuario.id_usuario
-        );
+            await buscarAprendizIdUsuario(
+                usuario.id_usuario
+            );
 
         const historico =
-        await buscarHistoricoAprendiz(
-            aprendiz.id_aprendiz
-        );
+            await buscarHistoricoAprendiz(
+                aprendiz.id_aprendiz
+            );
 
         return res.json(historico);
 
@@ -124,7 +130,7 @@ export async function ranking(req, res) {
     try {
 
         const ranking =
-        await rankingAprendizes();
+            await rankingAprendizes();
 
         return res.json(ranking);
 

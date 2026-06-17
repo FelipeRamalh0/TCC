@@ -160,7 +160,7 @@ console.log(req.usuario);
       return res.status(200).json(tarefas);
 
    } catch(error){
-
+    console.log(error)
       return res.status(500).json({
          erro: error.message
       });

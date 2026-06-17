@@ -1,6 +1,6 @@
 window.onload = () => {
-  carregarAtividades();
-  carregarEntregas();
+  await carregarAtividades();
+  await carregarEntregas();
 
 };
 

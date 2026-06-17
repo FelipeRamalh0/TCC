@@ -1,275 +1,336 @@
-*{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-    body{
-      background:#0f172a;
-      color:white;
-      display:flex;
-    }
+body {
+  background: #0f172a;
+  color: white;
+  display: flex;
+}
 
-    /* SIDEBAR */
+/* SIDEBAR */
 
-    .sidebar{
-      width:250px;
-      height:100vh;
-      background:#111827;
-      padding:30px 20px;
-      position:fixed;
-      left:0;
-      top:0;
-    }
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #111827;
+  padding: 30px 20px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
 
-    .sidebar h2{
-      color:#38bdf8;
-      margin-bottom:40px;
-    }
+.sidebar h2 {
+  color: #38bdf8;
+  margin-bottom: 40px;
+}
 
-    .sidebar button{
-      width:100%;
-      padding:14px;
-      margin-bottom:15px;
-      border:none;
-      border-radius:10px;
-      background:#1e293b;
-      color:white;
-      cursor:pointer;
-      font-size:16px;
-      transition:0.3s;
-    }
+.sidebar button {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #1e293b;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
 
-    .sidebar button:hover{
-      background:#38bdf8;
-      color:black;
-    }
+.sidebar button:hover {
+  background: #38bdf8;
+  color: black;
+}
 
-    /* CONTEÚDO */
+/* CONTEÚDO */
 
-    .content{
-      margin-left:250px;
-      width:100%;
-      padding:40px;
-    }
+.content {
+  margin-left: 250px;
+  width: 100%;
+  padding: 40px;
+}
 
-    .section{
-      display:none;
-    }
+.section {
+  display: none;
+}
 
-    .section.active{
-      display:block;
-    }
+.section.active {
+  display: block;
+}
 
-    h1{
-      margin-bottom:25px;
-    }
+h1 {
+  margin-bottom: 25px;
+}
 
-    /* CARDS */
+/* CARDS */
 
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-      gap:20px;
-    }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
 
-    .card{
-      background:#1e293b;
-      padding:20px;
-      border-radius:15px;
-    }
+.card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 15px;
+}
 
-    .card h3{
-      color:#38bdf8;
-      margin-bottom:10px;
-    }
+.card h3 {
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
 
-    .card p{
-      margin-bottom:10px;
-      line-height:1.5;
-    }
+.card p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
 
-    .card button{
-      padding:12px;
-      width:100%;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:bold;
-      background:#38bdf8;
-      color:black;
-      margin-top:10px;
-    }
+.card button {
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  background: #38bdf8;
+  color: black;
+  margin-top: 10px;
+}
 
-    /* RANKING */
 
-    .ranking{
-      background:#1e293b;
-      border-radius:15px;
-      padding:20px;
-      max-width:700px;
-    }
+/* ALERTA DE REPROVAÇÃO */
 
-    .ranking-item{
-      display:flex;
-      justify-content:space-between;
-      padding:15px;
-      border-bottom:1px solid #334155;
-    }
+#alertas {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
 
-    .ranking-item:last-child{
-      border:none;
-    }
+.alerta-reprovacao {
 
-    /* PONTUAÇÃO */
+  background: rgba(239, 68, 68, 0.12);
 
-    .pontuacao-box{
-      background:#1e293b;
-      padding:30px;
-      border-radius:15px;
-      max-width:400px;
-      text-align:center;
-    }
+  border: 1px solid rgba(239, 68, 68, 0.35);
 
-    .pontuacao-box h2{
-      font-size:50px;
-      color:#38bdf8;
-      margin-top:15px;
-    }
+  border-left: 6px solid #ef4444;
 
-    .atividade-box{
+  padding: 18px;
 
-    background: #1f1f1f;
-    padding: 25px;
+  border-radius: 16px;
 
-    border-radius: 18px;
+  color: #fff;
 
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+  backdrop-filter: blur(10px);
 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  animation: aparecerAlerta .4s ease;
 
-    margin-top: 20px;
+  box-shadow:
+    0 8px 20px rgba(239, 68, 68, 0.15);
+}
 
-    transition: 0.3s;
+.alerta-reprovacao strong {
+  color: #fca5a5;
+}
+
+.alerta-reprovacao .titulo-alerta {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.alerta-reprovacao .feedback {
+  margin-top: 10px;
+  color: #e5e7eb;
+  line-height: 1.5;
+}
+
+@keyframes aparecerAlerta {
+
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RANKING */
+
+.ranking {
+  background: #1e293b;
+  border-radius: 15px;
+  padding: 20px;
+  max-width: 700px;
+}
+
+.ranking-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #334155;
+}
+
+.ranking-item:last-child {
+  border: none;
+}
+
+/* PONTUAÇÃO */
+
+.pontuacao-box {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.pontuacao-box h2 {
+  font-size: 50px;
+  color: #38bdf8;
+  margin-top: 15px;
+}
+
+.atividade-box {
+
+  background: #1f1f1f;
+  padding: 25px;
+
+  border-radius: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+  margin-top: 20px;
+
+  transition: 0.3s;
 
 }
 
-.atividade-box:hover{
+.atividade-box:hover {
 
-    transform: translateY(-4px);
-
-}
-
-.atividade-box h3{
-
-    color: white;
-
-    font-size: 22px;
-
-    border-left: 5px solid #5865f2;
-
-    padding-left: 12px;
+  transform: translateY(-4px);
 
 }
 
-.atividade-box textarea{
+.atividade-box h3 {
 
-    width: 100%;
-    min-height: 140px;
+  color: white;
 
-    resize: vertical;
+  font-size: 22px;
 
-    border: none;
-    outline: none;
+  border-left: 5px solid #5865f2;
 
-    border-radius: 12px;
-
-    padding: 15px;
-
-    background: #2b2b2b;
-
-    color: white;
-
-    font-size: 15px;
-
-    font-family: sans-serif;
+  padding-left: 12px;
 
 }
 
-.atividade-box textarea::placeholder{
+.atividade-box textarea {
 
-    color: #aaaaaa;
+  width: 100%;
+  min-height: 140px;
 
-}
+  resize: vertical;
 
-.input-arquivo{
+  border: none;
+  outline: none;
 
-    background: #2b2b2b;
+  border-radius: 12px;
 
-    color: white;
+  padding: 15px;
 
-    padding: 12px;
+  background: #2b2b2b;
 
-    border-radius: 10px;
+  color: white;
 
-    cursor: pointer;
+  font-size: 15px;
 
-}
-
-.input-arquivo::file-selector-button{
-
-    border: none;
-
-    background: #5865f2;
-
-    color: white;
-
-    padding: 10px 14px;
-
-    border-radius: 8px;
-
-    margin-right: 10px;
-
-    cursor: pointer;
-
-    transition: 0.3s;
+  font-family: sans-serif;
 
 }
 
-.input-arquivo::file-selector-button:hover{
+.atividade-box textarea::placeholder {
 
-    background: #4752c4;
-
-}
-
-.atividade-box button{
-
-    border: none;
-
-    padding: 14px;
-
-    border-radius: 12px;
-
-    background: #5865f2;
-
-    color: white;
-
-    font-size: 16px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: 0.3s;
+  color: #aaaaaa;
 
 }
 
-.atividade-box button:hover{
+.input-arquivo {
 
-    background: #4752c4;
+  background: #2b2b2b;
 
-    transform: scale(1.02);
+  color: white;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+}
+
+.input-arquivo::file-selector-button {
+
+  border: none;
+
+  background: #5865f2;
+
+  color: white;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  margin-right: 10px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.input-arquivo::file-selector-button:hover {
+
+  background: #4752c4;
+
+}
+
+.atividade-box button {
+
+  border: none;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  background: #5865f2;
+
+  color: white;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.atividade-box button:hover {
+
+  background: #4752c4;
+
+  transform: scale(1.02);
 
 }

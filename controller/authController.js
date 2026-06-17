@@ -79,7 +79,6 @@ export async function cadastrar(req, res) {
 
     } catch (erro) {
 
-        console.log("ERRO COMPLETO:");
         console.log(erro);
 
         return res.status(500).json({
@@ -143,7 +142,7 @@ export async function login(req, res) {
 
     } catch (erro) {
 
-        console.error(erro);
+        console.log(erro);
 
         return res.status(500).json({
             message: erro.message,
@@ -169,7 +168,7 @@ export async function deletarMinhaConta(req, res) {
         });
 
     } catch (erro) {
-
+        console.log(erro)
         return res.status(500).json({
             erro: erro.message
         });
