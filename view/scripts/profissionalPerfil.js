@@ -220,29 +220,3 @@ if (fotoInput) {
   );
 
 }
-
-// =========================
-// EXCLUIR CONTA
-// =========================
-
-function excluirConta() {
-
-  const confirmacao = prompt(
-    "Digite EXCLUIR para confirmar a exclusão da conta."
-  );
-
-  if (confirmacao !== "EXCLUIR") {
-
-    alert("Operação cancelada.");
-    return;
-
-  }
-
-  localStorage.removeItem("usuarioLogado");
-
-  alert("Conta excluída com sucesso!");
-
-  window.location.href =
-    "../pages/login.html";
-
-}
