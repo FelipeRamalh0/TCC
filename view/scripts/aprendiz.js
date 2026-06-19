@@ -457,11 +457,27 @@ async function carregarRanking() {
 
 function exit() {
 
-  localStorage.removeItem("token");
+  document.getElementById(
+    "modalSair"
+  ).style.display = "flex";
 
+}
+
+function confirmarSaida() {
+
+  localStorage.removeItem("token");
   localStorage.removeItem("usuario");
 
-  window.location.href = "../index.html";
+  window.location.href =
+    "../index.html";
+
+}
+
+function fecharModalSair() {
+
+  document.getElementById(
+    "modalSair"
+  ).style.display = "none";
 
 }
 
@@ -507,3 +523,27 @@ window.onload = async () => {
   await projetoReprovado();
 
 };
+
+function abrirModalSair() {
+  document.getElementById("modalSair").style.display = "flex";
+}
+
+function fecharModalSair() {
+  document.getElementById("modalSair").style.display = "none";
+}
+
+function confirmarSaida() {
+
+  localStorage.removeItem("token");
+  localStorage.removeItem("usuario");
+
+  window.location.href = "../index.html";
+}
+
+function abrirModalExcluir() {
+  document.getElementById("modalExcluir").style.display = "flex";
+}
+
+function fecharModalExcluir() {
+  document.getElementById("modalExcluir").style.display = "none";
+}

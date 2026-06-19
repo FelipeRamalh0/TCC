@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
 
   <meta charset="UTF-8">
@@ -13,7 +14,17 @@
     Painel Aprendiz - First Step Dev
   </title>
 
- <link rel="stylesheet" href="../css/aprendiz.css">
+  <link rel="stylesheet" href="../css/aprendiz.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
 </head>
 
@@ -21,118 +32,137 @@
 
   <!-- SIDEBAR -->
 
-  <div class="sidebar">
+ <div class="sidebar">
 
-    <h2>First Step Dev</h2>
+  <h2>First Step Dev</h2>
 
-    <button onclick="mostrarSecao('tarefas')">
-      Tarefas
-    </button>
-    <button onclick="mostrarSecao('minhasTarefas')">
-  Minhas Tarefas
-</button>
+  <button onclick="mostrarSecao('tarefas')">
+    <i class="fa-solid fa-list-check"></i>
+    Tarefas
+  </button>
 
-    <button onclick="mostrarSecao('historico')">
-      Histórico
-    </button>
+  <button onclick="mostrarSecao('minhasTarefas')">
+    <i class="fa-solid fa-code"></i>
+    Minhas Tarefas
+  </button>
 
-    <button onclick="mostrarSecao('pontuacao')">
-      Pontuação
-    </button>
+  <button onclick="mostrarSecao('historico')">
+    <i class="fa-solid fa-clock-rotate-left"></i>
+    Histórico
+  </button>
 
-    <button onclick="mostrarSecao('ranking')">
-      Ranking
-    </button>
+  <button onclick="mostrarSecao('pontuacao')">
+    <i class="fa-solid fa-star"></i>
+    Pontuação
+  </button>
 
-    <button onclick="exit()">
-      Sair
-    </button>
+  <button onclick="mostrarSecao('ranking')">
+    <i class="fa-solid fa-trophy"></i>
+    Ranking
+  </button>
 
-  </div>
+  <button onclick="abrirModalSair()">
+    <i class="fa-solid fa-right-from-bracket"></i>
+    Sair
+  </button>
 
+  <button class="btn-excluir-sidebar" onclick="abrirModalExcluir()">
+    <i class="fa-solid fa-trash"></i>
+    Excluir Conta
+  </button>
+
+</div>
   <!-- CONTEÚDO -->
 
   <div class="content">
 
-    <!-- TAREFAS -->
-     
-
     <section id="tarefas" class="section active">
 
-      <h1>Tarefas Disponíveis</h1>
-<div class="alertas" id="alertas"></div>
-      <div class="cards" id="containerTarefas">
+      <h1>
+        <i class="fa-solid fa-list-check"></i>
+        Tarefas Disponíveis
+      </h1>
+
+      <div id="alertas"></div>
+
+      <div class="cards" id="containerTarefas"></div>
+
+    </section>
+
+    <section id="minhasTarefas" class="section">
+
+      <h1>
+        <i class="fa-solid fa-code"></i>
+        Minhas Tarefas
+      </h1>
+
+      <div
+        class="cards"
+        id="containerMinhasTarefas"
+      ></div>
+
+    </section>
+
+    <!-- MODAL ENTREGA -->
+
+    <div
+      id="modalEntrega"
+      class="modal"
+      style="display:none;"
+    >
+
+      <div class="modal-content">
+
+        <h2>
+          <i class="fa-solid fa-paper-plane"></i>
+          Enviar Resposta
+        </h2>
+
+        <textarea
+          id="codigoEntrega"
+          placeholder="Descreva sua solução"
+        ></textarea>
+
+        <input
+          type="text"
+          id="githubEntrega"
+          placeholder="Link GitHub"
+        >
+
+        <button onclick="enviarEntrega()">
+          <i class="fa-solid fa-paper-plane"></i>
+          Enviar Entrega
+        </button>
+
+        <button onclick="fecharModal()">
+          <i class="fa-solid fa-xmark"></i>
+          Fechar
+        </button>
 
       </div>
 
-    </section>
-    <!-- MINHAS TAREFAS -->
-
-<section id="minhasTarefas" class="section">
-
-  <h1>Minhas Tarefas</h1>
-
-  <div
-    class="cards"
-    id="containerMinhasTarefas"
-  >
-
-  </div>
-
-</section>
-
-<!-- MODAL ENTREGA -->
-
-<div
-  id="modalEntrega"
-  class="modal"
-  style="display:none;"
->
-
-  <div class="modal-content">
-
-    <h2>Enviar Resposta</h2>
-
-    <textarea
-      id="codigoEntrega"
-      placeholder="Descreva sua solução"
-    ></textarea>
-
-    <input
-      type="text"
-      id="githubEntrega"
-      placeholder="Link GitHub"
-    >
-
-    <button onclick="enviarEntrega()">
-      Enviar Entrega
-    </button>
-
-    <button onclick="fecharModal()">
-      Fechar
-    </button>
-
-  </div>
-
-</div>
-
-    <!-- HISTÓRICO -->
+    </div>
 
     <section id="historico" class="section">
 
-      <h1>Histórico de Tarefas</h1>
+      <h1>
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        Histórico de Tarefas
+      </h1>
 
-      <div class="cards" id="containerHistorico">
-
-      </div>
+      <div
+        class="cards"
+        id="containerHistorico"
+      ></div>
 
     </section>
 
-    <!-- PONTUAÇÃO -->
-
     <section id="pontuacao" class="section">
 
-      <h1>Minha Pontuação</h1>
+      <h1>
+        <i class="fa-solid fa-star"></i>
+        Minha Pontuação
+      </h1>
 
       <div class="pontuacao-box">
 
@@ -146,21 +176,154 @@
 
     </section>
 
-    <!-- RANKING -->
-
     <section id="ranking" class="section">
 
-      <h1>Ranking dos Aprendizes</h1>
+      <h1>
+        <i class="fa-solid fa-trophy"></i>
+        Ranking dos Aprendizes
+      </h1>
 
-      <div class="ranking" id="containerRanking">
+      <div
+        class="ranking"
+        id="containerRanking"
+      ></div>
+
+    </section>
+
+    <!-- BOTÕES DE CONTA -->
+
+   
+
+  </div>
+
+  <!-- MODAL SAIR -->
+
+  <div>
+ 
+
+<div
+  id="modalSair"
+  class="modal-confirmacao"
+  style="display:none;"
+>
+
+  <div class="confirmacao-box">
+
+    <h2>
+      <i class="fa-solid fa-circle-question"></i>
+      Confirmar Saída
+    </h2>
+
+    <p>
+      Você realmente quer sair para a tela inicial?
+    </p>
+
+    <div class="confirmacao-botoes">
+
+      <button
+        class="btn-confirmar"
+        onclick="confirmarSaida()"
+      >
+        Sim
+      </button>
+
+      <button
+        class="btn-cancelar"
+        onclick="fecharModalSair()"
+      >
+        Cancelar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- MODAL EXCLUIR -->
+
+<div
+  id="modalExcluir"
+  class="modal-confirmacao"
+  style="display:none;"
+>
+
+  <div class="confirmacao-box">
+
+    <h2>
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      Excluir Conta
+    </h2>
+
+    <p>
+      Tem certeza que deseja excluir sua conta?
+    </p>
+
+    <div class="confirmacao-botoes">
+
+      <button
+        class="btn-confirmar"
+        onclick="deletarConta()"
+      >
+        Sim, Excluir
+      </button>
+
+      <button
+        class="btn-cancelar"
+        onclick="fecharModalExcluir()"
+      >
+        Cancelar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- MODAL EXCLUIR -->
+
+  <div
+    id="modalExcluir"
+    class="modal-confirmacao"
+    style="display:none;"
+  >
+
+    <div class="confirmacao-box">
+
+      <h2>
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Excluir Conta
+      </h2>
+
+      <p>
+        Tem certeza que deseja excluir sua conta?
+      </p>
+
+      <div class="confirmacao-botoes">
+
+        <button
+          class="btn-confirmar"
+          onclick="deletarConta()"
+        >
+          Sim, Excluir
+        </button>
+
+        <button
+          class="btn-cancelar"
+          onclick="fecharModalExcluir()"
+        >
+          Cancelar
+        </button>
 
       </div>
 
-    </section>
+    </div>
 
   </div>
 
   <script src="../scripts/aprendiz.js"></script>
 
 </body>
+
 </html>
