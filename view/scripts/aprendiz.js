@@ -506,7 +506,7 @@ async function deletarConta() {
   }
 
   alert("Conta excluída com sucesso!");
-  window.location.href = "index.html";
+  window.location.href = "../index.html";
 }
 
 // =========================
