@@ -85,6 +85,18 @@ input{
     outline: none;
 }
 
+select{
+    background: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 12px 15px;
+    width: 100%;
+    border-radius: 8px;
+    outline: none;
+}
+
+
+
 button{
     background: #512da8;
     color: #fff;
@@ -179,3 +191,57 @@ button.hidden{
 .container.active .toggle-right{
     transform: translateX(200%);
 }
+
+#camposProfissional{
+    width: 100%;
+    margin-top: 10px;
+}
+
+.verificacao-profissional{
+    width: 100%;
+    background: #f8f5ff;
+    border: 1px solid #d9c7ff;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.verificacao-header{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.verificacao-header i{
+    color: #512da8;
+    font-size: 18px;
+}
+
+.verificacao-header h3{
+    font-size: 15px;
+    color: #512da8;
+    margin: 0;
+}
+
+.verificacao-profissional p{
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.verificacao-profissional input[type="file"]{
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.verificacao-profissional small{
+    display: block;
+    font-size: 11px;
+    color: #777;
+}
+

@@ -1,113 +1,143 @@
 <!doctype html>
 <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/cadastrar.css" />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="../css/cadastrar.css" />
+    <title>First Step Dev</title>
 
-  <title>First Step Dev</title>
+    <style>
+      .header {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+      }
 
-  <style>
-    .header {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-    }
+      .header nav a {
+        text-decoration: none;
+        color: rgb(148, 51, 240);
+        font-size: 30px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
 
-    .header nav a {
-      text-decoration: none;
-      color: rgb(148, 51, 240);
-      font-size: 30px;
-      font-weight: bold;
-    }
-  </style>
-</head>
+  <body>
+    <header class="header">
+      <nav>
+        <a href="../index.html">Início</a>
+      </nav>
+    </header>
 
-<body>
+    <div class="container" id="container">
+      <!-- CADASTRO -->
+      <div class="form-container sign-up">
+        <form onsubmit="fazerCadastro(event)">
+          <h1>Criar Conta</h1>
+          <span>Use seu email para se cadastrar</span>
 
-  <header class="header">
-    <nav>
-      <a href="../index.html">Início</a>
-    </nav>
-  </header>
+          <input
+            id="nomeCadastro"
+            type="text"
+            placeholder="Nome Completo"
+            required
+          />
 
-  <div class="container" id="container">
+          <input id="emailCadastro" type="email" placeholder="Email" required />
 
-    <!-- CADASTRO -->
-    <div class="form-container sign-up">
+          <input
+            id="senhaCadastro"
+            type="password"
+            placeholder="Senha"
+            required
+          />
 
-      <form onsubmit="fazerCadastro(event)">
+          <input
+            type="password"
+            placeholder="Confirmar Senha"
+            required
+            id="cadastroConfirmarSenha"
+          />
 
-        <h1>Criar Conta</h1>
-        <span>Use seu email para se cadastrar</span>
+          <select name="nivelCadastro" id="nivelCadastro" required>
+            <option value="" disabled selected>Selecione...</option>
+            <option value="Aprendiz">Aprendiz</option>
+            <option value="Profissional">Profissional</option>
+          </select>
 
-        <input id="nomeCadastro" type="text" placeholder="Nome Completo" required />
+          <div id="camposProfissional" style="display: none; width: 100%">
 
-        <input id="emailCadastro" type="email" placeholder="Email" required />
+  <div class="verificacao-profissional">
 
-        <input id="senhaCadastro" type="password" placeholder="Senha" required />
-
-        <input type="password" placeholder="Confirmar Senha" required id="cadastroConfirmarSenha" />
-
-        <select name="nivelCadastro" id="nivelCadastro" required>
-          <option value="" disabled selected>Selecione...</option>
-          <option value="Aprendiz">Aprendiz</option>
-          <option value="Profissional">Profissional</option>
-        </select>
-
-        <button type="submit">Cadastrar</button>
-
-      </form>
-
+    <div class="verificacao-header">
+      <i class="fa-solid fa-circle-check"></i>
+      <h3>Profissional Verificado</h3>
     </div>
 
-    <!-- LOGIN -->
-    <div class="form-container sign-in">
+    <p>
+      Envie um certificado, diploma ou comprovante de experiência
+      para validar seu perfil profissional.
+    </p>
 
-      <form onsubmit="fazerLogin(event)">
+    <input
+      type="file"
+      id="certificadoProfissional"
+      accept=".pdf,.jpg,.jpeg,.png"
+    />
 
-        <h1>Entrar</h1>
-        <span>Use seu email para entrar</span>
-
-        <input id="loginEmail" type="email" placeholder="Email" required />
-        <input id="loginSenha" type="password" placeholder="Senha" required />
-
-        <a href="./esqueciSenha.html">Esqueceu sua senha?</a>
-
-        <button type="submit">Entrar</button>
-
-      </form>
-
-    </div>
-
-    <!-- PAINEL -->
-    <div class="toggle-container">
-
-      <div class="toggle">
-
-        <div class="toggle-panel toggle-left">
-          <h1>Bem-vindo!</h1>
-          <p>Já possui uma conta?</p>
-          <button class="hidden" id="login">Entrar</button>
-        </div>
-
-        <div class="toggle-panel toggle-right">
-          <h1>Olá, amigo!</h1>
-          <p>Cadastre-se para acessar a plataforma</p>
-          <button class="hidden" id="register">Cadastrar</button>
-        </div>
-
-      </div>
-
-    </div>
+    <small>
+      Após análise da equipe, seu perfil receberá o selo de
+      profissional verificado.
+    </small>
 
   </div>
 
-  <script src="../scripts/cadastrar.js"></script>
+</div>  
 
-</body>
+          <button type="submit">Cadastrar</button>
+        </form>
+      </div>
+
+      <!-- LOGIN -->
+      <div class="form-container sign-in">
+        <form onsubmit="fazerLogin(event)">
+          <h1>Entrar</h1>
+          <span>Use seu email para entrar</span>
+
+          <input id="loginEmail" type="email" placeholder="Email" required />
+          <input id="loginSenha" type="password" placeholder="Senha" required />
+
+          <a href="./esqueciSenha.html">Esqueceu sua senha?</a>
+
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+
+      <!-- PAINEL -->
+      <div class="toggle-container">
+        <div class="toggle">
+          <div class="toggle-panel toggle-left">
+            <h1>Bem-vindo!</h1>
+            <p>Já possui uma conta?</p>
+            <button class="hidden" id="login">Entrar</button>
+          </div>
+
+          <div class="toggle-panel toggle-right">
+            <h1>Olá, amigo!</h1>
+            <p>Cadastre-se para acessar a plataforma</p>
+            <button class="hidden" id="register">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../scripts/cadastrar.js"></script>
+  </body>
 </html>
