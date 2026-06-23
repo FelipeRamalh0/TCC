@@ -161,7 +161,7 @@ END$$
 
 DELIMITER ;
 
----
+
 
 ### GARANTE QUE SO PODE ATRIBUIR TAREFAS EM ANDAMENTO ###
 
@@ -187,7 +187,7 @@ END$$
 
 DELIMITER ;
 
----
+
 
 ### CRIA HISTÓRICO + PONTUAÇÃO QUANDO TAREFA CONCLUÍDA ###
 
@@ -284,7 +284,7 @@ INSERT INTO Usuarios (nome, email, senha_hash, tipo_usuario ) VALUES
 ('Henrique', 'henrique@email.com', '$2y$10$hashbcrypt4', 'Profissional'),
 ('Ramalho', 'ramalho@email.com', '$2y$10$hashbcrypt5', 'Profissional');
 
----
+
 
 ##### INSERT APRENDIZES #####
 
@@ -293,7 +293,7 @@ INSERT INTO Aprendizes (id_usuario, nivel_experiencia, pontuacao, bio) VALUES
 (2, 'Basico', 50, 'CEO de empresa de tecnologia.'),
 (3, 'Intermediario', 30, 'Freelancer em busca de novas práticas.');
 
----
+
 
 ##### INSERT PROFISSIONAIS #####
 
@@ -312,7 +312,7 @@ INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, data_limite,
 INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, nivel_dificuldade, id_aprendiz_responsavel, status_tarefa) VALUES
 (2, 'Refatorar Classe Login', 'Melhorar o código.', 'Backend', 'medio', 1, 'em_andamento');
 
----
+
 
 ##### INSERT ENTREGAS #####
 
@@ -340,7 +340,7 @@ INSERT INTO Historico_Aprendizes (id_aprendiz, id_tarefa, pontuacao_ganha, statu
 (3, 1, 1, 'C');
 
 
----
+
 
 ##### EXEMPLO RECUPERAÇÃO DE SENHA #####
 
@@ -353,7 +353,7 @@ VALUES
     DATE_ADD(NOW(), INTERVAL 1 HOUR)
 );
 
----
+
 
 ##### EXEMPLO REDEFINIR SENHA #####
 
@@ -365,7 +365,7 @@ UPDATE Recuperacao_Senha
 SET usado = TRUE
 WHERE token = 'token_abc_123';
 
----
+
 
 ##### SELECTS #####
 
