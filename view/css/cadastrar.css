@@ -15,24 +15,27 @@ body{
     height: 100vh;
 }
 
-.container{
+.container {
     position: relative;
     width: 850px;
     max-width: 100%;
     min-height: 550px;
+    height: 550px;
     background: #fff;
     border-radius: 30px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.35);
 }
 
-.form-container{
+.form-container {
     position: absolute;
     top: 0;
     height: 100%;
     transition: all 0.6s ease-in-out;
-}
 
+    overflow-y: auto;        /* 🔥 ativa o scroll */
+    padding-bottom: 30px;    /* espaço pro botão não sumir */
+}
 .sign-in{
     left: 0;
     width: 50%;
@@ -186,6 +189,8 @@ button.hidden{
 .toggle-right{
     right: 0;
     transform: translateX(0);
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 .container.active .toggle-right{

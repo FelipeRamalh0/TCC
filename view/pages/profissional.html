@@ -17,6 +17,7 @@
     <div id="notificacao" class="notificacao"></div>
 
     <div class="container">
+
       <!-- SIDEBAR -->
       <aside class="sidebar">
         <h2>First Step Dev</h2>
@@ -37,20 +38,23 @@
             Entregas
           </button>
 
-          <button onclick="exit()">Sair</button>
-          <button onclick="excluirConta()">Excluir conta</button>
+          <button onclick="abrirModal()">Sair</button>
+
+          <button onclick="abrirModalExcluir()">Excluir conta</button>
         </nav>
       </aside>
 
       <!-- CONTEÚDO -->
       <div class="main-content">
+
+        <!-- DASHBOARD -->
         <section id="dashboard" class="pagina ativa">
-          <button
-            class="profile-btn"
-          >
+
+          <button class="profile-btn">
             <i class="fa-solid fa-user-tie"></i>
             Professor
           </button>
+
           <section class="cards">
             <div class="card">
               <h3 id="totalAtividades">0</h3>
@@ -62,38 +66,29 @@
               <p>Entregas recebidas</p>
             </div>
           </section>
+
         </section>
 
         <!-- ATIVIDADES -->
         <section id="atividades" class="pagina">
+
           <section class="atividade-form">
             <h2>Criar nova atividade</h2>
+
             <form id="formTarefa">
-              <input
-                type="text"
-                id="titulo"
-                placeholder="Título da tarefa"
-                required
-              />
+              <input type="text" id="titulo" placeholder="Título da tarefa" required />
 
-              <textarea
-                id="descricao"
-                placeholder="Descrição da tarefa"
-                required
-              ></textarea>
+              <textarea id="descricao" placeholder="Descrição da tarefa" required></textarea>
 
-              <select id="nivel">
+              <select id="nivel" required>
                 <option value="facil">Fácil</option>
-
                 <option value="medio">Médio</option>
-
                 <option value="dificil">Difícil</option>
               </select>
 
               <input type="text" id="categoria" placeholder="Categoria" />
-              <button type="submit" onclick="criarAtividade()">
-                Enviar atividade
-              </button>
+
+              <button type="submit">Enviar atividade</button>
             </form>
           </section>
 
@@ -101,15 +96,57 @@
             <h2>Atividades enviadas</h2>
             <div id="listaAtividades"></div>
           </section>
+
         </section>
 
-        <!-- DESEMPENHO -->
+        <!-- ENTREGAS -->
         <section id="desempenho" class="pagina">
           <h1>Entregas dos Aprendizes</h1>
         </section>
+
       </div>
     </div>
 
+    <!-- MODAL SAIR -->
+    <div id="modalSair" class="modal">
+      <div class="modal-box">
+        <h2>Tem certeza que deseja sair?</h2>
+
+        <div class="modal-botoes">
+          <button class="btn-sim" onclick="confirmarSaida()">Sim</button>
+          <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL EXCLUIR CONTA -->
+    <div id="modalExcluirConta" class="modal">
+      <div class="modal-box">
+
+        <h2>Excluir conta</h2>
+        <p>Digite <strong>EXCLUIR</strong> para confirmar:</p>
+
+        <input
+          type="text"
+          id="confirmarExclusaoInput"
+          placeholder="Digite EXCLUIR"
+        />
+
+        <div class="modal-botoes">
+          <button class="btn-sim" onclick="confirmarExclusaoConta()">
+            Excluir
+          </button>
+
+          <button class="btn-cancelar" onclick="fecharModalExcluir()">
+            Cancelar
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- JS -->
     <script src="../scripts/profissional.js"></script>
+
   </body>
 </html>
