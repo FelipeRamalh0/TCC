@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS FirstStepDev;
 CREATE DATABASE FirstStepDev;
 USE FirstStepDev;
 
-#####   TABELA USUARIOS #####
+--   TABELA USUARIOS #####
 
 CREATE TABLE Usuarios(
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
@@ -12,7 +12,7 @@ CREATE TABLE Usuarios(
     tipo_usuario ENUM('Aprendiz','Profissional') NOT NULL
 );
 
-#####   TABELA APRENDIZES   #####
+--   TABELA APRENDIZES   #####
 
 CREATE TABLE Aprendizes (
     id_aprendiz INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,7 +26,7 @@ CREATE TABLE Aprendizes (
         ON DELETE CASCADE
 );
 
-#####   TABELA PROFISSIONAIS    #####
+--   TABELA PROFISSIONAIS    #####
 
 CREATE TABLE Profissionais(
     id_profissional INT AUTO_INCREMENT PRIMARY KEY,
@@ -40,7 +40,7 @@ CREATE TABLE Profissionais(
         ON DELETE CASCADE
 );
 
-#####   TABELA TAREFAS  #####
+--   TABELA TAREFAS  #####
 
 CREATE TABLE Tarefas(
     id_tarefa INT AUTO_INCREMENT PRIMARY KEY,
@@ -63,7 +63,7 @@ CREATE TABLE Tarefas(
         REFERENCES Aprendizes(id_aprendiz)
 );
 
-##### TABELA ENTREGAS ######
+-- TABELA ENTREGAS ######
 
 CREATE TABLE Entregas (
     id_entrega INT AUTO_INCREMENT PRIMARY KEY,
@@ -85,7 +85,7 @@ CREATE TABLE Entregas (
         ON DELETE CASCADE
 );
 
-##### TABELA HISTÓRICO #####
+-- TABELA HISTÓRICO #####
 
 CREATE TABLE Historico_Aprendizes(
     id_historico INT AUTO_INCREMENT PRIMARY KEY,
@@ -104,7 +104,7 @@ CREATE TABLE Historico_Aprendizes(
         ON DELETE CASCADE
 );
 
-##### TABELA RECUPERAÇÃO DE SENHA #####
+-- TABELA RECUPERAÇÃO DE SENHA #####
 
 CREATE TABLE Recuperacao_Senha(
     id_recuperacao INT AUTO_INCREMENT PRIMARY KEY,
@@ -119,7 +119,7 @@ CREATE TABLE Recuperacao_Senha(
         ON DELETE CASCADE
 );
 
-##### INDEX #####
+-- INDEX #####
 
 CREATE INDEX idx_usuario_nome ON Usuarios(nome);
 CREATE INDEX idx_usuario_email ON Usuarios(email);
@@ -143,7 +143,7 @@ CREATE INDEX idx_historico_tarefa ON Historico_Aprendizes(id_tarefa);
 CREATE INDEX idx_recuperacao_usuario ON Recuperacao_Senha(id_usuario);
 CREATE INDEX idx_recuperacao_token ON Recuperacao_Senha(token);
 
-##### TRIGGERS #####
+-- TRIGGERS #####
 
 ### REMOVE DATA LIMITE QUANDO TAREFA FOR CONCLUÍDA ###
 
@@ -189,7 +189,7 @@ DELIMITER ;
 
 
 
-### CRIA HISTÓRICO + PONTUAÇÃO QUANDO TAREFA CONCLUÍDA ###
+-- CRIA HISTÓRICO + PONTUAÇÃO QUANDO TAREFA CONCLUÍDA ###
 
 DELIMITER $$
 
@@ -275,7 +275,7 @@ END$$
 
 DELIMITER ;
 
-##### INSERT USUARIOS #####
+-- INSERT USUARIOS #####
 
 INSERT INTO Usuarios (nome, email, senha_hash, tipo_usuario ) VALUES
 ('Felipe', 'felipao@email.com', '$2y$10$hashbcrypt1', 'Aprendiz'),
@@ -286,7 +286,7 @@ INSERT INTO Usuarios (nome, email, senha_hash, tipo_usuario ) VALUES
 
 
 
-##### INSERT APRENDIZES #####
+-- INSERT APRENDIZES #####
 
 INSERT INTO Aprendizes (id_usuario, nivel_experiencia, pontuacao, bio) VALUES
 (1, 'Iniciante', 15, 'Programador backend que busca mais experiências de mercado.'),
@@ -295,15 +295,15 @@ INSERT INTO Aprendizes (id_usuario, nivel_experiencia, pontuacao, bio) VALUES
 
 
 
-##### INSERT PROFISSIONAIS #####
+-- INSERT PROFISSIONAIS #####
 
 INSERT INTO Profissionais (id_usuario, empresa, cargo, bio) VALUES
 (4, 'Programer', 'Desenvolvedor Sênior', 'Especialista em Backend.'),
 (5, 'Programing', 'Tech Lead', 'Analista de sistemas.');
 
----
 
-##### INSERT TAREFAS #####
+
+-- INSERT TAREFAS #####
 
 INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, data_limite, nivel_dificuldade) VALUES
 (1, 'Criar tela de login', 'Desenvolver uma tela inicial', 'Full Stack', '2026-12-01 23:59:59', 'medio'),
@@ -314,7 +314,7 @@ INSERT INTO Tarefas (id_profissional, titulo, descricao, categoria, nivel_dificu
 
 
 
-##### INSERT ENTREGAS #####
+-- INSERT ENTREGAS #####
 
 INSERT INTO Entregas (id_tarefa, id_aprendiz, arquivo_url, link_repositorio, status_entrega) VALUES
 (1, 1, 'http://storage.com', 'http://github.com', 'Enviado');
@@ -328,11 +328,11 @@ SET status_entrega = 'Aprovado',
 feedback = 'Bom trabalho, código limpo.'
 WHERE id_entrega = 1;
 
----
 
 
 
-##### INSERT HISTÓRICO #####
+
+-- INSERT HISTÓRICO #####
 
 INSERT INTO Historico_Aprendizes (id_aprendiz, id_tarefa, pontuacao_ganha, status_final_tarefa) VALUES 
 (1, 2, 5, 'B'),
@@ -342,7 +342,7 @@ INSERT INTO Historico_Aprendizes (id_aprendiz, id_tarefa, pontuacao_ganha, statu
 
 
 
-##### EXEMPLO RECUPERAÇÃO DE SENHA #####
+-- EXEMPLO RECUPERAÇÃO DE SENHA #####
 
 INSERT INTO Recuperacao_Senha
 (id_usuario, token, expiracao)
@@ -355,7 +355,7 @@ VALUES
 
 
 
-##### EXEMPLO REDEFINIR SENHA #####
+-- EXEMPLO REDEFINIR SENHA #####
 
 UPDATE Usuarios
 SET senha_hash = '$2y$10$NOVOHASHCRIPTOGRAFADO'
@@ -367,7 +367,7 @@ WHERE token = 'token_abc_123';
 
 
 
-##### SELECTS #####
+-- SELECTS #####
 
 
 SELECT id_tarefa, data_criacao
@@ -447,11 +447,11 @@ INNER JOIN Usuarios U ON A.id_usuario = U.id_usuario;
         INNER JOIN Aprendizes A
             ON E.id_aprendiz = A.id_aprendiz
         INNER JOIN Usuarios U
-            ON A.id_usuario = U.id_usuario
+            ON A.id_usuario = U.id_usuario;
 
 
 
-##### CONSULTA TOKENS VÁLIDOS #####
+-- CONSULTA TOKENS VÁLIDOS 
 
 SELECT *
 FROM Recuperacao_Senha
@@ -460,7 +460,7 @@ AND expiracao > NOW();
 
 
 
-##### CONSULTA RECUPERAÇÃO POR USUÁRIO #####
+-- CONSULTA RECUPERAÇÃO POR USUÁRIO #####
 
 SELECT
 U.nome,
